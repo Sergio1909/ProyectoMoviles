@@ -1,4 +1,4 @@
-package Entidades;
+package com.example.proyectomoviles.Entidades;
 
 public class Usuario {
     private String idUsuario;

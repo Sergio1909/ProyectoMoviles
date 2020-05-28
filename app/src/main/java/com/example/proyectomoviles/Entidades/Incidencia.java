@@ -1,4 +1,4 @@
-package Entidades;
+package com.example.proyectomoviles.Entidades;
 
 import java.sql.Blob;
 
