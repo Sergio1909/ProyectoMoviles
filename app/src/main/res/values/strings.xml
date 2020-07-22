@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">ProyectoMoviles</string>
     <string name="iniciar_sesion">Iniciar Sesion</string>
+    <string-array name="lugaresLista">
+        <item> Facultad Derecho </item>
+        <item> EEGGLL </item>
+        <item> Periodismo </item>
+        <item> Pabellon V </item>
+        <item> Aulario </item>
+    </string-array>
 </resources>
