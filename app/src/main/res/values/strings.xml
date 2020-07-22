@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ProyectoMoviles</string>
+    <string-array name="carrerasLista">
+        <item> Telecomunicaciones </item>
+        <item> Electronica </item>
+        <item> Mecatronica </item>
+        <item> Comunicacion Audiovisual </item>
+        <item> Derecho </item>
+    </string-array>
 </resources>
