@@ -1,6 +1,6 @@
 package com.example.proyectomoviles.Entidades;
 
-public class IncidenciaNoFuncaDTO {
+public class IncidenciaDTO {
 
     private String estado;
     private String nombre;
