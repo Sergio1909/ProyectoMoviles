@@ -14,26 +14,22 @@ import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.type.LatLng;
 
-public class DetallesUsuarioActivity extends AppCompatActivity {
+public class DetallesMisIncidenciasActivity extends AppCompatActivity {
 
     Incidencia[] listaIncidencias;
- Comentario[] listaComentarios;
+    Comentario[] listaComentarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalles_usuario);
-
-      final Incidencia incidencia = new Incidencia();
+        setContentView(R.layout.activity_detalles_mis_incidencias);
+        final Incidencia incidencia = new Incidencia();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         // Obtenemos el parametro Enviado
@@ -62,7 +58,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+                Toast.makeText(DetallesMisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
         });
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").addValueEventListener(new ValueEventListener() {
@@ -82,14 +78,14 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                         incidencia.setListaComentarios(listaComentarios);}
                 }
 
-                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
+                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesMisIncidenciasActivity.this);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(comentariosAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this)); }
+                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesMisIncidenciasActivity.this)); }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+                Toast.makeText(DetallesMisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
         });
 
         TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia.getUsuarioAutor());
@@ -104,8 +100,9 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
         double longitudMapa = incidencia.getLongitud();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
 
-        }
+    }
 
 }
+
 
 

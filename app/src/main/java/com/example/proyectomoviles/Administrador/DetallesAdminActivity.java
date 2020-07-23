@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
+import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
 import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
 import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
@@ -47,7 +48,11 @@ public class DetallesAdminActivity extends AppCompatActivity {
                     String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
                     String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
                     String descripcion = dataSnapshot.child("autor").getValue().toString(); incidencia.setDescripcion(descripcion);
-                    String ubicacion = dataSnapshot.child("autor").getValue().toString(); incidencia.setLugar(ubicacion); }
+                    String ubicacion = dataSnapshot.child("autor").getValue().toString(); incidencia.setLugar(ubicacion);
+                    String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
+                    incidencia.setLatitud(latitudDouble);
+                    String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
+                    incidencia.setLongitud(longitudDouble);}
             }
 
             @Override
@@ -89,12 +94,9 @@ public class DetallesAdminActivity extends AppCompatActivity {
         TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
         TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
 
-
-
-
-
+        double latitudMapa  = incidencia.getLatitud();
+        double longitudMapa = incidencia.getLongitud();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
 
     }
-
-
 }

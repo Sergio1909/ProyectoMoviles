@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class Incidencia {
 
+    private String apiKey;
+
     private String nombre;
     private String descripcion;
     private String lugar;
@@ -12,6 +14,9 @@ public class Incidencia {
     private String fecha;
     private String estado;
     private String autor;
+
+    private double latitud;
+    private double longitud;
 
     private Comentario[] listaComentarios;
 
@@ -79,5 +84,31 @@ public class Incidencia {
 
     public void setListaComentarios(Comentario[] listaComentarios) {
         this.listaComentarios = listaComentarios;
+    }
+
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
     }
 }

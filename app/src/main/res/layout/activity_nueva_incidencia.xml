@@ -79,10 +79,11 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextDescripcion" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerUbicacion"
         android:layout_width="171dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
+        android:entries="@array/lugaresLista"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toEndOf="@+id/editText7"
@@ -110,6 +111,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toEndOf="@+id/editText9"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerUbicacion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

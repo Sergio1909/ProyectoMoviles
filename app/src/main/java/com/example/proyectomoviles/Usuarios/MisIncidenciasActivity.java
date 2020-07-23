@@ -6,39 +6,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-public class IncidenciaUsuarioActivity extends AppCompatActivity {
+public class MisIncidenciasActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    Incidencia[] listaIncidencias;
-    private StorageReference storageReference;
-    private FirebaseStorage fStorage;
+    Incidencia[] listaMisIncidencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_incidencia_usuario);
+        setContentView(R.layout.activity_mis_incidencias);
 
         mAuth = FirebaseAuth.getInstance();
+        final String nombreUsuario = mAuth.getCurrentUser().getDisplayName();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(); // Base De Datos
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
@@ -48,47 +41,48 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
 
                     Long longitudIncidencias = dataSnapshot.getChildrenCount();
                     int longitud = longitudIncidencias.intValue();
-                    listaIncidencias = new Incidencia[longitud];
+                    listaMisIncidencias = new Incidencia[longitud];
                     int contador = 0;
 
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
+                            String autor = children.child("autor").getValue().toString();
                             final String nombreRaroIncidencia = dataSnapshot.getKey();
-                            incidencia.setApiKey(nombreRaroIncidencia);
 
                             // BOTON DETALLES
-                            Button botonDetallesUsuario = (Button) findViewById(R.id.buttonDetalles);
-                            botonDetallesUsuario.setOnClickListener(new View.OnClickListener() {
+                            Button botonDetallesMisIncidencias = (Button) findViewById(R.id.buttonDetallesMisIncidencias);
+                            botonDetallesMisIncidencias.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     // OCULTAR BOTON DE DETALLES ADMIN
-                                    Intent intent = new Intent(getApplicationContext(), DetallesUsuarioActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), DetallesMisIncidenciasActivity.class);
                                     String APIKEY = nombreRaroIncidencia;
                                     intent.putExtra("nombreIncidencia", APIKEY);
                                     startActivity(intent);
-                                    findViewById(R.id.buttonDetallesMisIncidencias).setVisibility(View.GONE);
+                                    findViewById(R.id.buttonDetalles).setVisibility(View.GONE);
                                 }
                             });
 
-                            listaIncidencias[contador] = incidencia;
-                            contador++;
+                            /// Añadir solo si el autor es el usuario logueado
+                            if (autor.equals(nombreUsuario)){
+                            listaMisIncidencias[contador] = incidencia;
+                            contador++;} else {}
                         }
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage.getReference());
+                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(IncidenciaUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
+                Toast.makeText(MisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
             }
         });
-
 
 
 
