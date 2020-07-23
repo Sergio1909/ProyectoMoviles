@@ -12,12 +12,16 @@ import android.widget.Toast;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
+import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.type.LatLng;
 
 public class DetallesUsuarioActivity extends AppCompatActivity {
 
@@ -45,8 +49,16 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                     String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
                     String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
                     String descripcion = dataSnapshot.child("autor").getValue().toString(); incidencia.setDescripcion(descripcion);
-                    String ubicacion = dataSnapshot.child("autor").getValue().toString(); incidencia.setLugar(ubicacion); }
+                    String ubicacion = dataSnapshot.child("autor").getValue().toString(); incidencia.setLugar(ubicacion);
+                    // Latitud y Longitud
+                    String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
+                    incidencia.setLatitud(latitudDouble);
+                    String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
+                    incidencia.setLongitud(longitudDouble);
+                }
             }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -88,6 +100,12 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
         TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
 
 
+        double latitudMapa  = incidencia.getLatitud();
+        double longitudMapa = incidencia.getLongitud();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
 
-    }
+        }
+
 }
+
+

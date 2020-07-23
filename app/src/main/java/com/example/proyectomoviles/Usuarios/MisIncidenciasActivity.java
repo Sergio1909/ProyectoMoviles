@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,17 +20,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class IncidenciaUsuarioActivity extends AppCompatActivity {
+public class MisIncidenciasActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    Incidencia[] listaIncidencias;
+    Incidencia[] listaMisIncidencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_incidencia_usuario);
+        setContentView(R.layout.activity_mis_incidencias);
 
         mAuth = FirebaseAuth.getInstance();
+        final String nombreUsuario = mAuth.getCurrentUser().getDisplayName();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(); // Base De Datos
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
@@ -41,15 +41,16 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
 
                     Long longitudIncidencias = dataSnapshot.getChildrenCount();
                     int longitud = longitudIncidencias.intValue();
-                    listaIncidencias = new Incidencia[longitud];
+                    listaMisIncidencias = new Incidencia[longitud];
                     int contador = 0;
 
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
+                            String autor = children.child("autor").getValue().toString();
                             final String nombreRaroIncidencia = dataSnapshot.getKey();
 
-                            // BOTON DETALLES
+                            // BOTON DETALLES ---> Cambiar despues a un personalizado por el boton borrar/atras y posible editar
                             Button botonDetallesUsuario = (Button) findViewById(R.id.buttonDetalles);
                             botonDetallesUsuario.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -62,24 +63,25 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                                 }
                             });
 
-                            listaIncidencias[contador] = incidencia;
-                            contador++;
+                            /// Añadir solo si el autor es el usuario logueado
+                            if (autor.equals(nombreUsuario)){
+                            listaMisIncidencias[contador] = incidencia;
+                            contador++;} else {}
                         }
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this);
+                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(IncidenciaUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
+                Toast.makeText(MisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
             }
         });
-
 
 
 

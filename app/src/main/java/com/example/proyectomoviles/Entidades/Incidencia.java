@@ -13,6 +13,9 @@ public class Incidencia {
     private String estado;
     private String autor;
 
+    private double latitud;
+    private double longitud;
+
     private Comentario[] listaComentarios;
 
 
@@ -80,4 +83,23 @@ public class Incidencia {
     public void setListaComentarios(Comentario[] listaComentarios) {
         this.listaComentarios = listaComentarios;
     }
+
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+
 }
