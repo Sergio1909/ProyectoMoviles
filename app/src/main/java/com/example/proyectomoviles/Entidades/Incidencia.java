@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class Incidencia {
 
+    private String apiKey;
+
     private String nombre;
     private String descripcion;
     private String lugar;
@@ -102,4 +104,11 @@ public class Incidencia {
     }
 
 
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
 }
