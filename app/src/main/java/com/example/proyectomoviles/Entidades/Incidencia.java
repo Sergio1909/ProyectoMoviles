@@ -10,7 +10,7 @@ public class Incidencia {
     private String nombre;
     private String descripcion;
     private String lugar;
-    private String foto; //??
+    private String foto; // Para
     private String fecha;
     private String estado;
     private String autor;

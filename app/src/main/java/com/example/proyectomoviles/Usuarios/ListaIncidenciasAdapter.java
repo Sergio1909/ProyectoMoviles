@@ -1,10 +1,12 @@
 package com.example.proyectomoviles.Usuarios;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,32 +25,30 @@ public class ListaIncidenciasAdapter extends RecyclerView.Adapter<ListaIncidenci
     Incidencia[] listaIncidencias;
     private Context contexto;
     private StorageReference storageReference;
+    private int condicionDetalles;
 
-    public ListaIncidenciasAdapter(Incidencia[] lista, Context contexto, StorageReference storageReference){
+    public ListaIncidenciasAdapter(Incidencia[] lista, Context contexto, StorageReference storageReference, int condicionDetalles){
         this.listaIncidencias = lista;
         this.contexto = contexto;
-        this.storageReference = storageReference;}
+        this.storageReference = storageReference;
+        this.condicionDetalles = condicionDetalles;}
 
         public static class IncidenciaViewHolder extends RecyclerView.ViewHolder {
             public TextView  nombreIncidencia;
-            public TextView  autorIncidencia;
             public ImageView fotoIncidencia;
             public TextView  fechaPublicacion;
-            public TextView  descripcion;
             public TextView  estado;
             public TextView  ubicacion;
-            public TextView apikey; ///// PONER INVISIBLE
+            public Button  buttonDetalles;
 
             public IncidenciaViewHolder(@NonNull View itemView) {
                 super(itemView);
-                //this.apikey = itemView.findViewById(R.id.textViewAPIKI);
                 this.nombreIncidencia = itemView.findViewById(R.id.textViewNombre);
-                // this.autorIncidencia = itemView.findViewById(R.id.textViewAutor);
                 this.fotoIncidencia = itemView.findViewById(R.id.imageViewFoto);
                 this.fechaPublicacion = itemView.findViewById(R.id.textViewFecha);
-                // this.descripcion = itemView.findViewById(R.id.textViewDescripcion);
                 this.estado = itemView.findViewById(R.id.textViewEstado);
-                this.ubicacion = itemView.findViewById(R.id.textViewLugar); } }
+                this.ubicacion = itemView.findViewById(R.id.textViewLugar);
+                this.buttonDetalles = itemView.findViewById(R.id.buttonDetalles); } }
 
 
     @NonNull
@@ -60,25 +60,43 @@ public class ListaIncidenciasAdapter extends RecyclerView.Adapter<ListaIncidenci
 
     @Override
     public void onBindViewHolder(IncidenciaViewHolder holder, int position) {
-        Incidencia incidencia = listaIncidencias[position];
-        String nombreIncidencia = incidencia.getNombre(); holder.nombreIncidencia.setText(nombreIncidencia);
+        final Incidencia incidencia = listaIncidencias[position];
+        final String nombreIncidencia = incidencia.getNombre(); holder.nombreIncidencia.setText(nombreIncidencia);
         String estadoIncidencia = incidencia.getEstado(); holder.estado.setText(estadoIncidencia);
         String fechaPublicacion = incidencia.getFecha(); holder.fechaPublicacion.setText(fechaPublicacion);
         String ubicacionIncidencia = incidencia.getLugar(); holder.ubicacion.setText(ubicacionIncidencia);
         publicarImagen(incidencia.getApiKey() + ".JPG", holder);
-    }
+
+        if (condicionDetalles == 1) {
+        holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(contexto,DetallesUsuarioActivity.class);
+                String APIKEY = incidencia.getApiKey();
+                intent.putExtra("nombreIncidencia", APIKEY);
+                contexto.startActivity(intent);}
+        }); }
+
+        if (condicionDetalles == 2) {
+            holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(contexto,DetallesMisIncidenciasActivity.class);
+                    String APIKEY = incidencia.getApiKey();
+                    intent.putExtra("nombreIncidencia", APIKEY);
+                    contexto.startActivity(intent);}
+            }); }
+    };
 
 
     public void publicarImagen (final String photoName, final ListaIncidenciasAdapter.IncidenciaViewHolder holder){
-        storageReference.child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("img").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(contexto)
                         .load(uri)
-                        .into(holder.fotoIncidencia);
-            }
-        });
-    }
+                        .into(holder.fotoIncidencia); }
+        }); }
 
 
     @Override

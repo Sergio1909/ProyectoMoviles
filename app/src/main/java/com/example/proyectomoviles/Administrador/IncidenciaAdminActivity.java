@@ -22,10 +22,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class IncidenciaAdminActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private StorageReference storageReference;
+    private FirebaseStorage fStorage;
     Incidencia[] listaIncidencias;
 
     @Override
@@ -49,20 +53,8 @@ public class IncidenciaAdminActivity extends AppCompatActivity {
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
-                            final String nombreRaroIncidencia = dataSnapshot.getKey();
-
-                            // BOTON DETALLES
-                            Button botonDetallesAdmin = (Button) findViewById(R.id.buttonDetalles);
-                            botonDetallesAdmin.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // OCULTAR BOTON DE DETALLES ADMIN
-                                    Intent intent = new Intent(getApplicationContext(), DetallesUsuarioActivity.class);
-                                    String APIKEY = nombreRaroIncidencia;
-                                    intent.putExtra("nombreIncidencia", APIKEY);
-                                    startActivity(intent);
-                                }
-                            });
+                            final String nombreRaroIncidencia = dataSnapshot.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
+                            final String foto = dataSnapshot.child("fotoAPIKEY").getValue().toString(); incidencia.setFoto(foto);
 
                             listaIncidencias[contador] = incidencia;
                             contador++;
@@ -70,7 +62,7 @@ public class IncidenciaAdminActivity extends AppCompatActivity {
                     }
                 }
 
-                ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidencias, IncidenciaAdminActivity.this);
+                ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidencias, IncidenciaAdminActivity.this,fStorage.getReference());
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(incidenciasAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaAdminActivity.this));
