@@ -1,5 +1,6 @@
 package com.example.proyectomoviles.Entidades;
 
+
 public class Usuario {
     private String idUsuario;
     private String nombre;
@@ -55,4 +56,5 @@ public class Usuario {
     public void setRol(int rol) {
         this.rol = rol;
     }
+
 }

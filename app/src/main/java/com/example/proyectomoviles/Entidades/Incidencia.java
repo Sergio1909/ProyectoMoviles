@@ -1,40 +1,28 @@
 package com.example.proyectomoviles.Entidades;
 
-import java.sql.Blob;
+import java.util.Date;
+// Importar Correctamente el USUARIO (HACER LUEGO DE JUNTAR)
 
 public class Incidencia {
 
-    private String idIncidencia;
-    private String nombreincidencia;
+    private String nombre;
     private String descripcion;
-    private String ubicacion;
-    private Blob foto;
+    private String lugar;
+    private String foto; //??
+    private String fecha;
     private String estado;
-    private String comentario;
-    private int Usuario_idUsuario;
+    private String autor;
 
-    public int getUsuario_idUsuario() {
-        return Usuario_idUsuario;
+    private Comentario[] listaComentarios;
+
+
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setUsuario_idUsuario(int usuario_idUsuario) {
-        Usuario_idUsuario = usuario_idUsuario;
-    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
 
-    public String getIdIncidencia() {
-        return idIncidencia;
-    }
-
-    public void setIdIncidencia(String idIncidencia) {
-        this.idIncidencia = idIncidencia;
-    }
-
-    public String getNombreincidencia() {
-        return nombreincidencia;
-    }
-
-    public void setNombreincidencia(String nombreincidencia) {
-        this.nombreincidencia = nombreincidencia;
     }
 
     public String getDescripcion() {
@@ -45,21 +33,31 @@ public class Incidencia {
         this.descripcion = descripcion;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
+
+    public String getLugar() {
+        return lugar;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setLugar(String lugar) {
+        this.lugar = lugar;
     }
 
-    public Blob getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(Blob foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
 
     public String getEstado() {
         return estado;
@@ -69,11 +67,22 @@ public class Incidencia {
         this.estado = estado;
     }
 
-    public String getComentario() {
-        return comentario;
+
+    public String  getUsuarioAutor() {
+        return autor;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setUsuarioAutor(String usuarioAutor) {
+        this.autor = usuarioAutor;
+    }
+
+
+    public Comentario[] getListaComentarios() {
+        return listaComentarios;
+    }
+
+    public void setListaComentarios(Comentario[] listaComentarios) {
+        this.listaComentarios = listaComentarios;
+
     }
 }
