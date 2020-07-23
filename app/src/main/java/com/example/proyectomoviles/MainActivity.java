@@ -6,17 +6,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
 import com.example.proyectomoviles.Entidades.IncidenciaDTO;
+import com.example.proyectomoviles.Usuarios.IncidenciaUsuarioActivity;
 import com.example.proyectomoviles.Usuarios.RegistroActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,6 +56,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        StorageReference imageRef = storageRef.child("img");
+
+        File directorio =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File archivo = new File(directorio,"images (23).jpeg");
+
+        try {
+            InputStream stream = new FileInputStream(archivo);
+            imageRef = storageRef.child("img/images (23).jpeg");
+            UploadTask uploadTask = imageRef.putStream(stream);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("infoApp", "subido exitoso");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("infoApp","error",e.getCause());
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void iniciarSesion(View view){
@@ -75,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
                 Log.d("infoApp","inicio de sesion exitoso");
+                Intent intent = new Intent(this, IncidenciaUsuarioActivity.class);
+                startActivity(intent);
             } else {
 
                 Log.d("infoApp","inicio erroneo");
