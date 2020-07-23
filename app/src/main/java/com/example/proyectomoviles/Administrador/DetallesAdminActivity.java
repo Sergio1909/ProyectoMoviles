@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,5 +101,14 @@ public class DetallesAdminActivity extends AppCompatActivity {
         double longitudMapa = incidencia.getLongitud();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
 
+        Button botonAtender = (Button) findViewById(R.id.buttonAtender);
+        botonAtender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                incidencia.setEstado("ATENDIDO CRJ");
+                Intent intent = new Intent(getApplicationContext(), DetallesAdminActivity.class);
+                String nombreFiltro = apikeyIncidencia;
+                intent.putExtra("nombreIncidencia", nombreFiltro);
+                startActivity(intent); } });
     }
 }
