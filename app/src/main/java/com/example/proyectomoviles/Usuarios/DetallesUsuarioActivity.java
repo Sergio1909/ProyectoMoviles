@@ -22,14 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 public class DetallesUsuarioActivity extends AppCompatActivity {
 
     Incidencia[] listaIncidencias;
-    Comentario[] listaComentarios;
+ Comentario[] listaComentarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_usuario);
 
-        final Incidencia incidencia = new Incidencia();
+      final Incidencia incidencia = new Incidencia();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         // Obtenemos el parametro Enviado

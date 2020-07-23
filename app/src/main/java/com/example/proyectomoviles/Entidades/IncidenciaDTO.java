@@ -9,7 +9,24 @@ public class IncidenciaDTO {
     private String foto;
     private String autor;
     private String fecha;
+    private double latitud;
+    private double longitud;
 
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
 
     public String getEstado() {
         return estado;

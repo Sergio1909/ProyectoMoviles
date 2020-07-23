@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.proyectomoviles.Entidades.IncidenciaDTO;
+import com.example.proyectomoviles.Usuarios.RegistroActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -82,4 +83,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    //Abrir registros
+
+    public void abrirRegistrosActivity(View view){
+        Intent intent = new Intent(this, RegistroActivity.class);
+        startActivity(intent);
+    }
+
+
+
 }
