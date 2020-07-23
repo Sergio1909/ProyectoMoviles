@@ -14,6 +14,23 @@ public class Incidencia {
     private String fecha;
     private String estado;
     private String autor;
+    private String comentario;
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
 
     private double latitud;
     private double longitud;

@@ -9,6 +9,29 @@ public  class Usuario {
     private String correoPucp;
     private String contrasena;
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreoPucp() {
+        return correoPucp;
+    }
+
+    public void setCorreoPucp(String correoPucp) {
+        this.correoPucp = correoPucp;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
     public Usuario() {
 
