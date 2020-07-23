@@ -58,8 +58,6 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                 }
             }
 
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }

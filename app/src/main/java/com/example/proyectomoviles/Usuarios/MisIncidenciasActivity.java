@@ -19,11 +19,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class MisIncidenciasActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     Incidencia[] listaMisIncidencias;
+    private StorageReference storageReference;
+    private FirebaseStorage fStorage;
+    private int DETALLES_INCIDENCIAS_PROPIAS = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,32 +52,21 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
-                            String autor = children.child("autor").getValue().toString();
-                            final String nombreRaroIncidencia = dataSnapshot.getKey();
-
-                            // BOTON DETALLES
-                            Button botonDetallesMisIncidencias = (Button) findViewById(R.id.buttonDetallesMisIncidencias);
-                            botonDetallesMisIncidencias.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // OCULTAR BOTON DE DETALLES ADMIN
-                                    Intent intent = new Intent(getApplicationContext(), DetallesMisIncidenciasActivity.class);
-                                    String APIKEY = nombreRaroIncidencia;
-                                    intent.putExtra("nombreIncidencia", APIKEY);
-                                    startActivity(intent);
-                                    findViewById(R.id.buttonDetalles).setVisibility(View.GONE);
-                                }
-                            });
+                            String autor = dataSnapshot.child("autor").getValue().toString();
+                            final String nombreRaroIncidencia = dataSnapshot.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
+                            final String foto = dataSnapshot.child("fotoAPIKEY").getValue().toString(); incidencia.setFoto(foto);
 
                             /// Añadir solo si el autor es el usuario logueado
-                            if (autor.equals(nombreUsuario)){
+                            String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+                            if (autor.equals(nombreLogueado)){
                             listaMisIncidencias[contador] = incidencia;
-                            contador++;} else {}
+                            contador++;} else {contador = contador;}
                         }
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this);
+                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage.getReference(),
+                DETALLES_INCIDENCIAS_PROPIAS);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(incidenciasAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));

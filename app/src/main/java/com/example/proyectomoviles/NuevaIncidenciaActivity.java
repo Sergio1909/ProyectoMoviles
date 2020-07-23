@@ -67,6 +67,8 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Incidencias").push().setValue(incidencia);
 
+
+
     }
 
 

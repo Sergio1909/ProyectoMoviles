@@ -32,6 +32,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
     Incidencia[] listaIncidencias;
     private StorageReference storageReference;
     private FirebaseStorage fStorage;
+    private int DETALLES_INCIDENCIAS_GENERAL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +55,8 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
-                            final String nombreRaroIncidencia = dataSnapshot.getKey();
-                            incidencia.setApiKey(nombreRaroIncidencia);
-
-                            // BOTON DETALLES
-                            Button botonDetallesUsuario = (Button) findViewById(R.id.buttonDetalles);
-                            botonDetallesUsuario.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    // OCULTAR BOTON DE DETALLES ADMIN
-                                    Intent intent = new Intent(getApplicationContext(), DetallesUsuarioActivity.class);
-                                    String APIKEY = nombreRaroIncidencia;
-                                    intent.putExtra("nombreIncidencia", APIKEY);
-                                    startActivity(intent);
-                                    findViewById(R.id.buttonDetallesMisIncidencias).setVisibility(View.GONE);
-                                }
-                            });
+                            final String nombreRaroIncidencia = dataSnapshot.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
+                            final String foto = dataSnapshot.child("fotoAPIKEY").getValue().toString(); incidencia.setFoto(foto);
 
                             listaIncidencias[contador] = incidencia;
                             contador++;
@@ -77,7 +64,8 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage.getReference());
+                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage.getReference(),
+                        DETALLES_INCIDENCIAS_GENERAL);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(incidenciasAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
@@ -89,8 +77,6 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 }
+
