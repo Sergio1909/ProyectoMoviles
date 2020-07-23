@@ -50,16 +50,17 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                             String autor = children.child("autor").getValue().toString();
                             final String nombreRaroIncidencia = dataSnapshot.getKey();
 
-                            // BOTON DETALLES ---> Cambiar despues a un personalizado por el boton borrar/atras y posible editar
-                            Button botonDetallesUsuario = (Button) findViewById(R.id.buttonDetalles);
-                            botonDetallesUsuario.setOnClickListener(new View.OnClickListener() {
+                            // BOTON DETALLES
+                            Button botonDetallesMisIncidencias = (Button) findViewById(R.id.buttonDetallesMisIncidencias);
+                            botonDetallesMisIncidencias.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     // OCULTAR BOTON DE DETALLES ADMIN
-                                    Intent intent = new Intent(getApplicationContext(), DetallesUsuarioActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), DetallesMisIncidenciasActivity.class);
                                     String APIKEY = nombreRaroIncidencia;
                                     intent.putExtra("nombreIncidencia", APIKEY);
                                     startActivity(intent);
+                                    findViewById(R.id.buttonDetalles).setVisibility(View.GONE);
                                 }
                             });
 

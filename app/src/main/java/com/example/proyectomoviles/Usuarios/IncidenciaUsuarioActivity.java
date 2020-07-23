@@ -59,6 +59,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                                     String APIKEY = nombreRaroIncidencia;
                                     intent.putExtra("nombreIncidencia", APIKEY);
                                     startActivity(intent);
+                                    findViewById(R.id.buttonDetallesMisIncidencias).setVisibility(View.GONE);
                                 }
                             });
 
