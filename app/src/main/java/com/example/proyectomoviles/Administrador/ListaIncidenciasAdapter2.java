@@ -78,7 +78,7 @@ public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<ListaIncidenc
     }
 
     public void publicarImagen (final String photoName, final ListaIncidenciasAdapter2.IncidenciaViewHolder2 holder){
-        storageReference.child("img").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(contexto)
