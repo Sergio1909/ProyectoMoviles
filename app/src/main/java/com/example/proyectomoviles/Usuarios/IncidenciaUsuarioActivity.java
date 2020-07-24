@@ -5,12 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,19 +28,10 @@ import com.google.firebase.storage.StorageReference;
 
 public class IncidenciaUsuarioActivity extends AppCompatActivity {
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbarusuario, menu);
-        return true;
-    }
-
-
-
     private FirebaseAuth mAuth;
     Incidencia[] listaIncidencias;
     private StorageReference storageReference;
-    // private FirebaseStorage fStorage;
+    private FirebaseStorage fStorage;
     private int DETALLES_INCIDENCIAS_GENERAL = 1;
 
     @Override
@@ -67,7 +64,11 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                     }
                 }
 
-
+                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage.getReference(),
+                        DETALLES_INCIDENCIAS_GENERAL);
+                RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                recyclerView.setAdapter(incidenciasAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
             }
 
             @Override
@@ -76,15 +77,6 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
             }
         });
 
-
-        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-        ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage,
-                DETALLES_INCIDENCIAS_GENERAL);
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
-        recyclerView.setAdapter(incidenciasAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));}
-
-
+    }
 }
-
 

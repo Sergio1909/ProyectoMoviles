@@ -50,4 +50,5 @@ public class ListaComentariosAdapter extends RecyclerView.Adapter<ListaComentari
     @Override
     public int getItemCount() {
         return listaComentarios.length; }
+
 }

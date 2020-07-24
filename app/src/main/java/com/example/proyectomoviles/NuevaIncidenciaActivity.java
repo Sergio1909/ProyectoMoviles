@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.proyectomoviles.Entidades.Incidencia;
+import com.example.proyectomoviles.Entidades.UbicacionPj;
 import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.Entidades.uploadinfo;
 import com.google.android.gms.location.LocationServices;
@@ -42,12 +43,13 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class NuevaIncidenciaActivity extends AppCompatActivity {
     private FusedLocationProviderClient ubicacion;
     Button btn_dameubi;
     //FirebaseDatabase database; //Descomentar para firebase
-    //DatabaseReference refubicacion; //Descomentar firebase
+    //DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     Button btnbrowse, btnupload;
@@ -60,7 +62,13 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
     ProgressDialog progressDialog ;
     //fStore = FirebaseFirestore.getIns;
     //fStorage = FirebaseStorage.getInstance();
-
+    String nombrefoto = "nombre_generico";
+    double latitud = 0;
+    double longitud = 0;
+    String nombreIncidencia = "init";
+    String descripcionIncidencia = "init";
+    String ubicacionIncidencia = "init";
+    String autorIncidencia = "init";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,34 +85,31 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         // RECUPERAR EL USUARIO LOGUEADO
         final Usuario usuario = new Usuario();
 
-        final Incidencia incidencia = new Incidencia();
-        // Nombre Incidencia
-        EditText editTextNombre = (EditText) findViewById(R.id.editTextNombre);
-        String nombreIncidencia = editTextNombre.getText().toString();
-        incidencia.setNombre(nombreIncidencia);
-        // Descripcion Incidencia
-        EditText editTextDescripcion = (EditText) findViewById(R.id.editTextDescripcion);
-        String descripcionIncidencia = editTextDescripcion.getText().toString();
-        incidencia.setDescripcion(descripcionIncidencia);
+
+
+
         // Ubicacion Incidencia
-        Spinner spinner = (Spinner) findViewById(R.id.spinnerUbicacion);
-        String ubicacionIncidencia = spinner.getSelectedItem().toString();
-        incidencia.setLugar(ubicacionIncidencia);
+
+
         // Autor Incidencia
-        String autorIncidencia = usuario.getNombre(); // !!!!!!!!!!!
-        incidencia.setUsuarioAutor(autorIncidencia);
+        autorIncidencia = usuario.getNombre(); // !!!!!!!!!!!
+
         // Estado Incidencia
-        incidencia.setEstado("Por Atender");
+
         // Fecha Incidencia (ESTA EN GMT CAMBIAR!!!!)
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        String fechaActual = formatter.format(date);
-        incidencia.setFecha(fechaActual);
+        final String fechaActual = formatter.format(date);
+
+        // Foto Incidencia nombre en el metodo upload image
+
         //Mapa
 
         //database =FirebaseDatabase.getInstance(); // Descomentar para la conexion
         //refubicacion=database.getReference("ubicacion"); //Descomentar para la conexion
         btn_dameubi=findViewById(R.id.btn_dameubi);
+
+        //Obtener ubicacion
         btn_dameubi.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -116,11 +121,10 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
             }
         });
 
-        // FALTA LODE LA FOTO
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Incidencias").push().setValue(incidencia);
 
+
+        //Seleccionar foto y generacion de nombre aleatorio
         btnbrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,15 +132,39 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Image"), Image_Request_Code);
+                nombrefoto = getSaltString();
 
             }
         });
+
+        //Subir Incidencia
         btnupload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Nombre Incidencia
+                EditText editTextNombre = (EditText) findViewById(R.id.editTextNombre);
+                nombreIncidencia = editTextNombre.getText().toString();
 
+                // Descripcion Incidencia
+                EditText editTextDescripcion = (EditText) findViewById(R.id.editTextDescripcion);
+                descripcionIncidencia = editTextDescripcion.getText().toString();
 
+                Spinner spinner = (Spinner) findViewById(R.id.spinnerUbicacion);
+                ubicacionIncidencia = spinner.getSelectedItem().toString();
+
+                final Incidencia incidencia = new Incidencia();
+                incidencia.setNombre(nombreIncidencia);
+                incidencia.setDescripcion(descripcionIncidencia);
+                incidencia.setLugar(ubicacionIncidencia);
+                incidencia.setUsuarioAutor(autorIncidencia);
+                incidencia.setEstado("Por Atender");
+                incidencia.setFecha(fechaActual);
+                incidencia.setLatitud(latitud);
+                incidencia.setLongitud(longitud);
+                incidencia.setFoto(nombrefoto);
                 UploadImage();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("Incidencias").push().setValue(incidencia);
 
             }
         });
@@ -157,15 +185,15 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Location location){
                 if(location !=null){
-                    Double latitud = location.getLatitude();
-                    Double longitud = location.getLongitude();
+                    latitud = location.getLatitude();
+                     longitud = location.getLongitude();
 
                     Toast.makeText(NuevaIncidenciaActivity.this, "Latitud: "+ latitud + "Longitud: " + longitud,Toast.LENGTH_SHORT).show();
 
-                    //UbicacionPj ubi = new UbicacionPj(latitud,longitud); //Descomentar firebase
-                    //refubicacion.push().setValue(ubi); // Descomentar Firebase
+                    UbicacionPj ubi = new UbicacionPj(latitud,longitud); //Descomentar firebase
+                    FirebaseDatabase.getInstance().getReference("ubicacion").push().setValue(ubi); // Descomentar Firebase
 
-                    //Toast.makeText(MainActivity.this, "Ubicacion agregada",Toast.LENGTH_SHORT).show(); //Descomentar firebase
+                    Toast.makeText(NuevaIncidenciaActivity.this, "Ubicacion agregada",Toast.LENGTH_SHORT).show(); //Descomentar firebase
 
                 }
             }
@@ -203,25 +231,46 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
     }
 
+    //Generador de nombre aleatorio para las fotos
+
+    protected String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string. heroe
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
+    }
+
+
     public void UploadImage() {
 
         if (FilePathUri != null) {
 
             progressDialog.setTitle("Subiendo imagen...");
             progressDialog.show();
-            StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            //Linea anterior
+            // StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+
+            StorageReference storageReference2 = storageReference.child(nombrefoto + "." + GetFileExtension(FilePathUri));
             storageReference2.putFile(FilePathUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            String TempImageName = txtdata.getText().toString().trim();
+            //                String TempImageName = txtdata.getText().toString().trim();
+                            String TempImageName = nombrefoto;
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Imagen subida exitosamente ", Toast.LENGTH_LONG).show();
                             @SuppressWarnings("VisibleForTests")
                             uploadinfo imageUploadInfo = new uploadinfo(TempImageName, taskSnapshot.getUploadSessionUri().toString());
                             String ImageUploadId = databaseReference.push().getKey();
                             databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
+
                         }
                     });
         }

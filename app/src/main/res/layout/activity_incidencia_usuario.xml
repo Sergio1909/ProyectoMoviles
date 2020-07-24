@@ -7,7 +7,6 @@
     tools:context=".Usuarios.IncidenciaUsuarioActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewUsuario1"
         android:layout_width="189dp"
         android:layout_height="394dp"
         app:layout_constraintBottom_toBottomOf="parent"

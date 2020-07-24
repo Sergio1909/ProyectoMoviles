@@ -58,7 +58,7 @@ public class RegistroActivity extends AppCompatActivity {
                         correo,
                         contrasena
                 );
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios");
                 databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
