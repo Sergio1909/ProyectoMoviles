@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,6 +102,16 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
         double latitudMapa  = incidencia.getLatitud();
         double longitudMapa = incidencia.getLongitud();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
+
+        Button botonEliminar = (Button) findViewById(R.id.buttonEliminar);
+        botonEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child("Incidencias").child(apikeyIncidencia).removeValue(); //
+                Intent intent = new Intent(getApplicationContext(),MisIncidenciasActivity.class);
+
+            }
+        });
 
     }
 
