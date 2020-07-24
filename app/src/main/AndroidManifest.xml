@@ -25,16 +25,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Usuarios.RegistroActivity"></activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".NuevaIncidenciaActivity" />
         <activity android:name=".Usuarios.DetallesMisIncidenciasActivity" />
         <activity android:name=".Usuarios.MisIncidenciasActivity" />
         <activity android:name=".Administrador.DetallesAdminActivity" />
 
         <activity android:name=".Usuarios.DetallesUsuarioActivity" />
         <activity android:name=".Administrador.IncidenciaAdminActivity" />
-        <activity android:name=".Usuarios.IncidenciaUsuarioActivity" />
+        <activity android:name=".MainActivity" />
 
-        <activity android:name=".NuevaIncidenciaActivity">
+        <activity android:name=".Usuarios.IncidenciaUsuarioActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

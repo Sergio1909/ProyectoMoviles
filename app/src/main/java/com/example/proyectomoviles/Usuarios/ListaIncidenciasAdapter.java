@@ -65,7 +65,7 @@ public class ListaIncidenciasAdapter extends RecyclerView.Adapter<ListaIncidenci
         String estadoIncidencia = incidencia.getEstado(); holder.estado.setText(estadoIncidencia);
         String fechaPublicacion = incidencia.getFecha(); holder.fechaPublicacion.setText(fechaPublicacion);
         String ubicacionIncidencia = incidencia.getLugar(); holder.ubicacion.setText(ubicacionIncidencia);
-        publicarImagen(incidencia.getFoto() + ".JPG", holder);
+        publicarImagen(incidencia.getFoto() + ".jpg", holder);
 
         if (condicionDetalles == 1) {
         holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {

@@ -65,6 +65,10 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
     String nombrefoto = "nombre_generico";
     double latitud = 0;
     double longitud = 0;
+    String nombreIncidencia = "init";
+    String descripcionIncidencia = "init";
+    String ubicacionIncidencia = "init";
+    String autorIncidencia = "init";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,20 +86,13 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         final Usuario usuario = new Usuario();
 
 
-        // Nombre Incidencia
-        EditText editTextNombre = (EditText) findViewById(R.id.editTextNombre);
-        final String nombreIncidencia = editTextNombre.getText().toString();
 
-        // Descripcion Incidencia
-        EditText editTextDescripcion = (EditText) findViewById(R.id.editTextDescripcion);
-        final String descripcionIncidencia = editTextDescripcion.getText().toString();
 
         // Ubicacion Incidencia
-        Spinner spinner = (Spinner) findViewById(R.id.spinnerUbicacion);
-        final String ubicacionIncidencia = spinner.getSelectedItem().toString();
+
 
         // Autor Incidencia
-        final String autorIncidencia = usuario.getNombre(); // !!!!!!!!!!!
+        autorIncidencia = usuario.getNombre(); // !!!!!!!!!!!
 
         // Estado Incidencia
 
@@ -105,7 +102,6 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         final String fechaActual = formatter.format(date);
 
         // Foto Incidencia nombre en el metodo upload image
-
 
         //Mapa
 
@@ -145,6 +141,16 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         btnupload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Nombre Incidencia
+                EditText editTextNombre = (EditText) findViewById(R.id.editTextNombre);
+                nombreIncidencia = editTextNombre.getText().toString();
+
+                // Descripcion Incidencia
+                EditText editTextDescripcion = (EditText) findViewById(R.id.editTextDescripcion);
+                descripcionIncidencia = editTextDescripcion.getText().toString();
+
+                Spinner spinner = (Spinner) findViewById(R.id.spinnerUbicacion);
+                ubicacionIncidencia = spinner.getSelectedItem().toString();
 
                 final Incidencia incidencia = new Incidencia();
                 incidencia.setNombre(nombreIncidencia);
@@ -231,7 +237,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
-        while (salt.length() < 18) { // length of the random string.
+        while (salt.length() < 18) { // length of the random string. heroe
             int index = (int) (rnd.nextFloat() * SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }

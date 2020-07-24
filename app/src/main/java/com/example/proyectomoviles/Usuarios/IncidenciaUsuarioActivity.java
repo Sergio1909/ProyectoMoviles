@@ -42,12 +42,9 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-        final ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this, fStorage,
-                DETALLES_INCIDENCIAS_GENERAL);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setAdapter(incidenciasAdapter);
-       // recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
+
+
+
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
@@ -64,11 +61,22 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
                             final String nombreRaroIncidencia = dataSnapshot.getKey();  incidencia.setApiKey(nombreRaroIncidencia);
                            // final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                            final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                            final ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this, fStorage,
+                                    DETALLES_INCIDENCIAS_GENERAL);
 
+                            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
+                            recyclerView.setAdapter(incidenciasAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
                             listaIncidencias[contador] = incidencia;
                             contador++;
+
                         }
                     }
+
+
+
+
                 }
 
 
