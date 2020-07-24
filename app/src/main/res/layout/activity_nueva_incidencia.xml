@@ -66,41 +66,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText5" />
 
-    <EditText
-        android:id="@+id/editText7"
-        android:layout_width="137dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Ubicacion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescripcion" />
-
     <Spinner
         android:id="@+id/spinnerUbicacion"
         android:layout_width="171dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:entries="@array/lugaresLista"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
-        app:layout_constraintStart_toEndOf="@+id/editText7"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescripcion" />
 
     <EditText
         android:id="@+id/txtdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="104dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Agregar Nombre Foto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText7" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescripcion" />
 
     <Button
         android:id="@+id/btnbrowse"
@@ -138,5 +125,15 @@
         app:layout_constraintTop_toBottomOf="@+id/btnbrowse"
         app:layout_constraintVertical_bias="0.492"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btn_dameubi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Añadir ubicacion"
+        app:layout_constraintBottom_toTopOf="@+id/txtdata"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerUbicacion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescripcion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -107,6 +107,26 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+/*
+            //database =FirebaseDatabase.getInstance(); // Descomentar para la conexion
+            //refubicacion=database.getReference("ubicacion"); //Descomentar para la conexion
+            btn_dameubi=findViewById(R.id.btn_dameubi);
+            btn_dameubi.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    //
+                    dameubicacion();
+
+                    //
+
+                }
+            });
+
+
+*/
+
+
+
     }
 
     public void iniciarSesion(View view){
@@ -143,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+        /*
         //database =FirebaseDatabase.getInstance(); // Descomentar para la conexion
         //refubicacion=database.getReference("ubicacion"); //Descomentar para la conexion
         btn_dameubi=findViewById(R.id.btn_dameubi);
@@ -156,9 +177,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        */
     }
 
+/*
     private void dameubicacion(){
         if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             Toast.makeText(this,"Tenemos permiso", Toast.LENGTH_SHORT).show();
@@ -170,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         ubicacion= LocationServices.getFusedLocationProviderClient(MainActivity.this);
 
     }
+    /*
         ubicacion.getLastLocation().addOnSuccessListener(MainActivity.this,new OnSuccessListener<Location>(){
             @Override
             public void onSuccess(Location location){
@@ -179,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Abrir registros
                     Toast.makeText(MainActivity.this, "Latitud: "+ latitud + "Longitud: " + longitud,Toast.LENGTH_SHORT).show();
-
+/*
     public void abrirRegistrosActivity(View view){
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent);
@@ -192,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
 
 
 }
