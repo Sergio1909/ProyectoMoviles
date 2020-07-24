@@ -7,16 +7,11 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnbrowse"
+        android:id="@+id/btn_dameubi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="285dp"
-        android:layout_marginEnd="154dp"
-        android:layout_marginBottom="398dp"
-        android:onClick="iniciarSesion"
-        android:text="@string/iniciar_sesion"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="431dp"
+        android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
