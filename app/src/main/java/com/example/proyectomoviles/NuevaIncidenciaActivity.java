@@ -61,7 +61,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
     ProgressDialog progressDialog ;
     //fStore = FirebaseFirestore.getIns;
     //fStorage = FirebaseStorage.getInstance();
-
+    String nombrefoto = "nombre_generico";
 
 
     @Override
@@ -102,6 +102,8 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String fechaActual = formatter.format(date);
         incidencia.setFecha(fechaActual);
+        // Foto Incidencia
+        incidencia.setFoto(nombrefoto);
 
         //Mapa
 
@@ -119,7 +121,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
             }
         });
 
-        // FALTA LODE LA FOTO
+
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Incidencias").push().setValue(incidencia);
@@ -131,7 +133,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Image"), Image_Request_Code);
-
+                nombrefoto = getSaltString();
             }
         });
         btnupload.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +208,8 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
     }
 
+    //Generador de nombre aleatorio para las fotos
+
     protected String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
@@ -228,8 +232,8 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
             progressDialog.show();
             //Linea anterior
             // StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
-            String nombrefoto = getSaltString();
-            StorageReference storageReference2 = storageReference.child(nombrefoto + GetFileExtension(FilePathUri));
+
+            StorageReference storageReference2 = storageReference.child(nombrefoto + "." + GetFileExtension(FilePathUri));
             storageReference2.putFile(FilePathUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
