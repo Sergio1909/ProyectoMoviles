@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Administrador.DetallesAdminActivity">
+
+    <ScrollView
+        android:layout_width="387dp"
+        android:layout_height="758dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/comentario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Agregue su comentariode mrd" />
+
+            <TextView
+                android:id="@+id/textViewLugar"
+                android:layout_width="97dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="28dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewDescripcion"
+                android:layout_width="196dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="20dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewEstado"
+                android:layout_width="88dp"
+                android:layout_height="30dp"
+                android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/imageViewFoto"
+                android:layout_width="237dp"
+                android:layout_height="114dp"
+                android:layout_marginTop="20dp"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/textViewNombre"
+                android:layout_width="113dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="16dp"
+                android:text="TextView" />
+
+            <fragment
+                android:id="@+id/fragment"
+                android:name="com.example.proyectomoviles.MapitaFragment"
+                android:layout_width="106dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="44dp" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Comentarios Infraestructura" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="324dp"
+                android:layout_height="181dp"
+                android:layout_marginBottom="80dp" />
+
+            <Button
+                android:id="@+id/buttonComentario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Agregar Comentario" />
+
+            <Button
+                android:id="@+id/buttonAtender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Atender Incidencia" />
+
+            <TextView
+                android:id="@+id/textViewFecha"
+                android:layout_width="105dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="52dp"
+                android:layout_marginTop="28dp"
+                android:text="TextView" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
