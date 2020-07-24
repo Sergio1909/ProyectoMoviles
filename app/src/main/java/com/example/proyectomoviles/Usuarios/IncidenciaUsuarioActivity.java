@@ -31,8 +31,9 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     Incidencia[] listaIncidencias;
     private StorageReference storageReference;
-    private FirebaseStorage fStorage;
+   // private FirebaseStorage fStorage;
     private int DETALLES_INCIDENCIAS_GENERAL = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,13 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_incidencia_usuario);
 
         mAuth = FirebaseAuth.getInstance();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+        final ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this, fStorage,
+                DETALLES_INCIDENCIAS_GENERAL);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(incidenciasAdapter);
+       // recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,7 +63,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
                             final String nombreRaroIncidencia = dataSnapshot.getKey();  incidencia.setApiKey(nombreRaroIncidencia);
-                            final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                           // final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
 
                             listaIncidencias[contador] = incidencia;
                             contador++;
@@ -64,11 +71,8 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage.getReference(),
-                        DETALLES_INCIDENCIAS_GENERAL);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
+
+
             }
 
             @Override

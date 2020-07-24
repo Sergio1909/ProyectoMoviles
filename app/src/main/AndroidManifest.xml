@@ -33,6 +33,7 @@
         <activity android:name=".Usuarios.DetallesUsuarioActivity" />
         <activity android:name=".Administrador.IncidenciaAdminActivity" />
         <activity android:name=".Usuarios.IncidenciaUsuarioActivity" />
+
         <activity android:name=".NuevaIncidenciaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
