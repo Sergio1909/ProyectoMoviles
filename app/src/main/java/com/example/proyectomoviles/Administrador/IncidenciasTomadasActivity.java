@@ -78,7 +78,7 @@ protected void onCreate(Bundle savedInstanceState) {
         final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
         ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidenciasTomadas, IncidenciasTomadasActivity.this,fStorage,
                 DETALLES_INCIDENCIAS_TOMADAS);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
         recyclerView.setAdapter(incidenciasAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciasTomadasActivity.this));
 

@@ -19,14 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.proyectomoviles.ComentarioActivity;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
-import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -131,7 +128,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
 
         final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
         ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios, DetallesAdminActivity.this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
         recyclerView.setAdapter(comentariosAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
 

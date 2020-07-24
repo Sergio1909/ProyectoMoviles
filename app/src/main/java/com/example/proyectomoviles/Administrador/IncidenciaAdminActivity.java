@@ -5,18 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
-import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.IncidenciaUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -82,7 +76,7 @@ public class IncidenciaAdminActivity extends AppCompatActivity {
         final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
         ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidencias, IncidenciaAdminActivity.this,fStorage,
                 DETALLES_INCIDENCIAS_GENERAL);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
         recyclerView.setAdapter(incidenciasAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaAdminActivity.this));
 

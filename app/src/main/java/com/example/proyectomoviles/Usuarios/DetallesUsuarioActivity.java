@@ -18,8 +18,6 @@ import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.type.LatLng;
 
 public class DetallesUsuarioActivity extends AppCompatActivity {
 
@@ -105,7 +102,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
         final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
         ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
         recyclerView.setAdapter(comentariosAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
 

@@ -128,7 +128,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
 
             final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
             ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios, DetallesTomadasActivity.this);
-            RecyclerView recyclerView = findViewById(R.id.recyclerView);
+            RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
             recyclerView.setAdapter(comentariosAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(DetallesTomadasActivity.this));
 
