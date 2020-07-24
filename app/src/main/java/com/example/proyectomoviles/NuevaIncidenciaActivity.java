@@ -59,7 +59,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference("Images");
         databaseReference = FirebaseDatabase.getInstance().getReference("Images");
         btnbrowse = (Button)findViewById(R.id.btnbrowse);
-        btnupload= (Button)findViewById(R.id.btnbrowse);
+        btnupload= (Button)findViewById(R.id.btnupload);
         txtdata = (EditText)findViewById(R.id.txtdata);
         imgview = (ImageView)findViewById(R.id.image_view);
         progressDialog = new ProgressDialog(NuevaIncidenciaActivity.this);// Nombre del contexto
