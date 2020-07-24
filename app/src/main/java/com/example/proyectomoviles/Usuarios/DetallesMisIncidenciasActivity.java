@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class DetallesMisIncidenciasActivity extends AppCompatActivity {
@@ -94,17 +95,18 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                             listaComentarios[contador2] = comentario;
                             contador2++; }
                         incidencia.setListaComentarios(listaComentarios);}
-                }
-
-                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesMisIncidenciasActivity.this);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(comentariosAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesMisIncidenciasActivity.this)); }
+                } }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(DetallesMisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
         });
+
+        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesMisIncidenciasActivity.this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(comentariosAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesMisIncidenciasActivity.this));
 
         TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia.getUsuarioAutor());
         TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());

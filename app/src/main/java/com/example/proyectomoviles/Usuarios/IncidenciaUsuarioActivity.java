@@ -36,10 +36,11 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         return true;
     }
 
+
     private FirebaseAuth mAuth;
     Incidencia[] listaIncidencias;
     private StorageReference storageReference;
-    private FirebaseStorage fStorage;
+    // private FirebaseStorage fStorage;
     private int DETALLES_INCIDENCIAS_GENERAL = 1;
 
     @Override
@@ -72,11 +73,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage.getReference(),
-                        DETALLES_INCIDENCIAS_GENERAL);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
+
             }
 
             @Override
@@ -85,6 +82,15 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
             }
         });
 
-    }
+
+        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+        ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage,
+                DETALLES_INCIDENCIAS_GENERAL);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(incidenciasAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));}
+
+
 }
+
 

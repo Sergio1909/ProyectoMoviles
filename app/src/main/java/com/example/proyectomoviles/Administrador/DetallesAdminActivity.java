@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
@@ -119,11 +120,6 @@ public class DetallesAdminActivity extends AppCompatActivity {
                         incidencia.setListaComentarios(listaComentarios);
                     }
                 }
-
-                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios, DetallesAdminActivity.this);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(comentariosAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
             }
 
             @Override
@@ -131,6 +127,13 @@ public class DetallesAdminActivity extends AppCompatActivity {
                 Toast.makeText(DetallesAdminActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
             }
         });
+
+
+        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios, DetallesAdminActivity.this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(comentariosAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
 
         TextView autor = findViewById(R.id.textViewFecha);
         autor.setText(incidencia.getUsuarioAutor());

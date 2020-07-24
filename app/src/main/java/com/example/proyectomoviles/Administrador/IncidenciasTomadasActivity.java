@@ -30,7 +30,7 @@ public class IncidenciasTomadasActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private StorageReference storageReference;
-    private FirebaseStorage fStorage;
+    // private FirebaseStorage fStorage;
     Incidencia[] listaIncidenciasTomadas;
     private int DETALLES_INCIDENCIAS_TOMADAS = 2;
 
@@ -66,11 +66,7 @@ protected void onCreate(Bundle savedInstanceState) {
                     }
                 }
 
-                ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidenciasTomadas, IncidenciasTomadasActivity.this,fStorage.getReference(),
-                        DETALLES_INCIDENCIAS_TOMADAS);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciasTomadasActivity.this));
+
             }
 
             @Override
@@ -78,6 +74,13 @@ protected void onCreate(Bundle savedInstanceState) {
                 Toast.makeText(IncidenciasTomadasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
             }
         });
+
+        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+        ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidenciasTomadas, IncidenciasTomadasActivity.this,fStorage,
+                DETALLES_INCIDENCIAS_TOMADAS);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(incidenciasAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciasTomadasActivity.this));
 
 }
 }

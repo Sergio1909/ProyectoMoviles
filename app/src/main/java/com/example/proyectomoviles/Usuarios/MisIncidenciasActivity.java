@@ -34,7 +34,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     Incidencia[] listaMisIncidencias;
     private StorageReference storageReference;
-    private FirebaseStorage fStorage;
+    //private FirebaseStorage fStorage;
     private int DETALLES_INCIDENCIAS_PROPIAS = 2;
 
     @Override
@@ -72,11 +72,6 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage.getReference(),
-                DETALLES_INCIDENCIAS_PROPIAS);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
             }
 
             @Override
@@ -85,7 +80,12 @@ public class MisIncidenciasActivity extends AppCompatActivity {
             }
         });
 
-
+        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+        ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage,
+                DETALLES_INCIDENCIAS_PROPIAS);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(incidenciasAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
 
     }
 }
