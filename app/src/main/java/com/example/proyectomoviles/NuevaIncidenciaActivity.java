@@ -62,9 +62,6 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
     //fStorage = FirebaseStorage.getInstance();
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +100,6 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String fechaActual = formatter.format(date);
         incidencia.setFecha(fechaActual);
-
         //Mapa
 
         //database =FirebaseDatabase.getInstance(); // Descomentar para la conexion
