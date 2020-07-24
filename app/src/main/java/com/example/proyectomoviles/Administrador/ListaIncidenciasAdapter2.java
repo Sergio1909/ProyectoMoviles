@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
+import com.example.proyectomoviles.Usuarios.DetallesMisIncidenciasActivity;
 import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
 import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,11 +27,14 @@ public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<ListaIncidenc
     Incidencia[] listaIncidencias;
     private Context contexto;
     private StorageReference storageReference;
+    private int condicionDetalles;
 
-    public ListaIncidenciasAdapter2(Incidencia[] lista, Context contexto,StorageReference storageReference){
+    public ListaIncidenciasAdapter2(Incidencia[] lista, Context contexto,StorageReference storageReference,
+                                    int condicionDetalles){
         this.listaIncidencias = lista;
         this.contexto = contexto;
-        this.storageReference = storageReference;}
+        this.storageReference = storageReference;
+        this.condicionDetalles = condicionDetalles; }
 
     public static class IncidenciaViewHolder2 extends RecyclerView.ViewHolder {
         public TextView  nombreIncidencia;
@@ -66,14 +70,25 @@ public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<ListaIncidenc
         String ubicacionIncidencia = incidencia.getLugar(); holder.ubicacion.setText(ubicacionIncidencia);
         publicarImagen(incidencia.getFoto() + ".JPG", holder);
 
-        holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(contexto, DetallesAdminActivity.class);
-                String APIKEY = incidencia.getApiKey();
-                intent.putExtra("nombreIncidencia", APIKEY);
-                contexto.startActivity(intent);}
-        });
+        if (condicionDetalles == 1) {
+            holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(contexto,DetallesAdminActivity.class);
+                    String APIKEY = incidencia.getApiKey();
+                    intent.putExtra("nombreIncidencia", APIKEY);
+                    contexto.startActivity(intent);}
+            }); }
+
+        if (condicionDetalles == 2) {
+            holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(contexto, DetallesTomadasActivity.class);
+                    String APIKEY = incidencia.getApiKey();
+                    intent.putExtra("nombreIncidencia", APIKEY);
+                    contexto.startActivity(intent);}
+            }); }
 
     }
 

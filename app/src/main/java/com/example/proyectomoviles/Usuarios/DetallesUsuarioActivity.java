@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.type.LatLng;
 
 public class DetallesUsuarioActivity extends AppCompatActivity {
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbarusuario,menu);
+        return true; }
 
     Incidencia[] listaIncidencias;
     Comentario[] listaComentarios;

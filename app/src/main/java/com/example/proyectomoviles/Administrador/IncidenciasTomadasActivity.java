@@ -5,18 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
-import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.IncidenciaUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +16,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class IncidenciaAdminActivity extends AppCompatActivity {
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.Toast;
+
+public class IncidenciasTomadasActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,17 +31,16 @@ public class IncidenciaAdminActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private StorageReference storageReference;
     private FirebaseStorage fStorage;
-    Incidencia[] listaIncidencias;
-    private int DETALLES_INCIDENCIAS_GENERAL = 1;
+    Incidencia[] listaIncidenciasTomadas;
+    private int DETALLES_INCIDENCIAS_TOMADAS = 2;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_incidencia_admin);
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_incidencias_tomadas);
 
-        mAuth = FirebaseAuth.getInstance();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(); // Base De Datos
-
+    mAuth = FirebaseAuth.getInstance();
+    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(); // Base De Datos
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -55,37 +48,36 @@ public class IncidenciaAdminActivity extends AppCompatActivity {
 
                     Long longitudIncidencias = dataSnapshot.getChildrenCount();
                     int longitud = longitudIncidencias.intValue();
-                    listaIncidencias = new Incidencia[longitud];
+                    listaIncidenciasTomadas = new Incidencia[longitud];
                     int contador = 0;
 
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
+                            String autor = dataSnapshot.child("autor").getValue().toString();
                             final String nombreRaroIncidencia = dataSnapshot.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
                             final String foto = dataSnapshot.child("fotoAPIKEY").getValue().toString(); incidencia.setFoto(foto);
 
-                            listaIncidencias[contador] = incidencia;
-                            contador++;
+                            String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+                            if (autor.equals(nombreLogueado)){
+                            listaIncidenciasTomadas[contador] = incidencia;
+                            contador++;} else{ contador = contador + 0;}
                         }
                     }
                 }
 
-                ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidencias, IncidenciaAdminActivity.this,fStorage.getReference(),
-                        DETALLES_INCIDENCIAS_GENERAL);
+                ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidenciasTomadas, IncidenciasTomadasActivity.this,fStorage.getReference(),
+                        DETALLES_INCIDENCIAS_TOMADAS);
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaAdminActivity.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciasTomadasActivity.this));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(IncidenciaAdminActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
+                Toast.makeText(IncidenciasTomadasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
             }
         });
 
-
-
-
-
-    }
+}
 }
