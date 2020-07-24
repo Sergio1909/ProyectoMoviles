@@ -27,6 +27,7 @@ public class Incidencia {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+
     }
 
     public String getDescripcion() {
@@ -36,6 +37,7 @@ public class Incidencia {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
 
     public String getLugar() {
         return lugar;
@@ -61,6 +63,7 @@ public class Incidencia {
         this.fecha = fecha;
     }
 
+
     public String getEstado() {
         return estado;
     }
@@ -68,6 +71,7 @@ public class Incidencia {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
 
     public String  getUsuarioAutor() {
         return autor;
@@ -84,6 +88,7 @@ public class Incidencia {
 
     public void setListaComentarios(Comentario[] listaComentarios) {
         this.listaComentarios = listaComentarios;
+
     }
 
 
