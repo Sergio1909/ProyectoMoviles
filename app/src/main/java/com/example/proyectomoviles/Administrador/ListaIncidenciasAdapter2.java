@@ -64,7 +64,7 @@ public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<ListaIncidenc
         String estadoIncidencia = incidencia.getEstado(); holder.estado.setText(estadoIncidencia);
         String fechaPublicacion = incidencia.getFecha(); holder.fechaPublicacion.setText(fechaPublicacion);
         String ubicacionIncidencia = incidencia.getLugar(); holder.ubicacion.setText(ubicacionIncidencia);
-        publicarImagen(incidencia.getApiKey() + ".JPG", holder);
+        publicarImagen(incidencia.getFoto() + ".JPG", holder);
 
         holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,7 @@ public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<ListaIncidenc
     }
 
     public void publicarImagen (final String photoName, final ListaIncidenciasAdapter2.IncidenciaViewHolder2 holder){
-        storageReference.child("img").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(contexto)

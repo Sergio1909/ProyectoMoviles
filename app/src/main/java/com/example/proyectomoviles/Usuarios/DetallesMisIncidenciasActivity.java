@@ -6,27 +6,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
 public class DetallesMisIncidenciasActivity extends AppCompatActivity {
 
     Incidencia[] listaIncidencias;
     Comentario[] listaComentarios;
+    private StorageReference storageReference;
+    final ImageView fotoIncidencia = findViewById(R.id.imageViewFoto);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                     String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
                     String descripcion = dataSnapshot.child("autor").getValue().toString(); incidencia.setDescripcion(descripcion);
                     String ubicacion = dataSnapshot.child("autor").getValue().toString(); incidencia.setLugar(ubicacion);
+                    String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
                     // Latitud y Longitud
                     String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
                     incidencia.setLatitud(latitudDouble);
@@ -97,6 +105,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
         TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
         TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
         TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
+        publicarImagen(incidencia.getFoto());
 
 
         double latitudMapa  = incidencia.getLatitud();
@@ -114,6 +123,16 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
         });
 
     }
+
+    // PUBLICAR LA PUTA FOTO
+    public void publicarImagen (String photoName) {
+        storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getApplicationContext())
+                        .load(uri)
+                        .into(fotoIncidencia); }
+        }); }
 
 }
 

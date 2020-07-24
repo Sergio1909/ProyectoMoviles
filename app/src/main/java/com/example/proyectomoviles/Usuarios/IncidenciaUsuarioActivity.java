@@ -40,7 +40,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_incidencia_usuario);
 
         mAuth = FirebaseAuth.getInstance();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(); // Base De Datos
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
@@ -55,8 +55,8 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
-                            final String nombreRaroIncidencia = dataSnapshot.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
-                            final String foto = dataSnapshot.child("fotoAPIKEY").getValue().toString(); incidencia.setFoto(foto);
+                            final String nombreRaroIncidencia = dataSnapshot.getKey();  incidencia.setApiKey(nombreRaroIncidencia);
+                            final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
 
                             listaIncidencias[contador] = incidencia;
                             contador++;

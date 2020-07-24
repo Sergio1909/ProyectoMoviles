@@ -63,7 +63,6 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
     //fStorage = FirebaseStorage.getInstance();
     String nombrefoto = "nombre_generico";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
