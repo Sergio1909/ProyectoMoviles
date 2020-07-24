@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class NuevaIncidenciaActivity extends AppCompatActivity {
     private FusedLocationProviderClient ubicacion;
@@ -205,13 +206,30 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
     }
 
+    protected String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
+    }
+
+
     public void UploadImage() {
 
         if (FilePathUri != null) {
 
             progressDialog.setTitle("Subiendo imagen...");
             progressDialog.show();
-            StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            //Linea anterior
+            // StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            String nombrefoto = getSaltString();
+            StorageReference storageReference2 = storageReference.child(nombrefoto + GetFileExtension(FilePathUri));
             storageReference2.putFile(FilePathUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
