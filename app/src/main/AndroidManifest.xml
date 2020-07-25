@@ -29,12 +29,11 @@
         <activity android:name=".Usuarios.DetallesMisIncidenciasActivity" />
         <activity android:name=".Usuarios.MisIncidenciasActivity" />
         <activity android:name=".Administrador.DetallesAdminActivity" />
-
         <activity android:name=".Usuarios.DetallesUsuarioActivity" />
         <activity android:name=".Administrador.IncidenciaAdminActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Usuarios.IncidenciaUsuarioActivity" />
 
-        <activity android:name=".Usuarios.IncidenciaUsuarioActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

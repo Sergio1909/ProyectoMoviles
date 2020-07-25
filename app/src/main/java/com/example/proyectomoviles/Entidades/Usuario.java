@@ -8,6 +8,15 @@ public  class Usuario {
     private String nombre;
     private String correoPucp;
     private String contrasena;
+    private String rol;
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
 
     public String getNombre() {
         return nombre;
@@ -37,10 +46,11 @@ public  class Usuario {
 
     }
 
-    public Usuario(String nombre, String correoPucp, String contrasena) {
+    public Usuario(String nombre, String correoPucp, String contrasena, String rol) {
         this.nombre = nombre;
         this.correoPucp = correoPucp;
         this.contrasena = contrasena;
+        this.rol = rol;
     }
 
 

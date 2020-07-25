@@ -39,7 +39,10 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_incidencia_usuario);
 
         mAuth = FirebaseAuth.getInstance();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+
+
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
@@ -55,19 +58,27 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
                             final String nombreRaroIncidencia = dataSnapshot.getKey();  incidencia.setApiKey(nombreRaroIncidencia);
-                            final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                            // final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                            final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                            final ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this, fStorage,
+                                    DETALLES_INCIDENCIAS_GENERAL);
 
+                            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
+                            recyclerView.setAdapter(incidenciasAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
                             listaIncidencias[contador] = incidencia;
                             contador++;
+
                         }
                     }
+
+
+
+
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this,fStorage.getReference(),
-                        DETALLES_INCIDENCIAS_GENERAL);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView1);
-                recyclerView.setAdapter(incidenciasAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
+
+
             }
 
             @Override
@@ -75,7 +86,6 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                 Toast.makeText(IncidenciaUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     @Override
@@ -84,6 +94,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         // String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
         // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
         return true;  }
+
 
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
 

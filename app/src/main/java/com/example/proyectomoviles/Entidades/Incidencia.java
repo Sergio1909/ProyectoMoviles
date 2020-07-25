@@ -1,5 +1,6 @@
 package com.example.proyectomoviles.Entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 // Importar Correctamente el USUARIO (HACER LUEGO DE JUNTAR)
 
@@ -17,7 +18,15 @@ public class Incidencia {
     private String comentario;
 
     private String administrador;
+    private Comentario[] listaComentario;
 
+    public Comentario[] getListaComentario() {
+        return listaComentario;
+    }
+
+    public void setListaComentario(Comentario[] listaComentario) {
+        this.listaComentario = listaComentario;
+    }
 
     public String getAutor() {
         return autor;

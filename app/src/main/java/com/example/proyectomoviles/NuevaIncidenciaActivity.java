@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.Entidades.UbicacionPj;
 import com.example.proyectomoviles.Entidades.Usuario;
@@ -162,6 +163,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 incidencia.setLatitud(latitud);
                 incidencia.setLongitud(longitud);
                 incidencia.setFoto(nombrefoto);
+                incidencia.setAdministrador("");
                 UploadImage();
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                 databaseReference.child("Incidencias").push().setValue(incidencia);
