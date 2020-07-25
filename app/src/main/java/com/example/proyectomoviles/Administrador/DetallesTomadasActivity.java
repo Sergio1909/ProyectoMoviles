@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
+import com.example.proyectomoviles.MainActivity;
 import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -28,6 +30,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,11 +43,7 @@ import java.time.LocalDateTime;
 
 public class DetallesTomadasActivity extends AppCompatActivity {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbarinfraestructura,menu);
-        return true;
-    }
+
 
     Incidencia[] listaIncidencias;
     Comentario[] listaComentarios;
@@ -211,4 +210,27 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                             .load(uri)
                             .into(fotoIncidencia); }
             }); }
-    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbarinfraestructura,menu);
+        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        return true;  }
+
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.cerrarSesion:
+                FirebaseAuth.getInstance().signOut(); finish();
+                startActivity(new Intent(DetallesTomadasActivity.this, MainActivity.class));
+                return true;
+            case R.id.incidenciasTomadas:
+                startActivity(new Intent(DetallesTomadasActivity.this, IncidenciasTomadasActivity.class));
+                return true;
+
+        }
+        return onOptionsItemSelected(item);}
+
+
+}

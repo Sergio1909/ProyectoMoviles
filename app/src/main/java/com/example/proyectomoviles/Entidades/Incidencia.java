@@ -16,6 +16,9 @@ public class Incidencia {
     private String autor;
     private String comentario;
 
+    private String administrador;
+
+
     public String getAutor() {
         return autor;
     }
@@ -132,5 +135,13 @@ public class Incidencia {
 
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
+    }
+
+    public String getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(String administrador) {
+        this.administrador = administrador;
     }
 }

@@ -5,38 +5,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.proyectomoviles.Administrador.DetallesTomadasActivity;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
+import com.example.proyectomoviles.MainActivity;
 import com.example.proyectomoviles.MapitaFragment;
+import com.example.proyectomoviles.NuevaIncidenciaActivity;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class DetallesUsuarioActivity extends AppCompatActivity {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        return true; }
-
     Incidencia[] listaIncidencias;
     Comentario[] listaComentarios;
     private StorageReference storageReference;
+    private FirebaseAuth mAuth;
     final ImageView fotoIncidencia = findViewById(R.id.imageViewFoto);
 
     @Override
@@ -90,21 +93,21 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                             listaComentarios[contador2] = comentario;
                             contador2++; }
                         incidencia.setListaComentarios(listaComentarios);}
-                } }
+                }
+
+                final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
+                RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
+                recyclerView.setAdapter(comentariosAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
 
 
-
         });
-
-        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
-        recyclerView.setAdapter(comentariosAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
 
         TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia.getUsuarioAutor());
         TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
@@ -129,6 +132,30 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                         .load(uri)
                         .into(fotoIncidencia); }
         }); }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbarusuario,menu);
+        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        return true;  }
+
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.cerrarSesion:
+                FirebaseAuth.getInstance().signOut(); finish();
+                startActivity(new Intent(DetallesUsuarioActivity.this, MainActivity.class));
+                return true;
+            case R.id.incidenciasTomadas:
+                startActivity(new Intent(DetallesUsuarioActivity.this,MisIncidenciasActivity.class));
+                return true;
+            case R.id.nuevaIncidencia:
+                startActivity(new Intent(DetallesUsuarioActivity.this, NuevaIncidenciaActivity.class));
+                return true;
+        }
+        return onOptionsItemSelected(item);}
+
 
 
 
