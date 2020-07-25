@@ -57,7 +57,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    incidencia = dataSnapshot.getValue(Incidencia.class);
+                    Incidencia incidencia2 = dataSnapshot.getValue(Incidencia.class);
                  /*   // incidencia[0] = dataSnapshot.getValue(Incidencia.class);
                      String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
                     String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
@@ -72,7 +72,9 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                     String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
                     incidencia.setLongitud(longitudDouble);
                         */
+                    incidencia = incidencia2;
                 }
+
             }
 
             @Override

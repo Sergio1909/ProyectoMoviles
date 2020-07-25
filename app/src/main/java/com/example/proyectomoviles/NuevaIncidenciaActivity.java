@@ -159,14 +159,16 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 Spinner spinner = (Spinner) findViewById(R.id.spinnerUbicacion);
                 ubicacionIncidencia = spinner.getSelectedItem().toString();
 
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                 //Obtener autor
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = user.getUid();
-                FirebaseDatabase.getInstance().getReference().child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference("Usuarios/"+uid).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                          autorIncidencia = snapshot.child("nombre").getValue().toString();
-
+                        Usuario usuario = snapshot.getValue(Usuario.class);
+                       //   autorIncidencia = snapshot.child("nombre").getValue().toString();
+                            autorIncidencia = usuario.getNombre();
                     }
 
                     @Override
@@ -192,11 +194,10 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 incidencia.setLatitud(latitud);
                 incidencia.setLongitud(longitud);
                 incidencia.setFoto(nombrefoto);
-                incidencia.setAutor(autorIncidencia);
                 incidencia.setComentarios(comentarios);
                 incidencia.setAdministrador("");
                 UploadImage();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
                 databaseReference.child("Incidencias").push().setValue(incidencia);
 
             }

@@ -29,17 +29,6 @@ public class Incidencia {
     private String administrador;
 
 
-
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-
     private double latitud;
     private double longitud;
 
