@@ -47,8 +47,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_usuario);
 
-      final Incidencia incidenciaInutil = new Incidencia();
-      final Incidencia incidencia = new Incidencia();
+        final Incidencia[] incidencia = {new Incidencia()};
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         // Obtenemos el parametro Enviado
@@ -58,7 +57,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Incidencia incidencia = dataSnapshot.getValue(Incidencia.class);
+                    incidencia[0] = dataSnapshot.getValue(Incidencia.class);
                     // String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
                     // String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
                     // String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
@@ -69,8 +68,8 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                     // Latitud y Longitud
                     // String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
                     // incidencia.setLatitud(latitudDouble);
-                    String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
-                    incidencia.setLongitud(longitudDouble);
+                    //String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
+                    // incidencia.setLongitud(longitudDouble);
 
                 }
             }
@@ -80,7 +79,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                 Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
         });
 
-
+        // incidenciaInutil = (Incidencia) incidencia;
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,14 +95,18 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                             Comentario comentario = children.getValue(Comentario.class);
                             listaComentarios[contador2] = comentario;
                             contador2++; }
-                        incidencia.setListaComentarios(listaComentarios);}
+                        incidencia[0].setListaComentarios(listaComentarios);
+
+                        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
+                        recyclerView.setAdapter(comentariosAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
+
+                    }
                 }
 
-                final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
-                RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
-                recyclerView.setAdapter(comentariosAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
+
             }
 
             @Override
@@ -113,16 +116,16 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
         });
 
-        TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia.getUsuarioAutor());
-        TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
-        TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
-        TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
-        TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
-        TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
-        publicarImagen(incidencia.getFoto());
+        TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia[0].getUsuarioAutor());
+        TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia[0].getNombre());
+        TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia[0].getEstado());
+        TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia[0].getFecha());
+        TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia[0].getLugar());
+        TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia[0].getDescripcion());
+        publicarImagen(incidencia[0].getFoto());
 
-        double latitudMapa  = incidencia.getLatitud();
-        double longitudMapa = incidencia.getLongitud();
+        double latitudMapa  = incidencia[0].getLatitud();
+        double longitudMapa = incidencia[0].getLongitud();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
 
         }
