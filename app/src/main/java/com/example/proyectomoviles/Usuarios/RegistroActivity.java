@@ -1,5 +1,6 @@
 package com.example.proyectomoviles.Usuarios;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyectomoviles.Entidades.Usuario;
+import com.example.proyectomoviles.MainActivity;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -48,6 +50,7 @@ public class RegistroActivity extends AppCompatActivity {
         final String contrasena = editTextPass.getText().toString().trim();
         final String nombre = editTextName.getText().toString().trim();
 
+
         mAuth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -57,7 +60,12 @@ public class RegistroActivity extends AppCompatActivity {
                     nombre,
                         correo,
                         contrasena
+
+
                 );
+
+
+
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Usuarios");
                 databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -72,11 +80,20 @@ public class RegistroActivity extends AppCompatActivity {
                     }
                 });
 
+
+
+
             }else{
 
                 Toast.makeText(RegistroActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
+
             }
+
         });
+
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+
     }
 }
