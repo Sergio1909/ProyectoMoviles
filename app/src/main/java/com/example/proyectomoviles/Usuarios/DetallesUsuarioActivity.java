@@ -40,14 +40,14 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
     Comentario[] listaComentarios;
     private StorageReference storageReference;
     private FirebaseAuth mAuth;
-    final ImageView fotoIncidencia = findViewById(R.id.imageViewFoto);
+    Incidencia incidencia = new Incidencia();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_usuario);
 
-        final Incidencia[] incidencia = {new Incidencia()};
+        final Incidencia[] incidenciaxXx = {new Incidencia()};
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         // Obtenemos el parametro Enviado
@@ -57,20 +57,21 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    incidencia[0] = dataSnapshot.getValue(Incidencia.class);
-                    // String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
-                    // String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
-                    // String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
-                    //String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
-                    // String descripcion = dataSnapshot.child("descripcion").getValue().toString(); incidencia.setDescripcion(descripcion);
-                    // String ubicacion = dataSnapshot.child("lugar").getValue().toString(); incidencia.setLugar(ubicacion);
-                    //String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                    incidencia = dataSnapshot.getValue(Incidencia.class);
+                 /*   // incidencia[0] = dataSnapshot.getValue(Incidencia.class);
+                     String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
+                    String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
+                    String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
+                    String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
+                    String descripcion = dataSnapshot.child("descripcion").getValue().toString(); incidencia.setDescripcion(descripcion);
+                    String ubicacion = dataSnapshot.child("lugar").getValue().toString(); incidencia.setLugar(ubicacion);
+                    String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
                     // Latitud y Longitud
-                    // String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
-                    // incidencia.setLatitud(latitudDouble);
-                    //String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
-                    // incidencia.setLongitud(longitudDouble);
-
+                     String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
+                    incidencia.setLatitud(latitudDouble);
+                    String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
+                    incidencia.setLongitud(longitudDouble);
+                        */
                 }
             }
 
@@ -95,7 +96,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                             Comentario comentario = children.getValue(Comentario.class);
                             listaComentarios[contador2] = comentario;
                             contador2++; }
-                        incidencia[0].setListaComentarios(listaComentarios);
+                        incidencia.setListaComentarios(listaComentarios);
 
                         final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
                         ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
@@ -116,28 +117,28 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
         });
 
-        TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia[0].getUsuarioAutor());
-        TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia[0].getNombre());
-        TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia[0].getEstado());
-        TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia[0].getFecha());
-        TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia[0].getLugar());
-        TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia[0].getDescripcion());
-        publicarImagen(incidencia[0].getFoto());
+        TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia.getUsuarioAutor());
+        TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
+        TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
+        TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
+        TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
+        TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
+        publicarImagen(incidencia.getFoto());
 
-        double latitudMapa  = incidencia[0].getLatitud();
-        double longitudMapa = incidencia[0].getLongitud();
+        double latitudMapa  = incidencia.getLatitud();
+        double longitudMapa = incidencia.getLongitud();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
 
         }
-
-    // PUBLICAR LA PUTA FOTO
+   // final ImageView fotoIncidencia = (ImageView) findViewById(R.id.imageViewFoto);
+    // PUBLICAR LA PUTA FOTO por R. Ruiz
     public void publicarImagen (String photoName) {
         storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(getApplicationContext())
                         .load(uri)
-                        .into(fotoIncidencia); }
+                        .into( (ImageView) findViewById(R.id.imageViewFoto)); }
         }); }
 
     @Override

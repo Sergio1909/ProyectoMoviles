@@ -2,6 +2,7 @@ package com.example.proyectomoviles.Entidades;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 // Importar Correctamente el USUARIO (HACER LUEGO DE JUNTAR)
 
 public class Incidencia {
@@ -15,18 +16,20 @@ public class Incidencia {
     private String fecha;
     private String estado;
     private String autor;
-    private String comentario;
+    private List<Comentario> comentarios;
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
 
     private String administrador;
-    private Comentario[] listaComentario;
 
-    public Comentario[] getListaComentario() {
-        return listaComentario;
-    }
 
-    public void setListaComentario(Comentario[] listaComentario) {
-        this.listaComentario = listaComentario;
-    }
+
 
     public String getAutor() {
         return autor;
@@ -36,13 +39,6 @@ public class Incidencia {
         this.autor = autor;
     }
 
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
 
     private double latitud;
     private double longitud;
