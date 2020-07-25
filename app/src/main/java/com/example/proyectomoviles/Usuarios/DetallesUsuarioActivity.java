@@ -47,6 +47,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_usuario);
 
+      final Incidencia incidenciaInutil = new Incidencia();
       final Incidencia incidencia = new Incidencia();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -57,19 +58,20 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Incidencia incidencia = dataSnapshot.getValue(Incidencia.class);
-                    String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
-                    String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
-                    String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
-                    String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
-                    String descripcion = dataSnapshot.child("descripcion").getValue().toString(); incidencia.setDescripcion(descripcion);
-                    String ubicacion = dataSnapshot.child("lugar").getValue().toString(); incidencia.setLugar(ubicacion);
-                    String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                    Incidencia incidencia = dataSnapshot.getValue(Incidencia.class);
+                    // String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
+                    // String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
+                    // String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
+                    //String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
+                    // String descripcion = dataSnapshot.child("descripcion").getValue().toString(); incidencia.setDescripcion(descripcion);
+                    // String ubicacion = dataSnapshot.child("lugar").getValue().toString(); incidencia.setLugar(ubicacion);
+                    //String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
                     // Latitud y Longitud
-                    String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
-                    incidencia.setLatitud(latitudDouble);
+                    // String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
+                    // incidencia.setLatitud(latitudDouble);
                     String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
                     incidencia.setLongitud(longitudDouble);
+
                 }
             }
 
@@ -77,6 +79,8 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
         });
+
+
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").addValueEventListener(new ValueEventListener() {
             @Override

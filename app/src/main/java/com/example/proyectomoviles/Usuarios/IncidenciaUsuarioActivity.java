@@ -81,7 +81,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+        // String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
         // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
         return true;  }
 
