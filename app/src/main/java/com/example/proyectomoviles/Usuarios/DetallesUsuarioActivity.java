@@ -49,15 +49,15 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
         final Incidencia[] incidenciaxXx = {new Incidencia()};
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // Obtenemos el parametro Enviado
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        // Obtenemos el parametro Enviado :c
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Incidencia incidencia2 = dataSnapshot.getValue(Incidencia.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                if (dataSnapshot1.exists()) {
+                    Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class);
                  /*   // incidencia[0] = dataSnapshot.getValue(Incidencia.class);
                      String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
                     String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
@@ -84,9 +84,9 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
         // incidenciaInutil = (Incidencia) incidencia;
 
-        databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     Long longitudComentarios = dataSnapshot.getChildrenCount();
                     int longitud2 = longitudComentarios.intValue();
@@ -100,7 +100,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                             contador2++; }
                         incidencia.setListaComentarios(listaComentarios);
 
-                        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+
                         ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
                         recyclerView.setAdapter(comentariosAdapter);
@@ -133,7 +133,6 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
         }
    // final ImageView fotoIncidencia = (ImageView) findViewById(R.id.imageViewFoto);
-    // PUBLICAR LA PUTA FOTO por R. Ruiz
     public void publicarImagen (String photoName) {
         storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -146,7 +145,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+        //String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
         // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
         return true;  }
 

@@ -18,6 +18,9 @@ public class Incidencia {
     private String autor;
     private List<Comentario> comentarios;
 
+    public Incidencia() {
+    }
+
     public List<Comentario> getComentarios() {
         return comentarios;
     }
