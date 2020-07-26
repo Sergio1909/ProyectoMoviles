@@ -49,7 +49,7 @@ public class RegistroActivity extends AppCompatActivity {
         final String correo = editTextMail.getText().toString().trim();
         final String contrasena = editTextPass.getText().toString().trim();
         final String nombre = editTextName.getText().toString().trim();
-        final String rol = "ususario pucp";
+        final String rol = "usuario pucp";
 
         mAuth.createUserWithEmailAndPassword(correo, contrasena).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

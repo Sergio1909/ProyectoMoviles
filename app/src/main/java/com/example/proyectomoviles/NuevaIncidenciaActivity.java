@@ -1,5 +1,6 @@
 package com.example.proyectomoviles;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,16 +35,21 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 //import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class NuevaIncidenciaActivity extends AppCompatActivity {
@@ -55,7 +61,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     Button btnbrowse, btnupload;
-    EditText txtdata ;
+  //  EditText txtdata ;
     ImageView imgview;
     Uri FilePathUri;
     StorageReference storageReference;
@@ -83,7 +89,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Images");
         btnbrowse = (Button)findViewById(R.id.btnbrowse);
         btnupload= (Button)findViewById(R.id.btnupload);
-        txtdata = (EditText)findViewById(R.id.txtdata);
+       // txtdata = (EditText)findViewById(R.id.txtdata);
         imgview = (ImageView)findViewById(R.id.image_view);
         progressDialog = new ProgressDialog(NuevaIncidenciaActivity.this);// Nombre del contexto
 
@@ -98,7 +104,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
 
         // Autor Incidencia
-        autorIncidencia = usuario.getNombre(); // !!!!!!!!!!!
+        //autorIncidencia = usuario.getNombre(); // !!!!!!!!!!!
 
         // Estado Incidencia
 
@@ -158,7 +164,32 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 Spinner spinner = (Spinner) findViewById(R.id.spinnerUbicacion);
                 ubicacionIncidencia = spinner.getSelectedItem().toString();
 
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                //Obtener autor
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
+                FirebaseDatabase.getInstance().getReference("Usuarios/"+uid).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Usuario usuario = snapshot.getValue(Usuario.class);
+                       //   autorIncidencia = snapshot.child("nombre").getValue().toString();
+                            autorIncidencia = usuario.getNombre();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                Comentario comentario = new Comentario();
+                comentario.setAutorComentario("Este seria el acmon");
+                comentario.setDescripcionComentario("El mensaje del acmon");
+                comentario.setFechaComentario("Fecha de envio del acmon");
+                List<Comentario> comentarios = new ArrayList<>();
+                comentarios.add(comentario);
                 final Incidencia incidencia = new Incidencia();
+
                 incidencia.setNombre(nombreIncidencia);
                 incidencia.setDescripcion(descripcionIncidencia);
                 incidencia.setLugar(ubicacionIncidencia);
@@ -168,9 +199,10 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 incidencia.setLatitud(latitud);
                 incidencia.setLongitud(longitud);
                 incidencia.setFoto(nombrefoto);
+                incidencia.setComentarios(comentarios);
                 incidencia.setAdministrador("");
                 UploadImage();
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
                 databaseReference.child("Incidencias").push().setValue(incidencia);
 
             }
@@ -180,7 +212,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
     private void dameubicacion() {
         if(ContextCompat.checkSelfPermission(NuevaIncidenciaActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"Tenemos permiso", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Se tienen permisos para localización, espere...", Toast.LENGTH_SHORT).show();
         }else{
             ActivityCompat.requestPermissions(NuevaIncidenciaActivity.this, new String[]{
                     android.Manifest.permission.ACCESS_COARSE_LOCATION,
