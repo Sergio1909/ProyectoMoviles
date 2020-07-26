@@ -47,6 +47,7 @@ import java.util.Date;
 import java.util.Random;
 
 public class NuevaIncidenciaActivity extends AppCompatActivity {
+
     private FusedLocationProviderClient ubicacion;
     Button btn_dameubi;
     //FirebaseDatabase database; //Descomentar para firebase
@@ -71,6 +72,9 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
     String ubicacionIncidencia = "init";
     String autorIncidencia = "init";
 
+    public NuevaIncidenciaActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +94,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
 
         // Ubicacion Incidencia
+
 
 
         // Autor Incidencia

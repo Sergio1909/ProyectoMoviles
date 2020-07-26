@@ -41,35 +41,56 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseAuth mAuth;
     final ImageView fotoIncidencia = findViewById(R.id.imageViewFoto);
+    Incidencia incidencia = new Incidencia();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_usuario);
 
-        final Incidencia[] incidencia = {new Incidencia()};
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // Obtenemos el parametro Enviado
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
 
-        databaseReference.child("Incidencias").child(apikeyIncidencia).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Incidencias").child(apikeyIncidencia).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    incidencia[0] = dataSnapshot.getValue(Incidencia.class);
-                    // String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
-                    // String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
-                    // String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
-                    //String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
-                    // String descripcion = dataSnapshot.child("descripcion").getValue().toString(); incidencia.setDescripcion(descripcion);
-                    // String ubicacion = dataSnapshot.child("lugar").getValue().toString(); incidencia.setLugar(ubicacion);
-                    //String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
-                    // Latitud y Longitud
-                    // String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
-                    // incidencia.setLatitud(latitudDouble);
-                    //String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
-                    // incidencia.setLongitud(longitudDouble);
+                    incidencia = dataSnapshot.getValue(Incidencia.class);
+
+                    databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()){
+                                Long longitudComentarios = dataSnapshot.getChildrenCount();
+                                int longitud2 = longitudComentarios.intValue();
+                                listaComentarios = new Comentario[longitud2];
+                                int contador2 = 0;
+
+                                for (DataSnapshot children: dataSnapshot.getChildren()){
+                                    if (dataSnapshot.exists()){
+                                        Comentario comentario = children.getValue(Comentario.class);
+                                        listaComentarios[contador2] = comentario;
+                                        contador2++; }
+                                    incidencia.setListaComentarios(listaComentarios);
+
+                                    final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                                    ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
+                                    RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
+                                    recyclerView.setAdapter(comentariosAdapter);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
+
+                                }
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+
+
+                    });
 
                 }
             }
@@ -79,53 +100,20 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                 Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
         });
 
-        // incidenciaInutil = (Incidencia) incidencia;
-
-        databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    Long longitudComentarios = dataSnapshot.getChildrenCount();
-                    int longitud2 = longitudComentarios.intValue();
-                    listaComentarios = new Comentario[longitud2];
-                    int contador2 = 0;
-
-                    for (DataSnapshot children: dataSnapshot.getChildren()){
-                        if (dataSnapshot.exists()){
-                            Comentario comentario = children.getValue(Comentario.class);
-                            listaComentarios[contador2] = comentario;
-                            contador2++; }
-                        incidencia[0].setListaComentarios(listaComentarios);
-
-                        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-                        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
-                        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
-                        recyclerView.setAdapter(comentariosAdapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
-
-                    }
-                }
 
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
 
 
-        });
+        TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia.getUsuarioAutor());
+        TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
+        TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
+        TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
+        TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
+        TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
+        publicarImagen(incidencia.getFoto());
 
-        TextView autor = findViewById(R.id.textViewFecha); autor.setText(incidencia[0].getUsuarioAutor());
-        TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia[0].getNombre());
-        TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia[0].getEstado());
-        TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia[0].getFecha());
-        TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia[0].getLugar());
-        TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia[0].getDescripcion());
-        publicarImagen(incidencia[0].getFoto());
-
-        double latitudMapa  = incidencia[0].getLatitud();
-        double longitudMapa = incidencia[0].getLongitud();
+        double latitudMapa  = incidencia.getLatitud();
+        double longitudMapa = incidencia.getLongitud();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
 
         }
@@ -143,11 +131,11 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+        // String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
         // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
         return true;  }
 
-    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+    /* public boolean onOptionsItemSelected(@NotNull MenuItem item) {
 
         switch (item.getItemId()){
             case R.id.cerrarSesion:
@@ -161,7 +149,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                 startActivity(new Intent(DetallesUsuarioActivity.this, NuevaIncidenciaActivity.class));
                 return true;
         }
-        return onOptionsItemSelected(item);}
+        return onOptionsItemSelected(item);} */
 
 
 

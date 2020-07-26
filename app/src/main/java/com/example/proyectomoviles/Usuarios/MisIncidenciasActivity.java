@@ -33,6 +33,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
     //private FirebaseStorage fStorage;
     private int DETALLES_INCIDENCIAS_PROPIAS = 2;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

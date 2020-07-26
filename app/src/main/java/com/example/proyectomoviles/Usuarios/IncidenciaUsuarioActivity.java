@@ -42,7 +42,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
-
+// https://stackoverflow.com/questions/43293935/how-to-get-child-of-child-value-from-firebase-in-android
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
