@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,11 +84,17 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                     TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
                     TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
                     TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
-                    publicarImagen(incidencia.getFoto(), storageReference);
+                    publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
-                    double latitudMapa  = incidencia.getLatitud();
-                    double longitudMapa = incidencia.getLongitud();
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
+                    final double latitudMapa  = incidencia.getLatitud();
+                    final double longitudMapa = incidencia.getLongitud();
+                    Button butonUbicacion = findViewById(R.id.buttonUbicacion);
+                    butonUbicacion.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
+                        }
+                    });
 
                 }
 
@@ -99,41 +107,41 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
         // incidenciaInutil = (Incidencia) incidencia;
 
-//        databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addListenerForSingleValueEvent
-//                (new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()){
-//                    Long longitudComentarios = dataSnapshot.getChildrenCount();
-//                    int longitud2 = longitudComentarios.intValue();
-//                    listaComentarios = new Comentario[longitud2];
-//                    int contador2 = 0;
-//
-//                    for (DataSnapshot children: dataSnapshot.getChildren()){
-//                        if (dataSnapshot.exists()){
-//                            Comentario comentario = children.getValue(Comentario.class);
-//                            listaComentarios[contador2] = comentario;
-//                            contador2++; }
-//                        incidencia.setListaComentarios(listaComentarios);
-//
-//
-//                        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
-//                        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
-//                        recyclerView.setAdapter(comentariosAdapter);
-//                        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
-//
-//                    }
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
-//
-//
-//        });
+        databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener
+                (new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    Long longitudComentarios = dataSnapshot.getChildrenCount();
+                    int longitud2 = longitudComentarios.intValue();
+                    listaComentarios = new Comentario[longitud2];
+                    int contador2 = 0;
+
+                    for (DataSnapshot children: dataSnapshot.getChildren()){
+                        if (dataSnapshot.exists()){
+                            Comentario comentario = children.getValue(Comentario.class);
+                            listaComentarios[contador2] = comentario;
+                            contador2++; }
+                        incidencia.setListaComentarios(listaComentarios);
+
+
+                        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerView2);
+                        recyclerView.setAdapter(comentariosAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+
+
+        });
 
       //  TextView autor = findViewById(R.id.textViewAutor); autor.setText(incidencia.getUsuarioAutor());
 
@@ -144,6 +152,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(getApplicationContext())
+                        .load(uri)
                         .load(uri)
                         .into( (ImageView) findViewById(R.id.imageViewFoto)); }
         }); }

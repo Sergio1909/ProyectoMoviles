@@ -83,16 +83,14 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nueva_incidencia);
         storageReference = FirebaseStorage.getInstance().getReference("Images");
         databaseReference = FirebaseDatabase.getInstance().getReference("Images");
-        btnbrowse = (Button)findViewById(R.id.btnbrowse);
-        btnupload= (Button)findViewById(R.id.btnupload);
-       // txtdata = (EditText)findViewById(R.id.txtdata);
-        imgview = (ImageView)findViewById(R.id.image_view);
+        btnbrowse = (Button) findViewById(R.id.btnbrowse);
+        btnupload = (Button) findViewById(R.id.btnupload);
+        // txtdata = (EditText)findViewById(R.id.txtdata);
+        imgview = (ImageView) findViewById(R.id.image_view);
         progressDialog = new ProgressDialog(NuevaIncidenciaActivity.this);// Nombre del contexto
 
         // RECUPERAR EL USUARIO LOGUEADO
         final Usuario usuario = new Usuario();
-
-
 
 
         // Ubicacion Incidencia
@@ -114,12 +112,12 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
         //database =FirebaseDatabase.getInstance(); // Descomentar para la conexion
         //refubicacion=database.getReference("ubicacion"); //Descomentar para la conexion
-        btn_dameubi=findViewById(R.id.btn_dameubi);
+        btn_dameubi = findViewById(R.id.btn_dameubi);
 
         //Obtener ubicacion
-        btn_dameubi.setOnClickListener(new View.OnClickListener(){
+        btn_dameubi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //
                 dameubicacion();
 
@@ -127,8 +125,6 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
         //Seleccionar foto y generacion de nombre aleatorio
@@ -140,6 +136,28 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Image"), Image_Request_Code);
                 nombrefoto = getSaltString();
+
+            }
+        });
+
+        //Obtener autor
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    //   autorIncidencia = snapshot.child("nombre").getValue().toString();
+                    autorIncidencia = usuario.getNombre();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -159,23 +177,8 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 Spinner spinner = (Spinner) findViewById(R.id.spinnerUbicacion);
                 ubicacionIncidencia = spinner.getSelectedItem().toString();
 
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                //Obtener autor
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = user.getUid();
-                FirebaseDatabase.getInstance().getReference("Usuarios/"+uid).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Usuario usuario = snapshot.getValue(Usuario.class);
-                       //   autorIncidencia = snapshot.child("nombre").getValue().toString();
-                            autorIncidencia = usuario.getNombre();
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
 
                 Comentario comentario = new Comentario();
                 comentario.setAutorComentario("Este seria el acmon");
