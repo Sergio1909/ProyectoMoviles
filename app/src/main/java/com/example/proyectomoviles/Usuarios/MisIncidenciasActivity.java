@@ -34,7 +34,6 @@ public class MisIncidenciasActivity extends AppCompatActivity {
     private int DETALLES_INCIDENCIAS_PROPIAS = 2;
     Usuario usuario = new Usuario();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +94,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        // String nombreLogueado = usuario.getNombre();
+        String nombreLogueado = usuario.getNombre();
         // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
         return true;  }
 

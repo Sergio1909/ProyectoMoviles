@@ -34,6 +34,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseStorage fStorage;
     private int DETALLES_INCIDENCIAS_GENERAL = 1;
+    Usuario usuario = new Usuario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,19 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        // Usuario Logueado
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+        } }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
 
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
@@ -81,8 +95,8 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        // String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
-        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        String nombreLogueado = usuario.getNombre();
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado);
         return true;  }
 
 
