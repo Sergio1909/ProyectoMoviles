@@ -150,7 +150,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
 
 
         String autorComentario = usuario.getNombre();
-        EditText cuerpoComentario = (EditText) findViewById(R.id.comentario);
+        EditText cuerpoComentario = (EditText) findViewById(R.id.editTextCuerpoComentario);
         String descripcionComentario = cuerpoComentario.getText().toString();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         LocalDateTime now = LocalDateTime.now();

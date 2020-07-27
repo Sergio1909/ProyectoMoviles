@@ -1,105 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Administrador.DetallesAdminActivity">
 
     <ScrollView
-        android:layout_width="387dp"
-        android:layout_height="758dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="439dp"
+        android:layout_height="1091dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/comentario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Agregue su comentariode mrd" />
-
-            <TextView
-                android:id="@+id/textViewLugar"
-                android:layout_width="97dp"
-                android:layout_height="31dp"
-                android:layout_marginTop="28dp"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textViewDescripcion"
-                android:layout_width="196dp"
-                android:layout_height="75dp"
-                android:layout_marginTop="20dp"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textViewEstado"
-                android:layout_width="88dp"
-                android:layout_height="30dp"
-                android:text="TextView" />
-
             <ImageView
                 android:id="@+id/imageViewFoto"
-                android:layout_width="237dp"
-                android:layout_height="114dp"
+                android:layout_width="227dp"
+                android:layout_height="149dp"
                 android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNombre"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
-                android:id="@+id/textViewNombre"
-                android:layout_width="113dp"
-                android:layout_height="26dp"
-                android:layout_marginTop="16dp"
-                android:text="TextView" />
+                android:id="@+id/textViewLugar"
+                android:layout_width="105dp"
+                android:layout_height="51dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toStartOf="@+id/textViewFecha"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFoto" />
 
-            <EditText
-                android:id="@+id/editText4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Comentarios Infraestructura" />
+            <TextView
+                android:id="@+id/textViewDescripcion"
+                android:layout_width="285dp"
+                android:layout_height="73dp"
+                android:layout_marginTop="12dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.302"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLugar" />
+
+            <TextView
+                android:id="@+id/textViewEstado"
+                android:layout_width="110dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="76dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewNombre"
+                android:layout_width="96dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toStartOf="@+id/textViewEstado"
+                app:layout_constraintHorizontal_bias="0.014"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView4"
-                android:layout_width="324dp"
-                android:layout_height="181dp"
-                android:layout_marginBottom="80dp" />
+                android:layout_width="284dp"
+                android:layout_height="143dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.308"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <Button
                 android:id="@+id/buttonComentario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Agregar Comentario" />
+                android:text="Agregar Comentario"
+                app:layout_constraintEnd_toStartOf="@+id/buttonAtender"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextCuerpoComentario" />
 
             <Button
                 android:id="@+id/buttonAtender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Atender Incidencia" />
+                android:layout_marginEnd="44dp"
+                android:text="Atender Incidencia"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextCuerpoComentario" />
 
             <TextView
                 android:id="@+id/textViewFecha"
-                android:layout_width="105dp"
-                android:layout_height="31dp"
-                android:layout_marginStart="52dp"
-                android:layout_marginTop="28dp"
-                android:text="TextView" />
+                android:layout_width="128dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="32dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFoto" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="284dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="12dp"
+                android:text="Comentarios"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.309"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescripcion" />
+
+            <EditText
+                android:id="@+id/editTextCuerpoComentario"
+                android:layout_width="322dp"
+                android:layout_height="86dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.41"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
