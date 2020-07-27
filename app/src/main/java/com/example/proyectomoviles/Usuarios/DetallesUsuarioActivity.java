@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.proyectomoviles.Administrador.DetallesTomadasActivity;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
@@ -40,6 +41,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
 
     Incidencia[] listaIncidencias;
     Comentario[] listaComentarios;
+    //private StorageReference storageReference;
     private FirebaseAuth mAuth;
     Incidencia incidencia = new Incidencia();
 
@@ -48,8 +50,10 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_usuario);
 
+        final Incidencia[] incidenciaxXx = {new Incidencia()};
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        // Obtenemos el parametro Enviado :c
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).addListenerForSingleValueEvent
@@ -58,18 +62,33 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
                 if (dataSnapshot1.exists()) {
 
-                    Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class); incidencia = incidencia2;
+                    Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class);
                     Log.w("instancia", incidencia2.getNombre());
+                 /*   // incidencia[0] = dataSnapshot.getValue(Incidencia.class);
+                     String autor = dataSnapshot.child("autor").getValue().toString(); incidencia.setUsuarioAutor(autor);
+                    String nombre = dataSnapshot.child("nombre").getValue().toString(); incidencia.setNombre(nombre);
+                    String estado = dataSnapshot.child("estado").getValue().toString(); incidencia.setEstado(estado);
+                    String fecha = dataSnapshot.child("fecha").getValue().toString(); incidencia.setFecha(fecha);
+                    String descripcion = dataSnapshot.child("descripcion").getValue().toString(); incidencia.setDescripcion(descripcion);
+                    String ubicacion = dataSnapshot.child("lugar").getValue().toString(); incidencia.setLugar(ubicacion);
+                    String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                    // Latitud y Longitud
+                     String latitud = dataSnapshot.child("latitud").getValue().toString();  double latitudDouble = Double.valueOf(latitud);
+                    incidencia.setLatitud(latitudDouble);
+                    String longitud = dataSnapshot.child("longitud").getValue().toString(); final  double longitudDouble = Double.valueOf(longitud);
+                    incidencia.setLongitud(longitudDouble);
+                        */
+                    incidencia = incidencia2;
                     TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
                     TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
                     TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
                     TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
                     TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
-                    publicarImagen(incidencia.getFoto(), storageReference);
+                    publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
                     final double latitudMapa  = incidencia.getLatitud();
                     final double longitudMapa = incidencia.getLongitud();
-                    Button butonUbicacion = (Button) findViewById(R.id.buttonUbicacion);
+                    Button butonUbicacion = findViewById(R.id.buttonUbicacion);
                     butonUbicacion.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -77,13 +96,23 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                         }
                     });
 
+                }
 
-                    databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+        });
+
+        // incidenciaInutil = (Incidencia) incidencia;
+
+        databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener
                 (new ValueEventListener() {
-                @Override
+            @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()){
-                   Long longitudComentarios = dataSnapshot.getChildrenCount();
+                if (dataSnapshot.exists()){
+                    Long longitudComentarios = dataSnapshot.getChildrenCount();
                     int longitud2 = longitudComentarios.intValue();
                     listaComentarios = new Comentario[longitud2];
                     int contador2 = 0;
@@ -95,38 +124,38 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                             contador2++; }
                         incidencia.setListaComentarios(listaComentarios);
 
+
                         ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
-                        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerView2);
                         recyclerView.setAdapter(comentariosAdapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(DetallesUsuarioActivity.this));
+
                     }
                 }
+
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+
+
         });
 
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(DetallesUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
-        });
+      //  TextView autor = findViewById(R.id.textViewAutor); autor.setText(incidencia.getUsuarioAutor());
 
         }
-
+   // final ImageView fotoIncidencia = (ImageView) findViewById(R.id.imageViewFoto);
     public void publicarImagen (String photoName, StorageReference storageReference) {
         storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(getApplicationContext())
                         .load(uri)
-                        .into((ImageView) findViewById(R.id.imageViewFoto)); }
-       });
-    }
+                        .load(uri)
+                        .into( (ImageView) findViewById(R.id.imageViewFoto)); }
+        }); }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
