@@ -12,10 +12,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.proyectomoviles.Entidades.Incidencia;
+import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.MainActivity;
 import com.example.proyectomoviles.NuevaIncidenciaActivity;
 import com.example.proyectomoviles.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,8 +44,6 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
-// https://stackoverflow.com/questions/43293935/how-to-get-child-of-child-value-from-firebase-in-android
-
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -58,7 +58,6 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
                             final String nombreRaroIncidencia = children.getKey();  incidencia.setApiKey(nombreRaroIncidencia);
-                            // final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
                             final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
                             final ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this, fStorage,
                                     DETALLES_INCIDENCIAS_GENERAL);
@@ -68,23 +67,14 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
                             recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
                             listaIncidencias[contador] = incidencia;
                             contador++;
-
                         }
                     }
-
-
-
-
                 }
-
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(IncidenciaUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
-            }
+                Toast.makeText(IncidenciaUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
         });
     }
 

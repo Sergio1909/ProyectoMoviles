@@ -64,10 +64,10 @@
         android:id="@+id/textViewDescripcion"
         android:layout_width="181dp"
         android:layout_height="72dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLugar" />
 
@@ -75,22 +75,11 @@
         android:id="@+id/recyclerView2"
         android:layout_width="337dp"
         android:layout_height="180dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintHorizontal_bias="0.196"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <fragment
-        android:id="@+id/fragmentMapita"
-        android:name="com.example.proyectomoviles.MapitaFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescripcion" />
 
     <EditText
         android:id="@+id/editText"
@@ -101,9 +90,29 @@
         android:text="Comentarios Infraestructura:"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.091"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentMapita"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <fragment
+        android:id="@+id/fragmentMapita"
+        android:name="com.example.proyectomoviles.MapitaFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toEndOf="@+id/textViewDescripcion"
+        app:layout_constraintTop_toBottomOf="@+id/buttonUbicacion" />
+
+    <Button
+        android:id="@+id/buttonUbicacion"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
+        android:text="Ubicacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.692"
+        app:layout_constraintStart_toEndOf="@+id/textViewDescripcion"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFecha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
