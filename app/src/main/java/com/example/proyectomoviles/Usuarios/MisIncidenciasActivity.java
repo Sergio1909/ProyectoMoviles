@@ -75,7 +75,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                             final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
                             ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage,
                                     DETALLES_INCIDENCIAS_PROPIAS);
-                            RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
+                            RecyclerView recyclerView = findViewById(R.id.recyclerView4);
                             recyclerView.setAdapter(incidenciasAdapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
                         }

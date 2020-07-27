@@ -22,10 +22,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
+import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
 import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
+import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,11 +45,9 @@ import java.time.LocalDateTime;
 
 public class DetallesAdminActivity extends AppCompatActivity {
 
-    Incidencia[] listaIncidencias;
     Comentario[] listaComentarios;
-    private FirebaseAuth mAuth;
-    private StorageReference storageReference;
-    final ImageView fotoIncidencia = findViewById(R.id.imageViewFoto);
+    Incidencia incidencia = new Incidencia();
+    Usuario usuario = new Usuario();
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -56,116 +56,104 @@ public class DetallesAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_admin);
 
-        final Incidencia incidencia = new Incidencia();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // Obtenemos el parametro Enviado
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
 
-        databaseReference.child("Incidencias").child(apikeyIncidencia).addValueEventListener(new ValueEventListener() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Incidencia incidencia = dataSnapshot.getValue(Incidencia.class);
-                    String autor = dataSnapshot.child("autor").getValue().toString();
-                    incidencia.setUsuarioAutor(autor);
-                    String nombre = dataSnapshot.child("nombre").getValue().toString();
-                    incidencia.setNombre(nombre);
-                    String estado = dataSnapshot.child("estado").getValue().toString();
-                    incidencia.setEstado(estado);
-                    String fecha = dataSnapshot.child("fecha").getValue().toString();
-                    incidencia.setFecha(fecha);
-                    String descripcion = dataSnapshot.child("autor").getValue().toString();
-                    incidencia.setDescripcion(descripcion);
-                    String ubicacion = dataSnapshot.child("autor").getValue().toString();
-                    incidencia.setLugar(ubicacion);
-                    String foto = dataSnapshot.child("foto").getValue().toString();
-                    incidencia.setFoto(foto);
-                    String latitud = dataSnapshot.child("latitud").getValue().toString();
-                    double latitudDouble = Double.valueOf(latitud);
-                    incidencia.setLatitud(latitudDouble);
-                    String longitud = dataSnapshot.child("longitud").getValue().toString();
-                    final double longitudDouble = Double.valueOf(longitud);
-                    incidencia.setLongitud(longitudDouble);
-                }
-            }
-
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    usuario = snapshot.getValue(Usuario.class);
+                } }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(DetallesAdminActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
-        databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Long longitudComentarios = dataSnapshot.getChildrenCount();
-                    int longitud2 = longitudComentarios.intValue();
-                    listaComentarios = new Comentario[longitud2];
-                    int contador2 = 0;
+        databaseReference.child("Incidencias").child(apikeyIncidencia).addListenerForSingleValueEvent
+                (new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                        if (dataSnapshot1.exists()) {
 
-                    for (DataSnapshot children : dataSnapshot.getChildren()) {
-                        if (dataSnapshot.exists()) {
-                            Comentario comentario = children.getValue(Comentario.class);
-                            listaComentarios[contador2] = comentario;
-                            contador2++;
+                            Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class);
+                            incidencia = incidencia2;
+
+                            // TextView autor = findViewById(R.id.textViewAutor) ; autor.setText(incidencia.getUsuarioAutor());
+                            TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
+                            TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
+                            TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
+                            TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
+                            TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
+                            publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
+
+                            final double latitudMapa  = incidencia.getLatitud();
+                            final double longitudMapa = incidencia.getLongitud();
+                            Button butonUbicacion = findViewById(R.id.buttonUbicacion);
+                            butonUbicacion.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
+                                }
+                            });
+
+                            Button botonAtender = (Button) findViewById(R.id.buttonAtender);
+                            botonAtender.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    incidencia.setEstado("Atendido");
+                                    Intent intent = new Intent(getApplicationContext(), DetallesAdminActivity.class);
+                                    String nombreFiltro = apikeyIncidencia;
+                                    intent.putExtra("nombreIncidencia", nombreFiltro);
+                                    startActivity(intent);
+                                }
+                            });
                         }
-                        incidencia.setListaComentarios(listaComentarios);
                     }
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(DetallesAdminActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(DetallesAdminActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+                });
 
 
-        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios, DetallesAdminActivity.this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
-        recyclerView.setAdapter(comentariosAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
+        databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener
+                (new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            Long longitudComentarios = dataSnapshot.getChildrenCount();
+                            int longitud2 = longitudComentarios.intValue();
+                            listaComentarios = new Comentario[longitud2];
+                            int contador2 = 0;
 
-        TextView autor = findViewById(R.id.textViewFecha);
-        autor.setText(incidencia.getUsuarioAutor());
-        TextView nombre = findViewById(R.id.textViewNombre);
-        nombre.setText(incidencia.getNombre());
-        TextView estado = findViewById(R.id.textViewEstado);
-        estado.setText(incidencia.getEstado());
-        TextView fecha = findViewById(R.id.textViewFecha);
-        fecha.setText(incidencia.getFecha());
-        TextView ubicacion = findViewById(R.id.textViewLugar);
-        ubicacion.setText(incidencia.getLugar());
-        TextView descripcion = findViewById(R.id.textViewDescripcion);
-        descripcion.setText(incidencia.getDescripcion());
-        publicarImagen(incidencia.getFoto());
+                            for (DataSnapshot children: dataSnapshot.getChildren()){
+                                if (dataSnapshot.exists()){
+                                    Comentario comentario = children.getValue(Comentario.class);
+                                    listaComentarios[contador2] = comentario;
+                                    contador2++; }
+                                incidencia.setListaComentarios(listaComentarios);
 
-        double latitudMapa = incidencia.getLatitud();
-        double longitudMapa = incidencia.getLongitud();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa, longitudMapa), "MapitaFragment").commit();
+                                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesAdminActivity.this);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerView4);
+                                recyclerView.setAdapter(comentariosAdapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
+                            }
+                        }
+                    }
 
-        Button botonAtender = (Button) findViewById(R.id.buttonAtender);
-        botonAtender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                incidencia.setEstado("ATENDIDO CRJ");
-                Intent intent = new Intent(getApplicationContext(), DetallesAdminActivity.class);
-                String nombreFiltro = apikeyIncidencia;
-                intent.putExtra("nombreIncidencia", nombreFiltro);
-                startActivity(intent);
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(DetallesAdminActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
 
-        // Autor Comentario
-        FirebaseUser usuario = mAuth.getCurrentUser();
-        String autorComentario = usuario.getDisplayName();
-        //Descripcion Comentario
+                });
+
+
+        String autorComentario = usuario.getNombre();
         EditText cuerpoComentario = (EditText) findViewById(R.id.comentario);
         String descripcionComentario = cuerpoComentario.getText().toString();
-        // Fecha Comentario
         SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String fechaComentario = formatter.format(now);
@@ -199,22 +187,22 @@ public class DetallesAdminActivity extends AppCompatActivity {
             }
     }
 
-    // PUBLICAR LA PUTA FOTO
-    public void publicarImagen (String photoName) {
+    // Agregar Fotografía
+    public void publicarImagen (String photoName, StorageReference storageReference) {
         storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Glide.with(getApplicationContext())
                         .load(uri)
-                        .into(fotoIncidencia); }
+                        .load(uri)
+                        .into((ImageView) findViewById(R.id.imageViewFoto)); }
         }); }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarinfraestructura,menu);
-        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
-        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        String nombreLogueado = usuario.getNombre();
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado);
         return true;  }
 
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {

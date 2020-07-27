@@ -51,7 +51,7 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    usuario = snapshot.getValue(Usuario.class);
         } }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }

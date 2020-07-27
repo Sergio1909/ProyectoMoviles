@@ -14,10 +14,7 @@ import android.widget.Toast;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.MainActivity;
-import com.example.proyectomoviles.NuevaIncidenciaActivity;
 import com.example.proyectomoviles.R;
-import com.example.proyectomoviles.Usuarios.IncidenciaUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.MisIncidenciasActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -83,7 +80,7 @@ public class IncidenciaAdminActivity extends AppCompatActivity {
                 final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
                 ListaIncidenciasAdapter2 incidenciasAdapter = new ListaIncidenciasAdapter2(listaIncidencias, IncidenciaAdminActivity.this,fStorage,
                         DETALLES_INCIDENCIAS_GENERAL);
-                RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
+                RecyclerView recyclerView = findViewById(R.id.recyclerView4);
                 recyclerView.setAdapter(incidenciasAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaAdminActivity.this));
 

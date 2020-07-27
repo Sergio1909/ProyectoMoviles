@@ -135,8 +135,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        // String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
-        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado);
         return true;  }
 
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
