@@ -1,6 +1,8 @@
 package com.example.proyectomoviles.Entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 // Importar Correctamente el USUARIO (HACER LUEGO DE JUNTAR)
 
 public class Incidencia {
@@ -14,6 +16,21 @@ public class Incidencia {
     private String fecha;
     private String estado;
     private String autor;
+    private List<Comentario> comentarios;
+
+    public Incidencia() {
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    private String administrador;
+
 
     private double latitud;
     private double longitud;
@@ -115,5 +132,13 @@ public class Incidencia {
 
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
+    }
+
+    public String getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(String administrador) {
+        this.administrador = administrador;
     }
 }

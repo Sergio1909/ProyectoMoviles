@@ -1,68 +1,21 @@
 package com.example.proyectomoviles.Entidades;
 
+import java.util.Date;
 
-public class Usuario {
-    private String idUsuario;
+public  class Usuario {
+
+    //// NO ESTOY SEGURO DE NADA ESTO
     private String nombre;
-    private String codigo;
-    private String correo;
-    private String password;
-    private int rol;
+    private String correoPucp;
+    private String contrasena;
+    private String rol;
 
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getRol() {
+    public String getRol() {
         return rol;
     }
 
-    public void setRol(int rol) {
+    public void setRol(String rol) {
         this.rol = rol;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getNombre() {
@@ -71,14 +24,6 @@ public class Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
     }
 
     public String getCorreoPucp() {
@@ -89,38 +34,6 @@ public class Usuario {
         this.correoPucp = correoPucp;
     }
 
-    public String getNumeroCelular() {
-        return numeroCelular;
-    }
-
-    public void setNumeroCelular(String numeroCelular) {
-        this.numeroCelular = numeroCelular;
-    }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getFacultad() {
-        return facultad;
-    }
-
-    public void setFacultad(String facultad) {
-        this.facultad = facultad;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
     public String getContrasena() {
         return contrasena;
     }
@@ -128,4 +41,18 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+    public Usuario() {
+
+    }
+
+    public Usuario(String nombre, String correoPucp, String contrasena, String rol) {
+        this.nombre = nombre;
+        this.correoPucp = correoPucp;
+        this.contrasena = contrasena;
+        this.rol = rol;
+    }
+
+
+
 }

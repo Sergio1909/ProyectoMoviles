@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.proyectomoviles.Entidades.Incidencia;
+import com.example.proyectomoviles.MainActivity;
+import com.example.proyectomoviles.NuevaIncidenciaActivity;
 import com.example.proyectomoviles.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,20 +21,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class MisIncidenciasActivity extends AppCompatActivity {
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        return true;
-    }
 
     private FirebaseAuth mAuth;
     Incidencia[] listaMisIncidencias;
     private StorageReference storageReference;
-    private FirebaseStorage fStorage;
+    //private FirebaseStorage fStorage;
     private int DETALLES_INCIDENCIAS_PROPIAS = 2;
 
     @Override
@@ -66,16 +63,18 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                             String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
                             if (autor.equals(nombreLogueado)){
                             listaMisIncidencias[contador] = incidencia;
-                            contador++;} else {contador = contador;}
+                            contador++;} else {contador = contador+0;}
                         }
                     }
                 }
 
-                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage.getReference(),
-                DETALLES_INCIDENCIAS_PROPIAS);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage,
+                        DETALLES_INCIDENCIAS_PROPIAS);
+                RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
                 recyclerView.setAdapter(incidenciasAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
+
             }
 
             @Override
@@ -87,4 +86,30 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbarusuario,menu);
+        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        return true;  }
+
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.cerrarSesion:
+                FirebaseAuth.getInstance().signOut(); finish();
+                startActivity(new Intent(MisIncidenciasActivity.this, MainActivity.class));
+                return true;
+            case R.id.incidenciasTomadas:
+                startActivity(new Intent(MisIncidenciasActivity.this,MisIncidenciasActivity.class));
+                return true;
+            case R.id.nuevaIncidencia:
+                startActivity(new Intent(MisIncidenciasActivity.this, NuevaIncidenciaActivity.class));
+                return true;
+        }
+        return onOptionsItemSelected(item);}
+
+
 }

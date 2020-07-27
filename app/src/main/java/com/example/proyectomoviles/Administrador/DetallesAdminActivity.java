@@ -7,23 +7,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.proyectomoviles.ComentarioActivity;
+import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
+import com.example.proyectomoviles.MainActivity;
 import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
-import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,20 +34,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 public class DetallesAdminActivity extends AppCompatActivity {
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbarinfraestructura,menu);
-        return true;
-    }
 
     Incidencia[] listaIncidencias;
     Comentario[] listaComentarios;
     private FirebaseAuth mAuth;
+    private StorageReference storageReference;
+    final ImageView fotoIncidencia = findViewById(R.id.imageViewFoto);
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -75,6 +79,8 @@ public class DetallesAdminActivity extends AppCompatActivity {
                     incidencia.setDescripcion(descripcion);
                     String ubicacion = dataSnapshot.child("autor").getValue().toString();
                     incidencia.setLugar(ubicacion);
+                    String foto = dataSnapshot.child("foto").getValue().toString();
+                    incidencia.setFoto(foto);
                     String latitud = dataSnapshot.child("latitud").getValue().toString();
                     double latitudDouble = Double.valueOf(latitud);
                     incidencia.setLatitud(latitudDouble);
@@ -108,11 +114,6 @@ public class DetallesAdminActivity extends AppCompatActivity {
                         incidencia.setListaComentarios(listaComentarios);
                     }
                 }
-
-                ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios, DetallesAdminActivity.this);
-                RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setAdapter(comentariosAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
             }
 
             @Override
@@ -120,6 +121,13 @@ public class DetallesAdminActivity extends AppCompatActivity {
                 Toast.makeText(DetallesAdminActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
             }
         });
+
+
+        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+        ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios, DetallesAdminActivity.this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewUsuario1);
+        recyclerView.setAdapter(comentariosAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
 
         TextView autor = findViewById(R.id.textViewFecha);
         autor.setText(incidencia.getUsuarioAutor());
@@ -133,6 +141,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
         ubicacion.setText(incidencia.getLugar());
         TextView descripcion = findViewById(R.id.textViewDescripcion);
         descripcion.setText(incidencia.getDescripcion());
+        publicarImagen(incidencia.getFoto());
 
         double latitudMapa = incidencia.getLatitud();
         double longitudMapa = incidencia.getLongitud();
@@ -189,4 +198,38 @@ public class DetallesAdminActivity extends AppCompatActivity {
         });
             }
     }
+
+    // PUBLICAR LA PUTA FOTO
+    public void publicarImagen (String photoName) {
+        storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getApplicationContext())
+                        .load(uri)
+                        .into(fotoIncidencia); }
+        }); }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbarinfraestructura,menu);
+        String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        return true;  }
+
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.cerrarSesion:
+                FirebaseAuth.getInstance().signOut(); finish();
+                startActivity(new Intent(DetallesAdminActivity.this, MainActivity.class));
+                return true;
+            case R.id.incidenciasTomadas:
+                startActivity(new Intent(DetallesAdminActivity.this, IncidenciasTomadasActivity.class));
+                return true;
+
+        }
+        return onOptionsItemSelected(item);}
+
+
 }
