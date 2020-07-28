@@ -66,7 +66,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
-                            final String nombreRaroIncidencia = dataSnapshot.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
+                            final String nombreRaroIncidencia = children.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
 
                             if (incidencia.getUsuarioAutor().equals(usuario.getNombre())){
                             listaMisIncidencias[contador] = incidencia;
