@@ -16,13 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
-import com.example.proyectomoviles.Usuarios.DetallesMisIncidenciasActivity;
-import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
-import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.StorageReference;
 
-public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<ListaIncidenciasAdapter2.IncidenciaViewHolder2> {
+public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<com.example.proyectomoviles.Administrador.ListaIncidenciasAdapter2.IncidenciaViewHolder2> {
 
     Incidencia[] listaIncidencias;
     private Context contexto;
@@ -92,7 +89,7 @@ public class ListaIncidenciasAdapter2 extends RecyclerView.Adapter<ListaIncidenc
 
     }
 
-    public void publicarImagen (final String photoName, final ListaIncidenciasAdapter2.IncidenciaViewHolder2 holder){
+    public void publicarImagen (final String photoName, final com.example.proyectomoviles.Administrador.ListaIncidenciasAdapter2.IncidenciaViewHolder2 holder){
         storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
