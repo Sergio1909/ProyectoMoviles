@@ -15,14 +15,21 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
+import com.example.proyectomoviles.Administrador.IncidenciaAdminActivity;
 import com.example.proyectomoviles.Entidades.IncidenciaDTO;
+import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.Usuarios.IncidenciaUsuarioActivity;
 import com.example.proyectomoviles.Usuarios.RegistroActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -51,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
     Button btn_dameubi;
     //FirebaseDatabase database; //Descomentar para firebase
     //DatabaseReference refubicacion; //Descomentar firebase
-
-
+    DatabaseReference databaseReference;
+    String rol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
     }
@@ -89,8 +96,49 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
                 Log.d("infoApp","inicio de sesion exitoso");
-                Intent intent = new Intent(this, IncidenciaUsuarioActivity.class);
-                startActivity(intent);
+
+                //Detectar rol
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
+                DatabaseReference referencia2 = databaseReference.child("Usuarios").child(uid);
+
+                ValueEventListener listener = new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            Usuario usuario = snapshot.getValue(Usuario.class);
+                            rol = usuario.getRol();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                };
+
+
+
+                while (rol == null){
+                    Log.d("infoApp","Esperando datos");
+                    referencia2.addValueEventListener(listener);
+                    return;
+                }
+
+
+                if (rol.equals("admin pucp")){
+                    Intent intent = new Intent(this, IncidenciaAdminActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    Intent intent = new Intent(this, IncidenciaUsuarioActivity.class);
+                    startActivity(intent);
+                }
+
+
+
             } else {
 
                 Log.d("infoApp","inicio erroneo");
