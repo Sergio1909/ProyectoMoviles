@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectomoviles.Entidades.Comentario;
-import com.example.proyectomoviles.Usuarios.ListaIncidenciasAdapter;
 
 public class ListaComentariosAdapter extends RecyclerView.Adapter<ListaComentariosAdapter.ComentarioViewHolder> {
 

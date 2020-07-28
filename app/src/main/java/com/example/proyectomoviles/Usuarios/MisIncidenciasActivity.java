@@ -68,18 +68,21 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
                             final String nombreRaroIncidencia = children.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
 
-                            if (incidencia.getUsuarioAutor().equals(usuario.getNombre())){
+                            if (incidencia.getUsuarioAutor().equals("Yarlequé")){
+
                             listaMisIncidencias[contador] = incidencia;
                             contador++;} else {contador = contador+0;}
 
-                            final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-                            ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage,
-                                    DETALLES_INCIDENCIAS_PROPIAS);
-                            RecyclerView recyclerView = findViewById(R.id.recyclerView4);
-                            recyclerView.setAdapter(incidenciasAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
+
                         }
                     }
+                    final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                    ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage,
+                            DETALLES_INCIDENCIAS_PROPIAS);
+                    RecyclerView recyclerView = findViewById(R.id.recyclerViewIncidencia); //mongol
+                    recyclerView.setAdapter(incidenciasAdapter); //ctmre
+                    recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
+
                 }
             }
 

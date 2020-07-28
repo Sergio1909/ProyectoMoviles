@@ -7,6 +7,7 @@
     tools:context=".Usuarios.MisIncidenciasActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewIncidencia"
         android:layout_width="394dp"
         android:layout_height="663dp"
         app:layout_constraintBottom_toBottomOf="parent"
