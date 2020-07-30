@@ -109,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
                         if (snapshot.exists()){
                             Usuario usuario = snapshot.getValue(Usuario.class);
                             rol = usuario.getRol();
+                            if (rol.equals("admin pucp")){
+                                Intent intent = new Intent(MainActivity.this, IncidenciaAdminActivity.class);
+                                startActivity(intent);
+
+                            } else {
+                                Intent intent = new Intent(MainActivity.this, IncidenciaUsuarioActivity.class);
+                                startActivity(intent);
+                            }
                         }
 
                     }
@@ -121,21 +129,40 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                while (rol == null){
+                if (rol == null){
                     Log.d("infoApp","Esperando datos");
-                    referencia2.addValueEventListener(listener);
-                    return;
+                    referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()){
+                                Log.d("infoApp","existe");
+                                Usuario usuario = snapshot.getValue(Usuario.class);
+                                rol = usuario.getRol();
+                                Log.d("infoApp","rol:" + rol);
+                                if (rol.equals("admin pucp")){
+                                    Intent intent = new Intent(MainActivity.this, IncidenciaAdminActivity.class);
+                                    startActivity(intent);
+
+                                } else {
+                                    Intent intent = new Intent(MainActivity.this, IncidenciaUsuarioActivity.class);
+                                    startActivity(intent);
+                                }
+                            }else{
+                                Log.d("infoApp","no existes");
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
 
 
-                if (rol.equals("admin pucp")){
-                    Intent intent = new Intent(this, IncidenciaAdminActivity.class);
-                    startActivity(intent);
 
-                } else {
-                    Intent intent = new Intent(this, IncidenciaUsuarioActivity.class);
-                    startActivity(intent);
-                }
 
 
 

@@ -47,10 +47,12 @@ public class MisIncidenciasActivity extends AppCompatActivity {
         databaseReference.child("Usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-              usuario = snapshot.getValue(Usuario.class); }
+                usuario = snapshot.getValue(Usuario.class);
+            }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
@@ -66,12 +68,16 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
                         if (dataSnapshot.exists()) {
                             final Incidencia incidencia = children.getValue(Incidencia.class);
-                            final String nombreRaroIncidencia = children.getKey(); incidencia.setApiKey(nombreRaroIncidencia);
+                            final String nombreRaroIncidencia = children.getKey();
+                            incidencia.setApiKey(nombreRaroIncidencia);
 
-                            if (incidencia.getUsuarioAutor().equals("Yarlequé")){
+                            if (incidencia.getUsuarioAutor().equals("Yarlequé")) {
 
-                            listaMisIncidencias[contador] = incidencia;
-                            contador++;} else {contador = contador+0;}
+                                listaMisIncidencias[contador] = incidencia;
+                                contador++;
+                            } else {
+                                contador = contador + 0;
+                            }
 
 
                         }
@@ -79,8 +85,8 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                     final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
                     ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage,
                             DETALLES_INCIDENCIAS_PROPIAS);
-                    RecyclerView recyclerView = findViewById(R.id.recyclerViewIncidencia); //mongol
-                    recyclerView.setAdapter(incidenciasAdapter); //ctmre
+                    RecyclerView recyclerView = findViewById(R.id.recyclerViewIncidencia);
+                    recyclerView.setAdapter(incidenciasAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
 
                 }
@@ -88,7 +94,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(MisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
+                Toast.makeText(MisIncidenciasActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -96,26 +102,29 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbarusuario,menu);
+        getMenuInflater().inflate(R.menu.appbarusuario, menu);
         String nombreLogueado = usuario.getNombre();
         // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
-        return true;  }
+        return true;
+    }
 
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.cerrarSesion:
-                FirebaseAuth.getInstance().signOut(); finish();
+                FirebaseAuth.getInstance().signOut();
+                finish();
                 startActivity(new Intent(MisIncidenciasActivity.this, MainActivity.class));
                 return true;
             case R.id.incidenciasTomadas:
-                startActivity(new Intent(MisIncidenciasActivity.this,MisIncidenciasActivity.class));
+                startActivity(new Intent(MisIncidenciasActivity.this, MisIncidenciasActivity.class));
                 return true;
             case R.id.nuevaIncidencia:
                 startActivity(new Intent(MisIncidenciasActivity.this, NuevaIncidenciaActivity.class));
                 return true;
         }
-        return onOptionsItemSelected(item);}
+        return onOptionsItemSelected(item);
+    }
 
 
 }
