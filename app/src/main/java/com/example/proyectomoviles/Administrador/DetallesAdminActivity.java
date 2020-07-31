@@ -95,7 +95,9 @@ public class DetallesAdminActivity extends AppCompatActivity {
                             butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
+
+                                    openDialog(latitudMapa,longitudMapa);
+
                                 }
                             });
 
@@ -186,7 +188,12 @@ public class DetallesAdminActivity extends AppCompatActivity {
         });
             }
     }
-
+    private void openDialog(Double latitud, Double longitud) {
+        MapitaFragment mapitaFragment = new MapitaFragment();
+        Double latitud2 = latitud;
+        Double longitud2 = longitud;
+        mapitaFragment.show(getSupportFragmentManager(), "example");
+    }
     // Agregar Fotografía
     public void publicarImagen (String photoName, StorageReference storageReference) {
         storageReference.child("Images").child(photoName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

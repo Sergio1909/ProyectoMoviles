@@ -73,8 +73,11 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                             butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
-                                } });
+
+                                    openDialog(latitudMapa,longitudMapa);
+
+                                }
+                            });
 
                             Button botonEliminar = (Button) findViewById(R.id.buttonEliminar);
                             botonEliminar.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +123,14 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Toast.makeText(DetallesMisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
                 });
+    }
+
+    private void openDialog(Double latitud, Double longitud) {
+        MapitaFragment mapitaFragment = new MapitaFragment();
+        Double latitud2 = latitud;
+        Double longitud2 = longitud;
+        mapitaFragment
+        mapitaFragment.show(getSupportFragmentManager(), "example");
     }
 
     // Agregar Fotografía

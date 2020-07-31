@@ -2,6 +2,7 @@ package com.example.proyectomoviles;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapitaFragment extends Fragment implements OnMapReadyCallback {
+public class MapitaFragment extends AppCompatDialogFragment implements OnMapReadyCallback {
 
     MapView mapView;
     GoogleMap map;
