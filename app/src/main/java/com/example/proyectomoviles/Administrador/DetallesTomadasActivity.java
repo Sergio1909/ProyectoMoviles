@@ -12,7 +12,6 @@ import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
-import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,15 +86,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                             TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
                             publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
-                            final double latitudMapa  = incidencia.getLatitud();
-                            final double longitudMapa = incidencia.getLongitud();
-                            Button butonUbicacion = findViewById(R.id.buttonUbicacion);
-                            butonUbicacion.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
-                                }
-                            });
+
 
                             Button botonAtender = (Button) findViewById(R.id.buttonAtender);
                             botonAtender.setOnClickListener(new View.OnClickListener() {

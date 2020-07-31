@@ -147,6 +147,9 @@ public class MisIncidenciasActivity extends AppCompatActivity {
             case R.id.nuevaIncidencia:
                 startActivity(new Intent(MisIncidenciasActivity.this, NuevaIncidenciaActivity.class));
                 return true;
+            case R.id.incidenciasTotales:
+                startActivity(new Intent(MisIncidenciasActivity.this, IncidenciaUsuarioActivity.class));
+                return true;
         }
         return onOptionsItemSelected(item);
     }

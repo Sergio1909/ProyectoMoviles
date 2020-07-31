@@ -23,7 +23,7 @@ import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
-import com.example.proyectomoviles.MapitaFragment;
+// import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.NuevaIncidenciaActivity;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -25,7 +25,7 @@ import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
-import com.example.proyectomoviles.MapitaFragment;
+// import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
 import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
