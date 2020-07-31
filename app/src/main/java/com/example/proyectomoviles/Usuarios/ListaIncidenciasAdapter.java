@@ -61,7 +61,7 @@ public class ListaIncidenciasAdapter extends RecyclerView.Adapter<ListaIncidenci
     @Override
     public void onBindViewHolder(IncidenciaViewHolder holder, int position) {
         final Incidencia incidencia = listaIncidencias[position];
-        final String nombreIncidencia = incidencia.getNombre(); holder.nombreIncidencia.setText(nombreIncidencia);
+        String nombreIncidencia = incidencia.getNombre(); holder.nombreIncidencia.setText(nombreIncidencia);
         String estadoIncidencia = incidencia.getEstado(); holder.estado.setText(estadoIncidencia);
         String fechaPublicacion = incidencia.getFecha(); holder.fechaPublicacion.setText(fechaPublicacion);
         String ubicacionIncidencia = incidencia.getLugar(); holder.ubicacion.setText(ubicacionIncidencia);
