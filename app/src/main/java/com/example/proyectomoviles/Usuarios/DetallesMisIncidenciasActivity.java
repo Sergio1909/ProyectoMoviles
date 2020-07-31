@@ -82,6 +82,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     databaseReference.child("Incidencias").child(apikeyIncidencia).removeValue();
                                     Intent intent = new Intent(getApplicationContext(),MisIncidenciasActivity.class);
+                                    startActivity(intent);
                                 } });
                         }
                     }
