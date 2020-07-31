@@ -27,11 +27,14 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+
 public class MisIncidenciasActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    Incidencia[] listaMisIncidencias;
+    Incidencia[] listaaIncidencias;
     private int DETALLES_INCIDENCIAS_PROPIAS = 2;
+    String nombreUsuario;
     Usuario usuario = new Usuario();
 
     @Override
@@ -39,21 +42,29 @@ public class MisIncidenciasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_incidencias);
 
-        mAuth = FirebaseAuth.getInstance();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        databaseReference.child("Usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+/*
+        databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                usuario = snapshot.getValue(Usuario.class);
+                if (snapshot.exists()){
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    //   autorIncidencia = snapshot.child("nombre").getValue().toString();
+                    nombreUsuario = usuario.getNombre();
+                }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+*/
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,7 +73,8 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
                     Long longitudIncidencias = dataSnapshot.getChildrenCount();
                     int longitud = longitudIncidencias.intValue();
-                    listaMisIncidencias = new Incidencia[longitud];
+                    ArrayList listaMisIncidencias = new ArrayList<Incidencia>();
+                            //Incidencia[longitud];
                     int contador = 0;
 
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
@@ -73,17 +85,30 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
                             if (incidencia.getUsuarioAutor().equals("Yarlequé")) {
 
-                                listaMisIncidencias[contador] = incidencia;
+                                listaMisIncidencias.add(incidencia);
                                 contador++;
                             } else {
                                 contador = contador + 0;
                             }
 
 
+
+
                         }
                     }
+
+                    int contador2 = listaMisIncidencias.size();
+                    int contador3   = contador2 +1 ;
+                    // :C
+                    listaaIncidencias = new Incidencia[contador2];
+
+                    for (int x = 0; x < contador2; x++){
+
+                        listaaIncidencias[x] = (Incidencia) listaMisIncidencias.get(x);
+
+                    }
                     final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-                    ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaMisIncidencias, MisIncidenciasActivity.this, fStorage,
+                    ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaaIncidencias, MisIncidenciasActivity.this, fStorage,
                             DETALLES_INCIDENCIAS_PROPIAS);
                     RecyclerView recyclerView = findViewById(R.id.recyclerViewIncidencia);
                     recyclerView.setAdapter(incidenciasAdapter);

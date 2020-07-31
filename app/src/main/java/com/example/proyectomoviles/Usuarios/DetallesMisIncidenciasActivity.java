@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.proyectomoviles.Administrador.DetallesTomadasActivity;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
@@ -35,8 +37,9 @@ import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class DetallesMisIncidenciasActivity extends AppCompatActivity {
+import org.w3c.dom.Text;
 
+public class DetallesMisIncidenciasActivity extends AppCompatActivity {
 
     Comentario[] listaComentarios;
     Incidencia incidencia = new Incidencia();
@@ -70,20 +73,12 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                             final double latitudMapa  = incidencia.getLatitud();
                             final double longitudMapa = incidencia.getLongitud();
                             Button butonUbicacion = findViewById(R.id.buttonUbicacion);
-                            butonUbicacion.setOnClickListener(new View.OnClickListener() {
+                           /* butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
-                                } });
-
-                            Button botonEliminar = (Button) findViewById(R.id.buttonEliminar);
-                            botonEliminar.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    databaseReference.child("Incidencias").child(apikeyIncidencia).removeValue();
-                                    Intent intent = new Intent(getApplicationContext(),MisIncidenciasActivity.class);
-                                    startActivity(intent);
-                                } });
+                                }
+                            }); */
                         }
                     }
 
@@ -91,6 +86,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Toast.makeText(DetallesMisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
                 });
+
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener
                 (new ValueEventListener() {
@@ -120,7 +116,23 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Toast.makeText(DetallesMisIncidenciasActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
+
                 });
+
+        Button botonEliminar = findViewById(R.id.buttonEliminar);
+        botonEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child("Incidencias").child(apikeyIncidencia).removeValue();
+                Intent intent = new Intent(getApplicationContext(),MisIncidenciasActivity.class);
+                startActivity(intent);
+            } });
+
+
+
+
+
+
     }
 
     // Agregar Fotografía
@@ -131,14 +143,13 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                 Glide.with(getApplicationContext())
                         .load(uri)
                         .load(uri)
-                        .into( (ImageView) findViewById(R.id.imageViewFoto)); }
+                        .into((ImageView) findViewById(R.id.imageView)); }
         }); }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarusuario,menu);
-        // String nombreLogueado = mAuth.getCurrentUser().getDisplayName();
-        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado); Si se puede dar la bienvenida en
+        // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado);
         return true;  }
 
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
@@ -161,6 +172,5 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
 
 
 }
-
 
 

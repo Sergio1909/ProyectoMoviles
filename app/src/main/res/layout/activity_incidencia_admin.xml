@@ -7,6 +7,7 @@
     tools:context=".Administrador.IncidenciaAdminActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAdmin"
         android:layout_width="211dp"
         android:layout_height="434dp"
         app:layout_constraintBottom_toBottomOf="parent"

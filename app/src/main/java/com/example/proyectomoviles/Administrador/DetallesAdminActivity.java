@@ -47,10 +47,9 @@ public class DetallesAdminActivity extends AppCompatActivity {
 
     Comentario[] listaComentarios;
     Incidencia incidencia = new Incidencia();
-    Usuario usuario = new Usuario();
+    //Usuario usuario = new Usuario();
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,18 +58,6 @@ public class DetallesAdminActivity extends AppCompatActivity {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    usuario = snapshot.getValue(Usuario.class);
-                } }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).addListenerForSingleValueEvent
                 (new ValueEventListener() {
@@ -92,24 +79,12 @@ public class DetallesAdminActivity extends AppCompatActivity {
                             final double latitudMapa  = incidencia.getLatitud();
                             final double longitudMapa = incidencia.getLongitud();
                             Button butonUbicacion = findViewById(R.id.buttonUbicacion);
-                            butonUbicacion.setOnClickListener(new View.OnClickListener() {
+                  /*          butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
                                 }
-                            });
-
-                            Button botonAtender = (Button) findViewById(R.id.buttonAtender);
-                            botonAtender.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    incidencia.setEstado("Atendido");
-                                    Intent intent = new Intent(getApplicationContext(), DetallesAdminActivity.class);
-                                    String nombreFiltro = apikeyIncidencia;
-                                    intent.putExtra("nombreIncidencia", nombreFiltro);
-                                    startActivity(intent);
-                                }
-                            });
+                            }); */
                         }
                     }
 
@@ -150,41 +125,6 @@ public class DetallesAdminActivity extends AppCompatActivity {
 
                 });
 
-
-        String autorComentario = usuario.getNombre();
-        EditText cuerpoComentario = (EditText) findViewById(R.id.comentario);
-        String descripcionComentario = cuerpoComentario.getText().toString();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        String fechaComentario = formatter.format(now);
-
-
-        if (descripcionComentario != null) {
-            final Comentario nuevoComentario = new Comentario();
-            nuevoComentario.setAutorComentario(autorComentario);
-            nuevoComentario.setDescripcionComentario(descripcionComentario);
-            nuevoComentario.setFechaComentario(fechaComentario);
-
-            Button botonAgregarComentario = (Button) findViewById(R.id.buttonComentario);
-            botonAgregarComentario.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").push().setValue(nuevoComentario);
-                    Intent intent = new Intent(getApplicationContext(), DetallesAdminActivity.class);
-                    String nombreFiltro = apikeyIncidencia;
-                    intent.putExtra("nombreIncidencia", nombreFiltro);
-                    startActivity(intent);
-                }
-            }); }
-        else {
-            Button botonAgregarComentarioVacio = (Button) findViewById(R.id.buttonComentario);
-            botonAgregarComentarioVacio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(DetallesAdminActivity.this, "No se puede agregar comentarios vacíos ", Toast.LENGTH_LONG).show();
-            }
-        });
-            }
     }
 
     // Agregar Fotografía
@@ -198,10 +138,20 @@ public class DetallesAdminActivity extends AppCompatActivity {
                         .into((ImageView) findViewById(R.id.imageViewFoto)); }
         }); }
 
+    /*
+
+    Button botonAgregarComentarioVacio = (Button) findViewById(R.id.buttonComentario);
+            botonAgregarComentarioVacio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DetallesAdminActivity.this, "No se puede agregar comentarios vacíos ", Toast.LENGTH_LONG).show();
+
+     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbarinfraestructura,menu);
-        String nombreLogueado = usuario.getNombre();
+        //String nombreLogueado = usuario.getNombre();
         // menu.findItem(R.id.nombreUsuario).setTitle(nombreLogueado);
         return true;  }
 
