@@ -34,6 +34,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     Incidencia[] listaaIncidencias;
     private int DETALLES_INCIDENCIAS_PROPIAS = 2;
+    String nombreUsuario;
     Usuario usuario = new Usuario();
 
     @Override
@@ -45,27 +46,25 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
+/*
+        databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
 
-        databaseReference.child("Usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                usuario = snapshot.getValue(Usuario.class); }
+                if (snapshot.exists()){
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    //   autorIncidencia = snapshot.child("nombre").getValue().toString();
+                    nombreUsuario = usuario.getNombre();
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
-        });
-
-
-        databaseReference.child("Usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                usuario = snapshot.getValue(Usuario.class);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+*/
 
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
@@ -84,7 +83,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                             final String nombreRaroIncidencia = children.getKey();
                             incidencia.setApiKey(nombreRaroIncidencia);
 
-                            if (incidencia.getUsuarioAutor().equals(usuario.getNombre())) {
+                            if (incidencia.getUsuarioAutor().equals("Yarlequé")) {
 
                                 listaMisIncidencias.add(incidencia);
                                 contador++;
