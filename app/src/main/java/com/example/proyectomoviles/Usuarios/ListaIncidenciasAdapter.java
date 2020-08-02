@@ -107,10 +107,10 @@ public class ListaIncidenciasAdapter extends RecyclerView.Adapter<ListaIncidenci
                     Intent intent = new Intent(contexto, DetallesTomadasActivity.class);
                     String APIKEY = incidencia.getApiKey();
                     intent.putExtra("nombreIncidencia", APIKEY);
-                    contexto.startActivity(intent);}
-            }); }
+                    contexto.startActivity(intent); }
+            });}
 
-    };
+    }
 
 
     public void publicarImagen (final String photoName, final ListaIncidenciasAdapter.IncidenciaViewHolder holder){

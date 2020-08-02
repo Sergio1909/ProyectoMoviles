@@ -88,6 +88,9 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                             publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
 
+                            final Button botonAtender = (Button) findViewById(R.id.buttonAtender);
+                            botonAtender.setVisibility(View.INVISIBLE);
+
                             Button buttonBorrarAdmin = (Button) findViewById(R.id.buttonBorrarAdmin);
                             buttonBorrarAdmin.setOnClickListener(new View.OnClickListener() {
                                 @Override
