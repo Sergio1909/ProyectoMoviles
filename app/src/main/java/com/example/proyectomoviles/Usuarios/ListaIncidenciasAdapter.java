@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.proyectomoviles.Administrador.DetallesAdminActivity;
+import com.example.proyectomoviles.Administrador.DetallesTomadasActivity;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.R;
@@ -86,6 +88,27 @@ public class ListaIncidenciasAdapter extends RecyclerView.Adapter<ListaIncidenci
                     intent.putExtra("nombreIncidencia", APIKEY);
                     contexto.startActivity(intent);}
             }); }
+
+        if (condicionDetalles == 3) {
+            holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(contexto, DetallesAdminActivity.class);
+                    String APIKEY = incidencia.getApiKey();
+                    intent.putExtra("nombreIncidencia", APIKEY);
+                    contexto.startActivity(intent);}
+            }); }
+
+        if (condicionDetalles == 4) {
+            holder.buttonDetalles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(contexto, DetallesTomadasActivity.class);
+                    String APIKEY = incidencia.getApiKey();
+                    intent.putExtra("nombreIncidencia", APIKEY);
+                    contexto.startActivity(intent);}
+            }); }
+
     };
 
 

@@ -7,7 +7,7 @@
     tools:context=".Usuarios.DetallesMisIncidenciasActivity">
 
     <TextView
-        android:id="@+id/textViewAutor"
+        android:id="@+id/textViewNombre"
         android:layout_width="70dp"
         android:layout_height="28dp"
         android:layout_marginStart="32dp"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.294"
-        app:layout_constraintStart_toEndOf="@+id/textViewAutor"
+        app:layout_constraintStart_toEndOf="@+id/textViewNombre"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.428" />
 
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.196"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAutor"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNombre"
         app:layout_constraintVertical_bias="0.0"
         tools:src="@tools:sample/backgrounds/scenic" />
 
