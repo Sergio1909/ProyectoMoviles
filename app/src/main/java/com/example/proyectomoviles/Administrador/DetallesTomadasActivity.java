@@ -125,7 +125,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                                 incidencia.setListaComentarios(listaComentarios);
 
                                 ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesTomadasActivity.this);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerView4);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerViewComentariosAdmin);
                                 recyclerView.setAdapter(comentariosAdapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(DetallesTomadasActivity.this));
                             }

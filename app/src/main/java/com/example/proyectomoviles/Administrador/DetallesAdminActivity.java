@@ -48,6 +48,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
     Comentario[] listaComentarios;
     Incidencia incidencia = new Incidencia();
     Usuario usuario = new Usuario();
+    String nombreUsuario;
 
 
     @Override
@@ -62,50 +63,88 @@ public class DetallesAdminActivity extends AppCompatActivity {
         Button buttonBorrarAdmin = (Button) findViewById(R.id.buttonBorrarAdmin);
         buttonBorrarAdmin.setVisibility(View.INVISIBLE);
 
-        databaseReference.child("Incidencias").child(apikeyIncidencia).addListenerForSingleValueEvent
-                (new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
-                        if (dataSnapshot1.exists()) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    usuario = snapshot.getValue(Usuario.class);
+                    nombreUsuario = usuario.getNombre();
 
-                            Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class);
-                            incidencia = incidencia2;
+                    databaseReference.child("Incidencias").child(apikeyIncidencia).addListenerForSingleValueEvent
+                            (new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                                    if (dataSnapshot1.exists()) {
 
-                            // TextView autor = findViewById(R.id.textViewAutor) ; autor.setText(incidencia.getUsuarioAutor());
-                            TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
-                            TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
-                            TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
-                            TextView ubicacion = findViewById(R.id.textViewLugar); ubicacion.setText(incidencia.getLugar());
-                            TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
-                            publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
-                            final double latitudMapa  = incidencia.getLatitud();
-                            final double longitudMapa = incidencia.getLongitud();
-                            Button butonUbicacion = findViewById(R.id.buttonUbicacion);
+                                        final Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class);
+                                        incidencia = incidencia2;
+
+                                        // TextView autor = findViewById(R.id.textViewAutor) ; autor.setText(incidencia.getUsuarioAutor());
+                                        TextView nombre = findViewById(R.id.textViewNombre);
+                                        nombre.setText(incidencia.getNombre());
+                                        TextView estado = findViewById(R.id.textViewEstado);
+                                        estado.setText(incidencia.getEstado());
+                                        TextView fecha = findViewById(R.id.textViewFecha);
+                                        fecha.setText(incidencia.getFecha());
+                                        TextView ubicacion = findViewById(R.id.textViewLugar);
+                                        ubicacion.setText(incidencia.getLugar());
+                                        TextView descripcion = findViewById(R.id.textViewDescripcion);
+                                        descripcion.setText(incidencia.getDescripcion());
+                                        publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
+
+                                        final double latitudMapa = incidencia.getLatitud();
+                                        final double longitudMapa = incidencia.getLongitud();
+                                        //Button butonUbicacion = findViewById(R.id.buttonUbicacion);
                   /*          butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
                                 }
                             }); */
+                  final Button botonAtender = (Button) findViewById(R.id.buttonAtender);
+                            String estadoActual = incidencia.getEstado();
+                            if (estadoActual.equals("Atendido")) { botonAtender.setVisibility(View.INVISIBLE);}
 
-                            final Button botonAtender = (Button) findViewById(R.id.buttonAtender);
-                            botonAtender.setOnClickListener(new View.OnClickListener() {
+                            else {
+
+
+                                        botonAtender.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                incidencia.setEstado("Atendido");
+                                                incidencia.setAdministrador(nombreUsuario);
+                                                databaseReference.child("Incidencias").child(apikeyIncidencia).setValue(incidencia);
+                                                TextView estado = findViewById(R.id.textViewEstado);
+                                                estado.setText("atendido:P");
+                                                botonAtender.setVisibility(View.INVISIBLE);
+                                                //Intent intent = new Intent(DetallesAdminActivity.this,DetallesAdminActivity.class);
+                                                //intent.putExtra("nombreIncidencia", apikeyIncidencia);
+                                                Toast.makeText(DetallesAdminActivity.this, "Incidencia Atendida", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }); }
+
+                                    }
+                                }
+
                                 @Override
-                                public void onClick(View v) {
-                                    incidencia.setEstado("Atendido");
-                                    botonAtender.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(DetallesAdminActivity.this, "Incidencia Atendida", Toast.LENGTH_SHORT).show();
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(DetallesAdminActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
                                 }
                             });
 
-                        }
-                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(DetallesAdminActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show(); }
-                });
+            }
+        });
+
+
+
 
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").addValueEventListener
@@ -126,7 +165,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
                                 incidencia.setListaComentarios(listaComentarios);
 
                                 ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesAdminActivity.this);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerView4);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerViewComentariosAdmin);
                                 recyclerView.setAdapter(comentariosAdapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
                             }
