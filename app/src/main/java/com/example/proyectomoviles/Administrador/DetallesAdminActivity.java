@@ -91,13 +91,14 @@ public class DetallesAdminActivity extends AppCompatActivity {
 
                             final double latitudMapa  = incidencia.getLatitud();
                             final double longitudMapa = incidencia.getLongitud();
-                            Button butonUbicacion = findViewById(R.id.buttonUbicacion);
+
+                            /*Button butonUbicacion = findViewById(R.id.buttonUbicacion);
                             butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
                                 }
-                            });
+                            });*/
 
                             Button botonAtender = (Button) findViewById(R.id.buttonAtender);
                             botonAtender.setOnClickListener(new View.OnClickListener() {

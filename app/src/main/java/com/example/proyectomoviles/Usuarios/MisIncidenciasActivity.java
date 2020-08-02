@@ -49,10 +49,12 @@ public class MisIncidenciasActivity extends AppCompatActivity {
         databaseReference.child("Usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                usuario = snapshot.getValue(Usuario.class); }
+                usuario = snapshot.getValue(Usuario.class);
+            }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
 
@@ -75,7 +77,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                     Long longitudIncidencias = dataSnapshot.getChildrenCount();
                     int longitud = longitudIncidencias.intValue();
                     ArrayList listaMisIncidencias = new ArrayList<Incidencia>();
-                            //Incidencia[longitud];
+                    //Incidencia[longitud];
                     int contador = 0;
 
                     for (DataSnapshot children : dataSnapshot.getChildren()) {
@@ -93,17 +95,15 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                             }
 
 
-
-
                         }
                     }
 
                     int contador2 = listaMisIncidencias.size();
-                    int contador3   = contador2 +1 ;
+                    int contador3 = contador2 + 1;
                     // :C
                     listaaIncidencias = new Incidencia[contador2];
 
-                    for (int x = 0; x < contador2; x++){
+                    for (int x = 0; x < contador2; x++) {
 
                         listaaIncidencias[x] = (Incidencia) listaMisIncidencias.get(x);
 
@@ -150,7 +150,6 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                 return true;
         }
         return onOptionsItemSelected(item);
+
     }
-
-
 }

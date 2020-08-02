@@ -73,8 +73,23 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                             butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                            /*
+                            MapitaFragment mapitaFragment = new MapitaFragment();
+                            mapitaFragment.show(getSupportFragmentManager().beginTransaction().add(R.id.mapview, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit(),null);
+                            */
+                                    MapitaFragment mapitaFragment = new MapitaFragment();
+                                    mapitaFragment.show(getSupportFragmentManager(), null);
+
+                                }
+                            });
+                            /*Button butonUbicacion = findViewById(R.id.buttonUbicacion);
+                            butonUbicacion.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
                                 } });
+
+                             */
 
                             Button botonEliminar = (Button) findViewById(R.id.buttonEliminar);
                             botonEliminar.setOnClickListener(new View.OnClickListener() {
