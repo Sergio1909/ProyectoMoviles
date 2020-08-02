@@ -47,7 +47,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
 
     Comentario[] listaComentarios;
     Incidencia incidencia = new Incidencia();
-    //Usuario usuario = new Usuario();
+    Usuario usuario = new Usuario();
 
 
     @Override
@@ -58,6 +58,9 @@ public class DetallesAdminActivity extends AppCompatActivity {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
+
+        Button buttonBorrarAdmin = (Button) findViewById(R.id.buttonBorrarAdmin);
+        buttonBorrarAdmin.setVisibility(View.INVISIBLE);
 
         databaseReference.child("Incidencias").child(apikeyIncidencia).addListenerForSingleValueEvent
                 (new ValueEventListener() {
@@ -85,6 +88,17 @@ public class DetallesAdminActivity extends AppCompatActivity {
                                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
                                 }
                             }); */
+
+                            final Button botonAtender = (Button) findViewById(R.id.buttonAtender);
+                            botonAtender.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    incidencia.setEstado("Atendido");
+                                    botonAtender.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(DetallesAdminActivity.this, "Incidencia Atendida", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         }
                     }
 
@@ -125,6 +139,40 @@ public class DetallesAdminActivity extends AppCompatActivity {
 
                 });
 
+        Button botonAgregarComentario = (Button) findViewById(R.id.buttonComentario);
+        botonAgregarComentario.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+
+                String autorComentario = usuario.getNombre();
+                EditText cuerpoComentario = (EditText) findViewById(R.id.editTextCuerpoComentario);
+                String descripcionComentario = cuerpoComentario.getText().toString();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                String fechaComentario = formatter.format(now);
+
+                final Comentario nuevoComentario = new Comentario();
+                nuevoComentario.setAutorComentario(autorComentario);
+                nuevoComentario.setDescripcionComentario(descripcionComentario);
+                nuevoComentario.setFechaComentario(fechaComentario);
+
+                if (descripcionComentario != null) {
+                    databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").push().setValue(nuevoComentario);
+                    Intent intent = new Intent(getApplicationContext(), DetallesTomadasActivity.class);
+                    String nombreFiltro = apikeyIncidencia;
+                    intent.putExtra("nombreIncidencia", nombreFiltro);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(DetallesAdminActivity.this, "Agrege un Comentario", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+
+
     }
 
     // Agregar Fotografía
@@ -137,6 +185,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
                         .load(uri)
                         .into((ImageView) findViewById(R.id.imageViewFoto)); }
         }); }
+
 
     /*
 
