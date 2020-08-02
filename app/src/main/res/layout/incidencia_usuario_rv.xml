@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewFoto" />
 
     <TextView
-        android:id="@+id/textView23"
+        android:id="@+id/textViewEstado"
         android:layout_width="246dp"
         android:layout_height="28dp"
         android:layout_marginStart="32dp"
@@ -54,7 +54,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textViewNombre"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <TextView
         android:id="@+id/textViewNombre"
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/textViewLugar"
         android:layout_width="219dp"
         android:layout_height="27dp"
         android:layout_marginTop="16dp"
@@ -94,11 +94,11 @@
         android:id="@+id/buttonDetalles"
         android:layout_width="115dp"
         android:layout_height="41dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="28dp"
         android:backgroundTint="#13EC1C"
         android:text="Detalles"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.873"
+        app:layout_constraintHorizontal_bias="0.854"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewFecha" />
 
@@ -117,9 +117,9 @@
         android:id="@+id/imageViewFoto"
         android:layout_width="415dp"
         android:layout_height="173dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.292"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
@@ -128,7 +128,7 @@
         android:id="@+id/textViewFecha"
         android:layout_width="219dp"
         android:layout_height="33dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textStyle="normal"

@@ -32,7 +32,7 @@
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/textViewLugar"
                 android:layout_width="105dp"
                 android:layout_height="51dp"
                 android:layout_marginTop="8dp"
@@ -54,7 +54,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textViewLugar" />
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/textViewEstado"
                 android:layout_width="110dp"
                 android:layout_height="37dp"
                 android:layout_marginTop="16dp"
