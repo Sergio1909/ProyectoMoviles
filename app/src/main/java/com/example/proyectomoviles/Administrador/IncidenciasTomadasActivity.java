@@ -142,6 +142,9 @@ protected void onCreate(Bundle savedInstanceState) {
             case R.id.incidenciasTomadas:
                 startActivity(new Intent(IncidenciasTomadasActivity.this, IncidenciasTomadasActivity.class));
                 return true;
+            case R.id.incidenciasTotales:
+                startActivity(new Intent(IncidenciasTomadasActivity.this, IncidenciaAdminActivity.class));
+                return true;
 
         }
         return onOptionsItemSelected(item);}

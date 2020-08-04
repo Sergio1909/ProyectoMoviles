@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void iniciarSesion(View view){
-
+/*
         List<AuthUI.IdpConfig> listaProveedores =
                 Arrays.asList(
                         new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -85,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAvailableProviders(listaProveedores)
                         .build(),
                 1);
-
+*/
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
 
     }
 
@@ -101,33 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = user.getUid();
                 DatabaseReference referencia2 = databaseReference.child("Usuarios").child(uid);
-
-                ValueEventListener listener = new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        if (snapshot.exists()){
-                            Usuario usuario = snapshot.getValue(Usuario.class);
-                            rol = usuario.getRol();
-                            if (rol.equals("admin pucp")){
-                                Intent intent = new Intent(MainActivity.this, IncidenciaAdminActivity.class);
-                                startActivity(intent);
-
-                            } else {
-                                Intent intent = new Intent(MainActivity.this, IncidenciaUsuarioActivity.class);
-                                startActivity(intent);
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                };
-
-
 
                 if (rol == null){
                     Log.d("infoApp","Esperando datos");
