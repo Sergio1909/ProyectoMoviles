@@ -10,11 +10,11 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="84dp"
         android:text="Descripcion:"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/editTextNombre"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -55,21 +55,22 @@
         android:id="@+id/btnbrowse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="244dp"
+        android:layout_marginEnd="232dp"
         android:text="AnadirFoto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_dameubi"
-        app:layout_constraintVertical_bias="0.323" />
+        app:layout_constraintVertical_bias="0.324" />
 
     <Button
         android:id="@+id/btnupload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Registrar Incidencia"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -78,9 +79,10 @@
         android:layout_height="76dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.814"
         app:layout_constraintStart_toEndOf="@+id/btnbrowse"
         app:layout_constraintTop_toBottomOf="@+id/spinnerUbicacion"
-        app:layout_constraintVertical_bias="0.28"
+        app:layout_constraintVertical_bias="0.091"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button

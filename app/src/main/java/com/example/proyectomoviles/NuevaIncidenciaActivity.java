@@ -293,7 +293,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
         if (FilePathUri != null) {
 
-            progressDialog.setTitle("Subiendo imagen...");
+            progressDialog.setTitle("Registrando datos de incidencia, espere...");
             progressDialog.show();
             //Linea anterior
             // StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
@@ -307,7 +307,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
             //                String TempImageName = txtdata.getText().toString().trim();
                             String TempImageName = nombrefoto;
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Imagen subida exitosamente ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Incidencia reportada exitosamente ", Toast.LENGTH_LONG).show();
                             @SuppressWarnings("VisibleForTests")
                             uploadinfo imageUploadInfo = new uploadinfo(TempImageName, taskSnapshot.getUploadSessionUri().toString());
                             String ImageUploadId = databaseReference.push().getKey();
