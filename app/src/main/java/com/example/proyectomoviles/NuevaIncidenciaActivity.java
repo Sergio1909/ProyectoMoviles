@@ -210,6 +210,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
                 databaseReference.child("Incidencias").push().setValue(incidencia);
                 Intent intent = new Intent(NuevaIncidenciaActivity.this, IncidenciaUsuarioActivity.class);
+                Toast.makeText(NuevaIncidenciaActivity.this, "Incidencia Registrada Exitosamente", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
 
             }

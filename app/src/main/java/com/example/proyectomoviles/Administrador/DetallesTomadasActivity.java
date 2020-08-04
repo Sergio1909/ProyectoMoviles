@@ -180,7 +180,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                     intent.putExtra("nombreIncidencia", nombreFiltro);
                     startActivity(intent); }
 
-                    else {
+                    if (descripcionComentario == ""){
                         Toast.makeText(DetallesTomadasActivity.this, "Agrege un Comentario", Toast.LENGTH_SHORT).show();}
 
                 }
