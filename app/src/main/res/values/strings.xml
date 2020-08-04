@@ -27,4 +27,6 @@
     <string name="contrasena">Contrasena</string>
     <string name="codigo_pucp">Codigo PUCP</string>
     <string name="registro">Registro</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="alertaspucp">ALERTAS PUCP</string>
 </resources>

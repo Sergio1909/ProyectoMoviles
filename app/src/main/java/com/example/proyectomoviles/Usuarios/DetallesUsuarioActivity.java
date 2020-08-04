@@ -24,6 +24,7 @@ import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
 //import com.example.proyectomoviles.MapitaFragment;
+import com.example.proyectomoviles.MapsActivity;
 import com.example.proyectomoviles.NuevaIncidenciaActivity;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -70,6 +71,18 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                     TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
                     publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
+                    Button butonUbicacion = findViewById(R.id.buttonUbicacion);
+                    butonUbicacion.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent =new Intent(DetallesUsuarioActivity.this, MapsActivity.class);
+                            Double latitudMapa = incidencia.getLatitud();
+                            Double longitudMapa = incidencia.getLongitud();
+                            intent.putExtra("latitudMapa",String.valueOf(latitudMapa));
+                            intent.putExtra("longitudMapa",String.valueOf(longitudMapa));
+                            DetallesUsuarioActivity.this.startActivity(intent);
+                        }
+                    });
                     /*final double latitudMapa  = incidencia.getLatitud();
                     final double longitudMapa = incidencia.getLongitud();
                     Button butonUbicacion = findViewById(R.id.buttonUbicacion);
