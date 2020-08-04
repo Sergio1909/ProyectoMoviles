@@ -24,10 +24,11 @@ public class ListaComentariosAdapter extends RecyclerView.Adapter<ListaComentari
         public TextView autor;
         public TextView fechaSubida;
         public TextView descripcion;
+        public TextView autorComentario;
 
         public ComentarioViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.autor = itemView.findViewById(R.id.textViewFecha);
+            this.autorComentario = itemView.findViewById(R.id.textViewAutorComentario);
             this.fechaSubida = itemView.findViewById(R.id.textViewFecha);
             this.descripcion = itemView.findViewById(R.id.textViewDescripcion); } }
 
@@ -41,9 +42,9 @@ public class ListaComentariosAdapter extends RecyclerView.Adapter<ListaComentari
     @Override
     public void onBindViewHolder(ComentarioViewHolder holder, int position) {
         Comentario comentario = listaComentarios[position];
-        String autor = comentario.getAutorComentario(); holder.autor.setText(autor);
+        String autor = comentario.getAutorComentario(); holder.autorComentario.setText(autor);
         String fecha = comentario.getFechaComentario(); holder.fechaSubida.setText(fecha);
-        String descripcion = comentario.getAutorComentario(); holder.descripcion.setText(descripcion);
+        String descripcion = comentario.getDescripcionComentario(); holder.descripcion.setText(descripcion);
     }
 
     @Override

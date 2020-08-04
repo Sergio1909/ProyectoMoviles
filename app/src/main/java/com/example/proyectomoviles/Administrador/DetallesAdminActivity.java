@@ -42,6 +42,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class DetallesAdminActivity extends AppCompatActivity {
 
@@ -50,7 +51,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
     Usuario usuario = new Usuario();
     String nombreUsuario;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,7 +166,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
                                 incidencia.setListaComentarios(listaComentarios);
 
                                 ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesAdminActivity.this);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerViewComentariosAdmin);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerView2);
                                 recyclerView.setAdapter(comentariosAdapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(DetallesAdminActivity.this));
                             }
@@ -187,17 +188,17 @@ public class DetallesAdminActivity extends AppCompatActivity {
                 String autorComentario = usuario.getNombre();
                 EditText cuerpoComentario = (EditText) findViewById(R.id.editTextCuerpoComentario);
                 String descripcionComentario = cuerpoComentario.getText().toString();
+                Date date = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-                LocalDateTime now = LocalDateTime.now();
-                String fechaComentario = formatter.format(now);
+                final String fechaActual = formatter.format(date);
 
                 final Comentario nuevoComentario = new Comentario();
                 nuevoComentario.setAutorComentario(autorComentario);
                 nuevoComentario.setDescripcionComentario(descripcionComentario);
-                nuevoComentario.setFechaComentario(fechaComentario);
+                nuevoComentario.setFechaComentario(fechaActual);
 
                 if (descripcionComentario != null) {
-                    databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").push().setValue(nuevoComentario);
+                    databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").push().setValue(nuevoComentario);
                     Intent intent = new Intent(getApplicationContext(), DetallesTomadasActivity.class);
                     String nombreFiltro = apikeyIncidencia;
                     intent.putExtra("nombreIncidencia", nombreFiltro);

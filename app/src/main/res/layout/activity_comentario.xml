@@ -33,7 +33,7 @@
         android:layout_height="162dp"
         android:layout_marginTop="140dp"
         android:ems="10"
-        android:hint="escribir comentario"
+        android:hint="Escriba su comentario"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"

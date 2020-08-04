@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.proyectomoviles.Administrador.DetallesTomadasActivity;
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
@@ -36,8 +34,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
 
 public class DetallesMisIncidenciasActivity extends AppCompatActivity {
 
@@ -62,7 +58,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                             Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class);
                             incidencia = incidencia2;
 
-                            // TextView autor = findViewById(R.id.textViewAutor) ; autor.setText(incidencia.getUsuarioAutor());
+                            TextView autor = findViewById(R.id.textViewAutor) ; autor.setText(incidencia.getUsuarioAutor());
                             TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
                             TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
                             TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
@@ -106,7 +102,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                                 incidencia.setListaComentarios(listaComentarios);
 
                                 ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesMisIncidenciasActivity.this);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerView3);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerView2);
                                 recyclerView.setAdapter(comentariosAdapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(DetallesMisIncidenciasActivity.this));
                             }
@@ -119,7 +115,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
 
                 });
 
-        Button botonEliminar = findViewById(R.id.buttonEliminar);
+        Button botonEliminar = findViewById(R.id.buttonBorrarAdmin);
         botonEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +139,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                 Glide.with(getApplicationContext())
                         .load(uri)
                         .load(uri)
-                        .into((ImageView) findViewById(R.id.imageView)); }
+                        .into((ImageView) findViewById(R.id.imageViewFoto)); }
         }); }
 
     @Override
