@@ -163,7 +163,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
                                     Comentario comentario = children.getValue(Comentario.class);
                                     listaComentarios[contador2] = comentario;
                                     contador2++; }
-                                incidencia.setListaComentarios(listaComentarios);
+
 
                                 ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesAdminActivity.this);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerView2);

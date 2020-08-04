@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
+import com.example.proyectomoviles.Entidades.IncidenciaTu;
 import com.example.proyectomoviles.Entidades.UbicacionPj;
 import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.Entidades.uploadinfo;
@@ -191,7 +192,7 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 comentario.setFechaComentario("Fecha de envio del acmon");
                 List<Comentario> comentarios = new ArrayList<>();
                 comentarios.add(comentario);
-                final Incidencia incidencia = new Incidencia();
+                final IncidenciaTu incidencia = new IncidenciaTu();
 
                 incidencia.setNombre(nombreIncidencia);
                 incidencia.setDescripcion(descripcionIncidencia);

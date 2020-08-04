@@ -103,7 +103,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                             Comentario comentario = children.getValue(Comentario.class);
                             listaComentarios[contador2] = comentario;
                             contador2++; }
-                        incidencia.setListaComentarios(listaComentarios);
+
 
                         ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesUsuarioActivity.this);
                         RecyclerView recyclerView = findViewById(R.id.recyclerView2);

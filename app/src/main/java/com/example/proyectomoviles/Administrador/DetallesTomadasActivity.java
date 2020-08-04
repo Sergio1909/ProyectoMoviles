@@ -126,7 +126,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                                     Comentario comentario = children.getValue(Comentario.class);
                                     listaComentarios[contador2] = comentario;
                                     contador2++; }
-                                incidencia.setListaComentarios(listaComentarios);
+
 
                                 ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesTomadasActivity.this);
                                 RecyclerView recyclerView = findViewById(R.id.recyclerView2);
@@ -159,7 +159,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                     nuevoComentario.setDescripcionComentario(descripcionComentario);
                     nuevoComentario.setFechaComentario(fechaActual);
 
-                    if (descripcionComentario != null) {
+                    if (descripcionComentario != "") {
                     databaseReference.child("Incidencias").child(apikeyIncidencia).child("comentarios").push().setValue(nuevoComentario);
                     Intent intent = new Intent(getApplicationContext(), DetallesTomadasActivity.class);
                     String nombreFiltro = apikeyIncidencia;

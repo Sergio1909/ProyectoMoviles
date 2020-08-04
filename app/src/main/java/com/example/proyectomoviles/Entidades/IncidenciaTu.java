@@ -1,11 +1,9 @@
 package com.example.proyectomoviles.Entidades;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-// Importar Correctamente el USUARIO (HACER LUEGO DE JUNTAR)
 
-public class Incidencia {
+public class IncidenciaTu {
+
 
     private String apiKey;
 
@@ -18,13 +16,10 @@ public class Incidencia {
     private String autor;
     private String administrador;
     private String usuarioAutor;
+    private List<Comentario> comentarios;
 
     private double latitud;
     private double longitud;
-
-
-    public Incidencia() {
-    }
 
 
     public String getApiKey() {
@@ -91,22 +86,6 @@ public class Incidencia {
         this.autor = autor;
     }
 
-    public double getLatitud() {
-        return latitud;
-    }
-
-    public void setLatitud(double latitud) {
-        this.latitud = latitud;
-    }
-
-    public double getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(double longitud) {
-        this.longitud = longitud;
-    }
-
     public String getAdministrador() {
         return administrador;
     }
@@ -121,5 +100,29 @@ public class Incidencia {
 
     public void setUsuarioAutor(String usuarioAutor) {
         this.usuarioAutor = usuarioAutor;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 }
