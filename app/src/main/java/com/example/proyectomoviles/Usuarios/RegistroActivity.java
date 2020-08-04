@@ -71,7 +71,7 @@ public class RegistroActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
 
-                            Toast.makeText(RegistroActivity.this, getString(R.string.registro), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistroActivity.this, getString(R.string.Registro_exitoso), Toast.LENGTH_LONG).show();
                         }else{
                             //Mostrar error
 
