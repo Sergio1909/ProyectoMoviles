@@ -23,7 +23,7 @@ import com.example.proyectomoviles.Entidades.Comentario;
 import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
-import com.example.proyectomoviles.MapitaFragment;
+//import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.NuevaIncidenciaActivity;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,7 +62,7 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                     Incidencia incidencia2 = dataSnapshot1.getValue(Incidencia.class);
                     incidencia = incidencia2;
 
-                    // TextView autor = findViewById(R.id.textViewAutor) ; autor.setText(incidencia.getUsuarioAutor());
+                    TextView autor = findViewById(R.id.textViewAutor) ; autor.setText(incidencia.getUsuarioAutor());
                     TextView nombre = findViewById(R.id.textViewNombre); nombre.setText(incidencia.getNombre());
                     TextView estado = findViewById(R.id.textViewEstado); estado.setText(incidencia.getEstado());
                     TextView fecha = findViewById(R.id.textViewFecha); fecha.setText(incidencia.getFecha());
@@ -70,22 +70,9 @@ public class DetallesUsuarioActivity extends AppCompatActivity {
                     TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
                     publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
-                    final double latitudMapa  = incidencia.getLatitud();
+                    /*final double latitudMapa  = incidencia.getLatitud();
                     final double longitudMapa = incidencia.getLongitud();
                     Button butonUbicacion = findViewById(R.id.buttonUbicacion);
-                    butonUbicacion.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            /*
-                            MapitaFragment mapitaFragment = new MapitaFragment();
-                            mapitaFragment.show(getSupportFragmentManager().beginTransaction().add(R.id.mapview, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit(),null);
-                            */
-                            MapitaFragment mapitaFragment = new MapitaFragment();
-                             mapitaFragment.show(getSupportFragmentManager(), null);
-
-                        }
-                    });
-                    /*Button butonUbicacion = findViewById(R.id.buttonUbicacion);
                     butonUbicacion.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

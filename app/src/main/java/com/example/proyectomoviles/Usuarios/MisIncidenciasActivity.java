@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class MisIncidenciasActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+
     Incidencia[] listaaIncidencias;
     private int DETALLES_INCIDENCIAS_PROPIAS = 2;
     String nombreUsuario;
@@ -46,7 +46,7 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-/*
+
         databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -55,6 +55,64 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                     Usuario usuario = snapshot.getValue(Usuario.class);
                     //   autorIncidencia = snapshot.child("nombre").getValue().toString();
                     nombreUsuario = usuario.getNombre();
+
+                    databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+
+                                Long longitudIncidencias = dataSnapshot.getChildrenCount();
+                                int longitud = longitudIncidencias.intValue();
+                                ArrayList listaMisIncidencias = new ArrayList<Incidencia>();
+                                //Incidencia[longitud];
+                                int contador = 0;
+
+                                for (DataSnapshot children : dataSnapshot.getChildren()) {
+                                    if (dataSnapshot.exists()) {
+                                        final Incidencia incidencia = children.getValue(Incidencia.class);
+                                        final String nombreRaroIncidencia = children.getKey();
+                                        incidencia.setApiKey(nombreRaroIncidencia);
+
+                                        if (incidencia.getUsuarioAutor().equals(nombreUsuario)) {
+
+                                            listaMisIncidencias.add(incidencia);
+                                            contador++;
+                                        } else {
+                                            contador = contador + 0;
+                                        }
+
+
+
+
+                                    }
+                                }
+
+                                int contador2 = listaMisIncidencias.size();
+                                int contador3   = contador2 +1 ;
+                                // :C
+                                listaaIncidencias = new Incidencia[contador2];
+
+                                for (int x = 0; x < contador2; x++){
+
+                                    listaaIncidencias[x] = (Incidencia) listaMisIncidencias.get(x);
+
+                                }
+                                final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                                ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaaIncidencias, MisIncidenciasActivity.this, fStorage,
+                                        DETALLES_INCIDENCIAS_PROPIAS);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerViewIncidencia);
+                                recyclerView.setAdapter(incidenciasAdapter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(MisIncidenciasActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
                 }
 
             }
@@ -64,64 +122,9 @@ public class MisIncidenciasActivity extends AppCompatActivity {
 
             }
         });
-*/
-
-        databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-
-                    Long longitudIncidencias = dataSnapshot.getChildrenCount();
-                    int longitud = longitudIncidencias.intValue();
-                    ArrayList listaMisIncidencias = new ArrayList<Incidencia>();
-                            //Incidencia[longitud];
-                    int contador = 0;
-
-                    for (DataSnapshot children : dataSnapshot.getChildren()) {
-                        if (dataSnapshot.exists()) {
-                            final Incidencia incidencia = children.getValue(Incidencia.class);
-                            final String nombreRaroIncidencia = children.getKey();
-                            incidencia.setApiKey(nombreRaroIncidencia);
-
-                            if (incidencia.getUsuarioAutor().equals("Yarlequé")) {
-
-                                listaMisIncidencias.add(incidencia);
-                                contador++;
-                            } else {
-                                contador = contador + 0;
-                            }
 
 
 
-
-                        }
-                    }
-
-                    int contador2 = listaMisIncidencias.size();
-                    int contador3   = contador2 +1 ;
-                    // :C
-                    listaaIncidencias = new Incidencia[contador2];
-
-                    for (int x = 0; x < contador2; x++){
-
-                        listaaIncidencias[x] = (Incidencia) listaMisIncidencias.get(x);
-
-                    }
-                    final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-                    ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaaIncidencias, MisIncidenciasActivity.this, fStorage,
-                            DETALLES_INCIDENCIAS_PROPIAS);
-                    RecyclerView recyclerView = findViewById(R.id.recyclerViewIncidencia);
-                    recyclerView.setAdapter(incidenciasAdapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(MisIncidenciasActivity.this));
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(MisIncidenciasActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
 
@@ -146,6 +149,9 @@ public class MisIncidenciasActivity extends AppCompatActivity {
                 return true;
             case R.id.nuevaIncidencia:
                 startActivity(new Intent(MisIncidenciasActivity.this, NuevaIncidenciaActivity.class));
+                return true;
+            case R.id.incidenciasTotales:
+                startActivity(new Intent(MisIncidenciasActivity.this, IncidenciaUsuarioActivity.class));
                 return true;
         }
         return onOptionsItemSelected(item);

@@ -41,48 +41,48 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            if (dataSnapshot.exists()) {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
 
-                Long longitudIncidencias = dataSnapshot.getChildrenCount();
-                int longitud = longitudIncidencias.intValue();
-                listaIncidencias = new Incidencia[longitud];
-                int contador = 0;
+                    Long longitudIncidencias = dataSnapshot.getChildrenCount();
+                    int longitud = longitudIncidencias.intValue();
+                    listaIncidencias = new Incidencia[longitud];
+                    int contador = 0;
 
-                for (DataSnapshot children : dataSnapshot.getChildren()) {
-                    if (dataSnapshot.exists()) {
-                        final Incidencia incidencia = children.getValue(Incidencia.class);
-                        final String nombreRaroIncidencia = children.getKey();  incidencia.setApiKey(nombreRaroIncidencia);
-                        // final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
-                        final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-                        final ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this, fStorage,
-                                DETALLES_INCIDENCIAS_GENERAL);
+                    for (DataSnapshot children : dataSnapshot.getChildren()) {
+                        if (dataSnapshot.exists()) {
+                            final Incidencia incidencia = children.getValue(Incidencia.class);
+                            final String nombreRaroIncidencia = children.getKey();  incidencia.setApiKey(nombreRaroIncidencia);
+                            // final String foto = dataSnapshot.child("foto").getValue().toString(); incidencia.setFoto(foto);
+                            final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                            final ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaIncidencias, IncidenciaUsuarioActivity.this, fStorage,
+                                    DETALLES_INCIDENCIAS_GENERAL);
 
-                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
-                        recyclerView.setAdapter(incidenciasAdapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
-                        listaIncidencias[contador] = incidencia;
-                        contador++;
+                            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
+                            recyclerView.setAdapter(incidenciasAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciaUsuarioActivity.this));
+                            listaIncidencias[contador] = incidencia;
+                            contador++;
 
+                        }
                     }
-                }
 
+
+
+
+                }
 
 
 
             }
 
-
-
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            Toast.makeText(IncidenciaUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
-        }
-    });
-}
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(IncidenciaUsuarioActivity.this,"Error Base de Datos",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
