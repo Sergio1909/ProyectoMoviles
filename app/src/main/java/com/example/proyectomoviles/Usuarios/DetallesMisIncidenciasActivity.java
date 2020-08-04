@@ -67,7 +67,7 @@ public class DetallesMisIncidenciasActivity extends AppCompatActivity {
                             TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
                             publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
-                            Button butonUbicacion = findViewById(R.id.buttonMisIncidencias);
+                            Button butonUbicacion = findViewById(R.id.buttonUbicacion);
                             butonUbicacion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

@@ -61,7 +61,7 @@ public class DetallesAdminActivity extends AppCompatActivity {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
-        Button butonUbicacion = findViewById(R.id.buttonDetallesAdmin);
+        Button butonUbicacion = findViewById(R.id.buttonUbicacion);
         butonUbicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
