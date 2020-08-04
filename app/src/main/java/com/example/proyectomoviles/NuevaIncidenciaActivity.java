@@ -188,9 +188,9 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
 
 
                 Comentario comentario = new Comentario();
-                comentario.setAutorComentario("Este seria el acmon");
-                comentario.setDescripcionComentario("El mensaje del acmon");
-                comentario.setFechaComentario("Fecha de envio del acmon");
+                comentario.setAutorComentario("AdminPrueba");
+                comentario.setDescripcionComentario("MensajePrueba");
+                comentario.setFechaComentario("Fecha Prueba");
                 List<Comentario> comentarios = new ArrayList<>();
                 comentarios.add(comentario);
                 final IncidenciaTu incidencia = new IncidenciaTu();
