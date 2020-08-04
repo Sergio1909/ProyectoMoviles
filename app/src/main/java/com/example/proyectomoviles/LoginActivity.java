@@ -74,18 +74,20 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             String uid = user.getUid();
                             DatabaseReference referencia2 = databaseReference.child("Usuarios").child(uid);
+                            boolean emailVerified = user.isEmailVerified();
+                            if (emailVerified) {
 
-                            if (rol == null){
-                                Log.d("infoApp","Esperando datos");
+                            if (rol == null) {
+                                Log.d("infoApp", "Esperando datos");
                                 referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if (snapshot.exists()){
-                                            Log.d("infoApp","existe");
+                                        if (snapshot.exists()) {
+                                            Log.d("infoApp", "existe");
                                             Usuario usuario = snapshot.getValue(Usuario.class);
                                             rol = usuario.getRol();
-                                            Log.d("infoApp","rol:" + rol);
-                                            if (rol.equals("admin pucp")){
+                                            Log.d("infoApp", "rol:" + rol);
+                                            if (rol.equals("admin pucp")) {
                                                 Intent intent = new Intent(LoginActivity.this, IncidenciaAdminActivity.class);
                                                 startActivity(intent);
 
@@ -93,8 +95,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(LoginActivity.this, IncidenciaUsuarioActivity.class);
                                                 startActivity(intent);
                                             }
-                                        }else{
-                                            Log.d("infoApp","no existes");
+                                        } else {
+                                            Log.d("infoApp", "no existes");
                                         }
 
                                     }
@@ -105,6 +107,10 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 });
 
+                            }
+                        } else {
+
+                                Toast.makeText(LoginActivity.this,"La cuenta no se encuentra verificada",Toast.LENGTH_LONG).show();
                             }
                             /*
                             Intent intent = new Intent(LoginActivity.this, IncidenciaUsuarioActivity.class);
