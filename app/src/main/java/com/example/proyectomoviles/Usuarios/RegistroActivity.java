@@ -24,7 +24,7 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText editTextMail, editTextPass, editTextName;
     private FirebaseAuth mAuth;
 
-                                                                                            @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
