@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.proyectomoviles">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -28,7 +29,7 @@
         android:roundIcon="@drawable/alertas"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"></activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -36,10 +37,11 @@
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
+             API-KEY Julio: AIzaSyBeTb8OWo8s21AHH_K88TXqN9UoLICAUzE
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyA_Bz23n_W-U47AuT-8g4xcwr6x8wSencw" />
 
         <activity
             android:name=".MapsActivity"
@@ -65,6 +67,7 @@
         <activity android:name=".Usuarios.IncidenciaUsuarioActivity" />
         <activity android:name=".Administrador.IncidenciasTomadasActivity" />
         <activity android:name=".Administrador.DetallesTomadasActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -77,3 +80,5 @@
     </application>
 
 </manifest>
+
+
