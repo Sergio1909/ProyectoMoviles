@@ -28,6 +28,7 @@ import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.Entidades.UbicacionPj;
 import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.Entidades.uploadinfo;
+import com.example.proyectomoviles.Usuarios.IncidenciaUsuarioActivity;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -207,6 +208,8 @@ public class NuevaIncidenciaActivity extends AppCompatActivity {
                 UploadImage();
 
                 databaseReference.child("Incidencias").push().setValue(incidencia);
+                Intent intent = new Intent(NuevaIncidenciaActivity.this, IncidenciaUsuarioActivity.class);
+                startActivity(intent);
 
             }
         });
