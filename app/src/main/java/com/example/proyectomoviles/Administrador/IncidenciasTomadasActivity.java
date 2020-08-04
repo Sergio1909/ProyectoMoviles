@@ -34,10 +34,10 @@ public class IncidenciasTomadasActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private StorageReference storageReference;
-    // private FirebaseStorage fStorage;
     Incidencia[] listaaIncidencias;
     private int DETALLES_INCIDENCIAS_TOMADAS = 4;
     Usuario usuario = new Usuario();
+    String nombreUsuario;
 
     @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +49,71 @@ protected void onCreate(Bundle savedInstanceState) {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-/*
+
         databaseReference.child("Usuarios").child(uid).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     Usuario usuario = snapshot.getValue(Usuario.class);
-                    //   autorIncidencia = snapshot.child("nombre").getValue().toString();
                     nombreUsuario = usuario.getNombre();
                 }
+
+
+                databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+
+                            Long longitudIncidencias = dataSnapshot.getChildrenCount();
+                            int longitud = longitudIncidencias.intValue();
+                            ArrayList listaMisIncidencias = new ArrayList<Incidencia>();
+                            //Incidencia[longitud];
+                            int contador = 0;
+
+                            for (DataSnapshot children : dataSnapshot.getChildren()) {
+                                if (dataSnapshot.exists()) {
+                                    final Incidencia incidencia = children.getValue(Incidencia.class);
+                                    final String nombreRaroIncidencia = children.getKey();
+                                    incidencia.setApiKey(nombreRaroIncidencia);
+
+                                    if (incidencia.getAdministrador().equals(nombreUsuario)) {
+
+                                        listaMisIncidencias.add(incidencia);
+                                        contador++;
+                                    } else {
+                                        contador = contador + 0;
+                                    }
+
+
+
+
+                                }
+                            }
+
+                            int contador2 = listaMisIncidencias.size();
+                            listaaIncidencias = new Incidencia[contador2];
+
+                            for (int x = 0; x < contador2; x++){
+
+                                listaaIncidencias[x] = (Incidencia) listaMisIncidencias.get(x);
+
+                            }
+                            final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
+                            ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaaIncidencias, IncidenciasTomadasActivity.this, fStorage,
+                                    DETALLES_INCIDENCIAS_TOMADAS);
+                            RecyclerView recyclerView = findViewById(R.id.recyclerViewTomadas);
+                            recyclerView.setAdapter(incidenciasAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciasTomadasActivity.this));
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(IncidenciasTomadasActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
@@ -67,66 +122,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
             }
         });
-*/
-
-        databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-
-                    Long longitudIncidencias = dataSnapshot.getChildrenCount();
-                    int longitud = longitudIncidencias.intValue();
-                    ArrayList listaMisIncidencias = new ArrayList<Incidencia>();
-                    //Incidencia[longitud];
-                    int contador = 0;
-
-                    for (DataSnapshot children : dataSnapshot.getChildren()) {
-                        if (dataSnapshot.exists()) {
-                            final Incidencia incidencia = children.getValue(Incidencia.class);
-                            final String nombreRaroIncidencia = children.getKey();
-                            incidencia.setApiKey(nombreRaroIncidencia);
-
-                            if (incidencia.getAdministrador().equals("Manolito y su trabuco")) {
-
-                                listaMisIncidencias.add(incidencia);
-                                contador++;
-                            } else {
-                                contador = contador + 0;
-                            }
-
-
-
-
-                        }
-                    }
-
-                    int contador2 = listaMisIncidencias.size();
-                    int contador3   = contador2 +1 ;
-                    // :C
-                    listaaIncidencias = new Incidencia[contador2];
-
-                    for (int x = 0; x < contador2; x++){
-
-                        listaaIncidencias[x] = (Incidencia) listaMisIncidencias.get(x);
-
-                    }
-                    final StorageReference fStorage = FirebaseStorage.getInstance().getReference();
-                    ListaIncidenciasAdapter incidenciasAdapter = new ListaIncidenciasAdapter(listaaIncidencias, IncidenciasTomadasActivity.this, fStorage,
-                            DETALLES_INCIDENCIAS_TOMADAS);
-                    RecyclerView recyclerView = findViewById(R.id.recyclerView4);
-                    recyclerView.setAdapter(incidenciasAdapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(IncidenciasTomadasActivity.this));
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(IncidenciasTomadasActivity.this, "Error Base de Datos", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
 }
 
 

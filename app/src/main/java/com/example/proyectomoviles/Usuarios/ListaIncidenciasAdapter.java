@@ -2,6 +2,7 @@ package com.example.proyectomoviles.Usuarios;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,10 +107,10 @@ public class ListaIncidenciasAdapter extends RecyclerView.Adapter<ListaIncidenci
                     Intent intent = new Intent(contexto, DetallesTomadasActivity.class);
                     String APIKEY = incidencia.getApiKey();
                     intent.putExtra("nombreIncidencia", APIKEY);
-                    contexto.startActivity(intent);}
-            }); }
+                    contexto.startActivity(intent); }
+            });}
 
-    };
+    }
 
 
     public void publicarImagen (final String photoName, final ListaIncidenciasAdapter.IncidenciaViewHolder holder){

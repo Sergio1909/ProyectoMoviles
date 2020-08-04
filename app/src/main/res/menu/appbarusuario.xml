@@ -3,18 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nuevaIncidencia"
-        android:icon="@android:drawable/ic_input_add"
-        android:title="Item"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/incidenciasTotales"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Listado De Incidencias"
+        app:showAsAction="withText" />
     <item
         android:id="@+id/incidenciasTomadas"
         android:icon="@android:drawable/ic_menu_today"
-        android:title="Item"
-        app:showAsAction="ifRoom" />
+        android:title="Mis Incidencias"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/nuevaIncidencia"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Nueva Incidencia"
+        app:showAsAction="withText" />
     <item
         android:id="@+id/cerrarSesion"
         android:icon="@android:drawable/ic_lock_power_off"
-        android:title="Item"
-        app:showAsAction="ifRoom" />
+        android:title="Cerrar Sesión"
+        app:showAsAction="withText" />
 </menu>

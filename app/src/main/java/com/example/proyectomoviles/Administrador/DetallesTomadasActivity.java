@@ -12,7 +12,6 @@ import com.example.proyectomoviles.Entidades.Incidencia;
 import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
-import com.example.proyectomoviles.MapitaFragment;
 import com.example.proyectomoviles.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +53,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_admin);
 
+
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
@@ -87,25 +87,18 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                             TextView descripcion = findViewById(R.id.textViewDescripcion); descripcion.setText(incidencia.getDescripcion());
                             publicarImagen(incidencia.getFoto() + ".jpg", storageReference);
 
-                            final double latitudMapa  = incidencia.getLatitud();
-                            final double longitudMapa = incidencia.getLongitud();
-                            Button butonUbicacion = findViewById(R.id.buttonUbicacion);
-                            butonUbicacion.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentMapita, MapitaFragment.newInstance(latitudMapa,longitudMapa),"MapitaFragment").commit();
-                                }
-                            });
 
-                            Button botonAtender = (Button) findViewById(R.id.buttonAtender);
-                            botonAtender.setOnClickListener(new View.OnClickListener() {
+                            final Button botonAtender = (Button) findViewById(R.id.buttonAtender);
+                            botonAtender.setVisibility(View.INVISIBLE);
+
+                            Button buttonBorrarAdmin = (Button) findViewById(R.id.buttonBorrarAdmin);
+                            buttonBorrarAdmin.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    incidencia.setEstado("Atendido");
-                                    Intent intent = new Intent(getApplicationContext(), DetallesAdminActivity.class);
-                                    String nombreFiltro = apikeyIncidencia;
-                                    intent.putExtra("nombreIncidencia", nombreFiltro);
+                                    databaseReference.child("Incidencias").child(apikeyIncidencia).removeValue();
+                                    Intent intent = new Intent(DetallesTomadasActivity.this,IncidenciasTomadasActivity.class);
                                     startActivity(intent);
+                                    Toast.makeText(DetallesTomadasActivity.this, "Incidencia Eliminada", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -135,7 +128,7 @@ public class DetallesTomadasActivity extends AppCompatActivity {
                                 incidencia.setListaComentarios(listaComentarios);
 
                                 ListaComentariosAdapter comentariosAdapter = new ListaComentariosAdapter(listaComentarios,DetallesTomadasActivity.this);
-                                RecyclerView recyclerView = findViewById(R.id.recyclerView4);
+                                RecyclerView recyclerView = findViewById(R.id.recyclerViewComentariosAdmin);
                                 recyclerView.setAdapter(comentariosAdapter);
                                 recyclerView.setLayoutManager(new LinearLayoutManager(DetallesTomadasActivity.this));
                             }
@@ -148,42 +141,40 @@ public class DetallesTomadasActivity extends AppCompatActivity {
 
                 });
 
-
-        String autorComentario = usuario.getNombre();
-        EditText cuerpoComentario = (EditText) findViewById(R.id.editTextCuerpoComentario);
-        String descripcionComentario = cuerpoComentario.getText().toString();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        String fechaComentario = formatter.format(now);
-
-
-        if (descripcionComentario != null) {
-            final Comentario nuevoComentario = new Comentario();
-            nuevoComentario.setAutorComentario(autorComentario);
-            nuevoComentario.setDescripcionComentario(descripcionComentario);
-            nuevoComentario.setFechaComentario(fechaComentario);
-
             Button botonAgregarComentario = (Button) findViewById(R.id.buttonComentario);
             botonAgregarComentario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    String autorComentario = usuario.getNombre();
+                    EditText cuerpoComentario = (EditText) findViewById(R.id.editTextCuerpoComentario);
+                    String descripcionComentario = cuerpoComentario.getText().toString();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    String fechaComentario = formatter.format(now);
+
+                    final Comentario nuevoComentario = new Comentario();
+                    nuevoComentario.setAutorComentario(autorComentario);
+                    nuevoComentario.setDescripcionComentario(descripcionComentario);
+                    nuevoComentario.setFechaComentario(fechaComentario);
+
+                    if (descripcionComentario != null) {
                     databaseReference.child("Incidencias").child(apikeyIncidencia).child("Comentarios").push().setValue(nuevoComentario);
                     Intent intent = new Intent(getApplicationContext(), DetallesTomadasActivity.class);
                     String nombreFiltro = apikeyIncidencia;
                     intent.putExtra("nombreIncidencia", nombreFiltro);
-                    startActivity(intent);
+                    startActivity(intent); }
+
+                    else {
+                        Toast.makeText(DetallesTomadasActivity.this, "Agrege un Comentario", Toast.LENGTH_SHORT).show();}
+
                 }
+
             }); }
-        else {
-            Button botonAgregarComentarioVacio = (Button) findViewById(R.id.buttonComentario);
-            botonAgregarComentarioVacio.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(DetallesTomadasActivity.this, "No se puede agregar comentarios vacíos ", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }
+
+
+
+
 
     // Agregar Fotografía
     public void publicarImagen (String photoName, StorageReference storageReference) {

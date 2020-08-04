@@ -41,13 +41,13 @@ public class ComentarioActivity extends AppCompatActivity {
 
 
         if (descripcionComentario != null){
-        Comentario nuevoComentario = new Comentario();
-        nuevoComentario.setAutorComentario(autorComentario);
-        nuevoComentario.setDescripcionComentario(descripcionComentario);
-        nuevoComentario.setFechaComentario(fechaComentario);
+            Comentario nuevoComentario = new Comentario();
+            nuevoComentario.setAutorComentario(autorComentario);
+            nuevoComentario.setDescripcionComentario(descripcionComentario);
+            nuevoComentario.setFechaComentario(fechaComentario);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Incidencias").child(nombreIncidencia).child("Comentarios").push().setValue(nuevoComentario);}
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("Incidencias").child(nombreIncidencia).child("Comentarios").push().setValue(nuevoComentario);}
 
     }
 }

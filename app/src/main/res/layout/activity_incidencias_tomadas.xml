@@ -7,11 +7,10 @@
     tools:context=".Administrador.IncidenciasTomadasActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView4"
-        android:layout_width="391dp"
-        android:layout_height="655dp"
+        android:id="@+id/recyclerViewTomadas"
+        android:layout_width="465dp"
+        android:layout_height="698dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
