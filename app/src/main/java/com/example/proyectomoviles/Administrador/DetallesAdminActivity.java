@@ -267,6 +267,9 @@ public class DetallesAdminActivity extends AppCompatActivity {
             case R.id.incidenciasTomadas:
                 startActivity(new Intent(DetallesAdminActivity.this, IncidenciasTomadasActivity.class));
                 return true;
+            case R.id.incidenciasTotales:
+                startActivity(new Intent(DetallesAdminActivity.this, IncidenciaAdminActivity.class));
+                return true;
 
         }
         return onOptionsItemSelected(item);}
