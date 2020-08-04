@@ -26,6 +26,7 @@ import com.example.proyectomoviles.Entidades.Usuario;
 import com.example.proyectomoviles.ListaComentariosAdapter;
 import com.example.proyectomoviles.MainActivity;
 // import com.example.proyectomoviles.MapitaFragment;
+import com.example.proyectomoviles.MapsActivity;
 import com.example.proyectomoviles.R;
 import com.example.proyectomoviles.Usuarios.DetallesUsuarioActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,6 +61,18 @@ public class DetallesAdminActivity extends AppCompatActivity {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         final String apikeyIncidencia = getIntent().getStringExtra("nombreIncidencia");
+        Button butonUbicacion = findViewById(R.id.buttonDetallesAdmin);
+        butonUbicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(DetallesAdminActivity.this, MapsActivity.class);
+                Double latitudMapa = incidencia.getLatitud();
+                Double longitudMapa = incidencia.getLongitud();
+                intent.putExtra("latitudMapa",String.valueOf(latitudMapa));
+                intent.putExtra("longitudMapa",String.valueOf(longitudMapa));
+                DetallesAdminActivity.this.startActivity(intent);
+            }
+        });
 
         Button buttonBorrarAdmin = (Button) findViewById(R.id.buttonBorrarAdmin);
         buttonBorrarAdmin.setVisibility(View.INVISIBLE);

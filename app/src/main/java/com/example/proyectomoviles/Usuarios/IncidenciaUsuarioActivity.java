@@ -40,10 +40,6 @@ public class IncidenciaUsuarioActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-
-
-
         databaseReference.child("Incidencias").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
